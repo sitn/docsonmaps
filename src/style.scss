@@ -1,0 +1,42 @@
+@import "~ol/ol.css";
+
+$primary: #26a59a;
+$secondary: #b9cfcc;
+$success: #146056;
+$warning: #f6c8c8;
+$danger: #e24848;
+$info: #bee4e1;
+$min-contrast-ratio: 3;
+
+@import "~bootstrap/scss/bootstrap";
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.fake-input {
+  color: $gray-600;
+  text-align: left;
+}
+
+.search {
+  top: 0em;
+  margin: 1em;
+}
+
+.filter {
+  margin: 1em;
+}
+
+.above-map  {
+  position: relative;
+  z-index: 10;
+}
