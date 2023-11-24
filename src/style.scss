@@ -7,10 +7,12 @@ $warning: #f6c8c8;
 $danger: #e24848;
 $info: #bee4e1;
 $min-contrast-ratio: 3;
+$offcanvas-vertical-height: 70vh;
 
 @import "~bootstrap/scss/bootstrap";
 
-html, body {
+html,
+body {
   margin: 0;
   height: 100%;
 }
@@ -29,14 +31,37 @@ html, body {
 
 .search {
   top: 0em;
-  margin: 1em;
+  padding: 1em;
 }
 
 .filter {
-  margin: 1em;
+  padding: 1em;
 }
 
-.above-map  {
+.above-map {
   position: relative;
   z-index: 10;
+}
+
+/* Bandeau prototype */
+#prototype {
+  position: fixed;
+  width: 300px;
+  height: 40px;
+  background: #d62f2f;
+  top: 50px;
+  right: -80px;
+  text-align: center;
+  font-size: 1.2em;
+  font-family: "Gill Sans", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+  line-height: 41px;
+  transform: rotate(45deg);
+  z-index: 2000;
+}
+
+#prototype > a {
+  color: white;
 }

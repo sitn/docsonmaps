@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="https://sitn.ne.ch/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using OpenLayers with Vite</title>
+  <title>Disponibilité des médecins</title>
 </head>
 
 <body>
@@ -21,7 +21,6 @@
       </svg> Filtrer
     </button>
   </div>
-  <div id="map"></div>
   <div class="modal" id="searchModal" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
@@ -29,16 +28,26 @@
           <input class="form-control rounded-pill" type="text" id="search-input" name="search-input" placeholder="Rechercher"
             autofocus>
         </div>
-        <div class="modal-body">
-          ...
+        <div id="search-results" class="modal-body p-0">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
         </div>
       </div>
     </div>
   </div>
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="queryResultPanel" aria-labelledby="offcanvasBottomLabel">
+    <div class="offcanvas-header">
+      <div id="queryResultTitle">
+      </div>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div id="queryResultBody" class="offcanvas-body small p-0">
+
+    </div>
+  </div>
+  <div id="map"></div>
+  <div id="prototype"><a href="/version.html">PROTOTYPE</a></div>
   <script type="module" src="./main.js"></script>
 </body>
 
