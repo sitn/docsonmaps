@@ -1,7 +1,14 @@
 # WIP
 
+```
 npm i
-npm run start
+npm start
+```
 
 # Build
 
+Set your base url in `vite.config.js`.
+
+```
+npm run build
+```
