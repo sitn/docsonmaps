@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import proj4 from 'proj4';
 import { Map, View } from 'ol';
 import { getTopLeft, boundingExtent } from 'ol/extent';
@@ -9,7 +10,7 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Cluster } from 'ol/source';
-import { Offcanvas } from 'bootstrap';
+import { Offcanvas, Modal } from 'bootstrap';
 import {
   Icon,
   Style,
@@ -124,32 +125,79 @@ const clusters = new VectorLayer({
 
 SitnMap.addLayer(clusters);
 
-function doctorListElement(feature) {
-  return `
- <li onclick="alert('En cours de développement...')" type="button" class="list-group-item ">
-   <div class="row justify-content-between">
-     <div class="col-8">
-       <h6>${feature.get('nom')} ${feature.get('prenoms')}</h6>
-     </div>
-     <div class="col-4">
-       ${feature.get('availability_fr')}
-     </div>
-     <span class="fw-light">${feature.get('specialites').replace('<br>', ' · ')}</span><br>
-   </div>
- </li>`;
+const offcanvasPanelEl = document.getElementById('offcanvasPanel');
+const offcanvasPanel = new Offcanvas(offcanvasPanelEl);
+
+function showOffcanvasView(offcanvasViewId) {
+  const toBeShown = document.getElementById(offcanvasViewId);
+  const toBeHidden = document.getElementById('offcanvasPanel').children;
+  if (toBeShown.hidden) {
+    for (const divEl of toBeHidden) {
+      divEl.hidden = true;
+    }
+    toBeShown.hidden = false;
+  }
 }
 
-const TRADUC = {
-  Available: '<span class="badge rounded-pill text-bg-primary text-wrap">Accepte des nouveaux patients</span>',
-  'Available with conditions': '<span class="badge rounded-pill text-bg-warning text-wrap">Accepte des nouveaux patients sous conditions</span>',
-  Unknown: '<span class="badge rounded-pill text-bg-light text-wrap">Accepte peut-être des nouveaux patients</span>',
-  'Not available': '<span class="badge rounded-pill text-bg-danger text-wrap">Ne prend plus de nouveaux patients</span>',
-};
+const myModal = document.getElementById('searchModal');
 
-const queryResultPanelEl = document.getElementById('queryResultPanel');
-const queryResultPanel = new Offcanvas(queryResultPanelEl);
+myModal.addEventListener('shown.bs.modal', () => {
+  document.getElementById('search-input').focus();
+});
+
+function renderDoctorDetails(feature) {
+  const doctorDetailsTitle = document.getElementById('doctorDetailsTitle');
+  const doctorDetailsBody = document.getElementById('doctorDetailsBody');
+
+  doctorDetailsTitle.innerHTML = `
+    <h5 class="card-title">${feature.get('nom')} ${feature.get('prenoms')}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+    ${feature.get('specialites')}</h6>
+  `;
+
+  doctorDetailsBody.innerHTML = Doctors.getDoctorHTML(feature);
+}
+
+function handleQueryResultClick(feature) {
+  showOffcanvasView('doctorDetails');
+  renderDoctorDetails(feature);
+}
+
+function zoomToFeature(feature) {
+  const view = SitnMap.getView();
+  const zoomCoordinates = feature.getGeometry().flatCoordinates;
+  view.setCenter([zoomCoordinates[0], zoomCoordinates[1] - 20]);
+  view.setZoom(12);
+}
+
+function handleSearchResultClick(feature) {
+  zoomToFeature(feature);
+  offcanvasPanel.toggle();
+  showOffcanvasView('doctorDetails');
+  renderDoctorDetails(feature);
+}
+
+function doctorListElement(feature) {
+  const liEl = document.createElement('LI');
+  liEl.classList = 'list-group-item list-group-item-action';
+  liEl.innerHTML = `
+    <div class="row justify-content-between">
+      <div class="col-8">
+        <h6>${feature.get('nom')} ${feature.get('prenoms')}</h6>
+      </div>
+      <div class="col-4">
+        <span class="badge rounded-pill text-bg-${feature.get('text_color')} text-wrap">
+          ${feature.get('availability_fr')}
+        </span>
+      </div>
+      <span class="fw-light">${feature.get('specialites').replace('<br>', ' · ')}</span><br>
+    </div>`;
+  return liEl;
+}
+
 function showQueryResults(features) {
   const queryResultBodyEl = document.getElementById('queryResultBody');
+  showOffcanvasView('queryResult');
   const firstFeature = features[0];
   const titleEl = document.getElementById('queryResultTitle');
   titleEl.innerHTML = `
@@ -162,24 +210,21 @@ function showQueryResults(features) {
     'Not available': [],
   };
 
-
   features.forEach((feature) => {
     const availability = feature.get('availability');
-    feature.set('availability_fr', TRADUC[availability]);
     if (!orderedList[availability]) {
       orderedList[availability] = [];
     }
     const liEl = doctorListElement(feature);
+    liEl.addEventListener('click', () => handleQueryResultClick(feature));
     orderedList[availability].push(liEl);
   });
-  queryResultBodyEl.innerHTML = `<ul class="list-group list-group-flush">
-   ${Object.values(orderedList).flat().join('')}
-  </ul>`;
-  queryResultPanel.toggle();
+  queryResultBodyEl.innerHTML = '';
+  queryResultBodyEl.append(...Object.values(orderedList).flat());
+  offcanvasPanel.toggle();
 }
 
-
-SitnMap.on('click', (e) => {
+SitnMap.on('singleclick', (e) => {
   clusters.getFeatures(e.pixel).then((clickedFeatures) => {
     if (clickedFeatures.length) {
       // Get clustered Coordinates
@@ -199,18 +244,47 @@ SitnMap.on('click', (e) => {
 
 function createDoctorsList(targetId, features) {
   const target = document.getElementById(targetId);
-  let html = '<ul class="list-group list-group-flush">';
+  target.innerHTML = '';
+  const liElements = [];
   features.forEach((doctorFeature) => {
-    const availability = doctorFeature.get('availability');
-    doctorFeature.set('availability_fr', TRADUC[availability]);
-    html += doctorListElement(doctorFeature);
+    const liEl = doctorListElement(doctorFeature);
+    liEl.addEventListener('click', () => handleSearchResultClick(doctorFeature));
+    liEl.setAttribute('data-bs-dismiss', 'modal');
+    liElements.push(liEl);
   });
-  html += '</ul>';
-  target.innerHTML = html;
+  target.append(...liElements);
 }
 
-const doctors = await Doctors.getDoctors();
-doctorSource.addFeatures(doctors.doctorFeatures);
+let doctors;
+Doctors.getDoctors().then((doctorsJSONFeatures) => {
+  doctors = new Doctors(doctorsJSONFeatures);
+  doctorSource.addFeatures(doctors.doctorFeatures);
+  doctorSource.getFeatures().forEach((doctorFeature) => {
+    const availability = doctorFeature.get('availability');
+    const conditions = doctorFeature.get('availability_conditions');
+    switch (availability) {
+      case 'Available':
+        doctorFeature.set('availability_fr', 'Accepte des nouveaux patients');
+        doctorFeature.set('text_color', 'primary');
+        break;
+      case 'Available with conditions':
+        doctorFeature.set('text_color', 'warning');
+        if (conditions) {
+          doctorFeature.set('availability_fr', conditions);
+          break;
+        }
+        doctorFeature.set('availability_fr', 'Accepte des nouveaux patients sous conditions');
+        break;
+      case 'Not available':
+        doctorFeature.set('availability_fr', 'Ne prend plus de nouveaux patients');
+        doctorFeature.set('text_color', 'danger');
+        break;
+      default:
+        doctorFeature.set('availability_fr', 'Accepte peut-être des nouveaux patients');
+        doctorFeature.set('text_color', 'light');
+    }
+  });
+});
 
 function search(event) {
   const results = doctors.doctorFeatures.filter((feature) => {
@@ -227,11 +301,6 @@ function search(event) {
   });
   createDoctorsList('search-results', results);
 }
-
-/*
-function zoomToFeature() {
-
-}*/
 
 document.getElementById('search-input').onkeyup = search;
 

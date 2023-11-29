@@ -2,3 +2,6 @@
 
 npm i
 npm run start
+
+# Build
+
