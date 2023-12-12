@@ -346,6 +346,7 @@ Doctors.getDoctors().then((doctorsJSONFeatures) => {
   doctors = new Doctors(doctorsJSONFeatures);
   doctorSource.addFeatures(doctors.doctorFeatures);
   doctorSource.getFeatures().forEach((doctorFeature) => {
+    doctorFeature.set('specialites', doctorFeature.get('specialites') || 'Médecin');
     const availability = doctorFeature.get('availability');
     const conditions = doctorFeature.get('availability_conditions');
     switch (availability) {
