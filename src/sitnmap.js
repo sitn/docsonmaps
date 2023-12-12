@@ -127,8 +127,8 @@ const clusters = new VectorLayer({
 SitnMap.addLayer(clusters);
 const sites = await SitesProvider.getSites();
 const specialities = [
-  'Médecin praticien',
-  'Médecine interne générale',
+  'Afficher tous les médecins',
+  'Médecin généraliste',
   'Gynécologie et obstétrique',
   'Pédiatrie',
   'Psychiatrie et psychothérapie',
@@ -138,6 +138,42 @@ const specialities = [
   'Neurologie',
   'Pneumologie',
   'Médecine du travail',
+  'Dermatologie et vénéréologie',
+  'Neurologie',
+  'Pneumologie',
+  "Chirurgie orthopédique et traumatologie de l'appareil locomoteur",
+  'Allergologie et immunologie clinique',
+  'Chirurgie plastique, reconstructive et esthétique',
+  'Chirurgie cardiaque et vasculaire thoracique',
+  'Cardiologie',
+  'Orthodontie',
+  'Anesthésiologie',
+  'Oto-rhino-laryngologie',
+  'Angiologie',
+  'Médecine légale',
+  'Gastroentérologie',
+  'Rhumatologie',
+  'Médecine dentaire reconstructive',
+  'Chirurgie',
+  'Médecine physique et réadaptation',
+  'Urologie',
+  'Oncologie médicale',
+  'Endocrinologie-diabétologie',
+  'Chirurgie orale',
+  'Neurochirurgie',
+  'Chirurgie maxillo-faciale',
+  'Hématologie',
+  'Médecine nucléaire',
+  'Radiologie',
+  'Soins intensifs',
+  'Néphrologie',
+  'Prévention et santé publique',
+  'Chirurgie de la main',
+  'Infectiologie',
+  'Radio-oncologie/radiothérapie',
+  'Génétique médicale',
+  'Pathologie',
+  'Pharmacologie et toxicologie cliniques',
 ];
 
 const offcanvasPanelEl = document.getElementById('offcanvas-panel');
@@ -294,13 +330,22 @@ function clearFilter() {
 resetSearchButton.addEventListener('click', clearFilter);
 
 function filterBySpeciality(event) {
-  const speciality = event.target.innerText;
+  const typedSpeciality = event.target.innerText;
+  if (typedSpeciality === 'Afficher tous les médecins') {
+    clearFilter();
+    return;
+  }
   const searchText = document.getElementById('search');
-  searchText.innerText = speciality;
+  searchText.innerText = typedSpeciality;
   searchText.classList.remove('fake-input-placeholder');
   filteredDoctors = [];
   doctors.doctorFeatures.forEach((doctorFeature) => {
-    if (doctorFeature.get('specialites').includes(speciality)) {
+    if (typedSpeciality === 'Médecin généraliste') {
+      if (doctorFeature.get('specialites').includes('Médecine interne générale')
+         || doctorFeature.get('specialites').includes('Médecin praticien')) {
+        filteredDoctors.push(doctorFeature);
+      }
+    } else if (doctorFeature.get('specialites').includes(typedSpeciality)) {
       filteredDoctors.push(doctorFeature);
     }
   });
@@ -382,6 +427,7 @@ function search(event) {
       const searchFields = [
         feature.get('nom'),
         feature.get('prenoms'),
+        feature.get('specialites'),
       ];
       const searchString = searchFields.join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
       const searchTerm = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
