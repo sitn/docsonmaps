@@ -127,14 +127,14 @@ const clusters = new VectorLayer({
 SitnMap.addLayer(clusters);
 const sites = await SitesProvider.getSites();
 
-const offcanvasPanelEl = document.getElementById('offcanvasPanel');
+const offcanvasPanelEl = document.getElementById('offcanvas-panel');
 const offcanvasPanel = new Offcanvas(offcanvasPanelEl);
 
 function showOffcanvasView(offcanvasViewId) {
   const toBeShownTitle = document.getElementById(`${offcanvasViewId}Title`);
   const toBeShownBody = document.getElementById(`${offcanvasViewId}Body`);
-  const toBeHiddenTitle = document.querySelectorAll('#offcanvasPanel > .offcanvas-header > div');
-  const toBeHiddenBody = document.querySelectorAll('#offcanvasPanel > .offcanvas-body > :is(div, ul)');
+  const toBeHiddenTitle = document.querySelectorAll('#offcanvas-panel > .offcanvas-header > div');
+  const toBeHiddenBody = document.querySelectorAll('#offcanvas-panel > .offcanvas-body > :is(div, ul)');
   if (toBeShownTitle.hidden) {
     for (const divEl of toBeHiddenTitle) {
       divEl.hidden = true;
@@ -147,15 +147,15 @@ function showOffcanvasView(offcanvasViewId) {
   }
 }
 
-const myModal = document.getElementById('searchModal');
+const myModal = document.getElementById('search-modal');
 
 myModal.addEventListener('shown.bs.modal', () => {
   document.getElementById('search-input').focus();
 });
 
 function renderDoctorDetails(feature) {
-  const doctorDetailsTitle = document.getElementById('doctorDetailsTitle');
-  const doctorDetailsBody = document.getElementById('doctorDetailsBody');
+  const doctorDetailsTitle = document.getElementById('doctor-details-title');
+  const doctorDetailsBody = document.getElementById('doctor-details-body');
 
   doctorDetailsTitle.innerHTML = `
     <h5 class="card-title">${feature.get('nom')} ${feature.get('prenoms')}</h5>
@@ -204,7 +204,7 @@ function doctorListElement(feature) {
 }
 
 function showQueryTitle(firstFeature) {
-  const titleEl = document.getElementById('queryResultTitle');
+  const titleEl = document.getElementById('query-result-title');
   const address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
 
   const currentSite = sites.find((site) => site.address === address);
@@ -224,7 +224,7 @@ function showQueryTitle(firstFeature) {
 }
 
 function showQueryResults(features) {
-  const queryResultBodyEl = document.getElementById('queryResultBody');
+  const queryResultBodyEl = document.getElementById('query-result-body');
   showOffcanvasView('queryResult');
   showQueryTitle(features[0]);
 

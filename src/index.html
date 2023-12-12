@@ -11,11 +11,11 @@
 <body>
   <div class="search above-map">
     <button class="form-control rounded-pill fake-input" type="button" id="search" data-bs-toggle="modal"
-      data-bs-target="#searchModal">Rechercher</button>
+      data-bs-target="#search-modal">Rechercher</button>
   </div>
 
 
-  <div class="modal" id="searchModal" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal" id="search-modal" aria-labelledby="search-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
@@ -33,15 +33,15 @@
   </div>
 
   <!-- Results -->
-  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasPanel" aria-labelledby="offcanvasBottomLabel">
+  <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvas-panel" aria-labelledby="offcanvasBottomLabel">
     <div class="offcanvas-header align-items-start">
-      <div id="queryResultTitle"></div>
-      <div id="doctorDetailsTitle" hidden></div>
+      <div id="query-result-title"></div>
+      <div id="doctor-details-title" hidden></div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body small p-0">
-      <ul id="queryResultBody" class="list-group list-group-flush"></ul>
-      <div id="doctorDetailsBody" hidden class="m-3"></div>
+      <ul id="query-result-body" class="list-group list-group-flush"></ul>
+      <div id="doctor-details-body" hidden class="m-3"></div>
     </div>
   </div>
   <div id="map"></div>
