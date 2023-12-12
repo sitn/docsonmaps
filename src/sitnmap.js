@@ -126,13 +126,29 @@ const clusters = new VectorLayer({
 
 SitnMap.addLayer(clusters);
 const sites = await SitesProvider.getSites();
+const specialities = [
+  'Médecin praticien',
+  'Médecine interne générale',
+  'Gynécologie et obstétrique',
+  'Pédiatrie',
+  'Psychiatrie et psychothérapie',
+  "Psychiatrie et psychothérapie d'enfants et d'adolescents",
+  'Ophtalmologie',
+  'Médecine tropicale et médecine des voyages',
+  'Neurologie',
+  'Pneumologie',
+  'Médecine du travail',
+];
 
 const offcanvasPanelEl = document.getElementById('offcanvas-panel');
 const offcanvasPanel = new Offcanvas(offcanvasPanelEl);
+let doctors;
+let filteredDoctors = [];
+const resetSearchButton = document.getElementById('reset-search-input');
 
 function showOffcanvasView(offcanvasViewId) {
-  const toBeShownTitle = document.getElementById(`${offcanvasViewId}Title`);
-  const toBeShownBody = document.getElementById(`${offcanvasViewId}Body`);
+  const toBeShownTitle = document.getElementById(`${offcanvasViewId}-title`);
+  const toBeShownBody = document.getElementById(`${offcanvasViewId}-body`);
   const toBeHiddenTitle = document.querySelectorAll('#offcanvas-panel > .offcanvas-header > div');
   const toBeHiddenBody = document.querySelectorAll('#offcanvas-panel > .offcanvas-body > :is(div, ul)');
   if (toBeShownTitle.hidden) {
@@ -167,7 +183,7 @@ function renderDoctorDetails(feature) {
 }
 
 function handleQueryResultClick(feature) {
-  showOffcanvasView('doctorDetails');
+  showOffcanvasView('doctor-details');
   renderDoctorDetails(feature);
 }
 
@@ -181,7 +197,7 @@ function zoomToFeature(feature) {
 function handleSearchResultClick(feature) {
   zoomToFeature(feature);
   offcanvasPanel.toggle();
-  showOffcanvasView('doctorDetails');
+  showOffcanvasView('doctor-details');
   renderDoctorDetails(feature);
 }
 
@@ -225,7 +241,7 @@ function showQueryTitle(firstFeature) {
 
 function showQueryResults(features) {
   const queryResultBodyEl = document.getElementById('query-result-body');
-  showOffcanvasView('queryResult');
+  showOffcanvasView('query-result');
   showQueryTitle(features[0]);
 
   const orderedList = {
@@ -267,6 +283,32 @@ SitnMap.on('singleclick', (e) => {
   });
 });
 
+function clearFilter() {
+  const searchText = document.getElementById('search');
+  searchText.innerText = 'Rechercher';
+  searchText.classList.add('fake-input-placeholder');
+  doctorSource.clear();
+  doctorSource.addFeatures(doctors.doctorFeatures);
+  resetSearchButton.hidden = true;
+}
+resetSearchButton.addEventListener('click', clearFilter);
+
+function filterBySpeciality(event) {
+  const speciality = event.target.innerText;
+  const searchText = document.getElementById('search');
+  searchText.innerText = speciality;
+  searchText.classList.remove('fake-input-placeholder');
+  filteredDoctors = [];
+  doctors.doctorFeatures.forEach((doctorFeature) => {
+    if (doctorFeature.get('specialites').includes(speciality)) {
+      filteredDoctors.push(doctorFeature);
+    }
+  });
+  doctorSource.clear();
+  doctorSource.addFeatures(filteredDoctors);
+  resetSearchButton.hidden = false;
+}
+
 function createDoctorsList(targetId, features) {
   const target = document.getElementById(targetId);
   target.innerHTML = '';
@@ -280,7 +322,26 @@ function createDoctorsList(targetId, features) {
   target.append(...liElements);
 }
 
-let doctors;
+/**
+ * Replaces search results with a pre-configured list of specialities
+ * @param {String} targetId id of the UL element
+ * @param {String[]} specialites list of specialities
+ */
+export function createSpectialitiesList(targetId, specialites) {
+  const target = document.getElementById(targetId);
+  target.innerHTML = '';
+  const liElements = [];
+  specialites.forEach((speciality) => {
+    const liEl = document.createElement('LI');
+    liEl.classList = 'list-group-item list-group-item-action';
+    liEl.innerText = speciality;
+    liEl.addEventListener('click', filterBySpeciality);
+    liEl.setAttribute('data-bs-dismiss', 'modal');
+    liElements.push(liEl);
+  });
+  target.append(...liElements);
+}
+
 Doctors.getDoctors().then((doctorsJSONFeatures) => {
   doctors = new Doctors(doctorsJSONFeatures);
   doctorSource.addFeatures(doctors.doctorFeatures);
@@ -312,21 +373,28 @@ Doctors.getDoctors().then((doctorsJSONFeatures) => {
 });
 
 function search(event) {
-  const results = doctors.doctorFeatures.filter((feature) => {
-    const searchFields = [
-      feature.get('nom'),
-      feature.get('prenoms'),
-    ];
-    const searchString = searchFields.join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    const searchTerm = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    if (searchString.includes(searchTerm)) {
-      return feature;
-    }
-    return null;
-  });
-  createDoctorsList('search-results', results);
+  const typedLength = event.target.value.length;
+  if (typedLength <= 2) {
+    createSpectialitiesList('search-results', specialities);
+  } else if (typedLength > 2) {
+    const results = doctors.doctorFeatures.filter((feature) => {
+      const searchFields = [
+        feature.get('nom'),
+        feature.get('prenoms'),
+      ];
+      const searchString = searchFields.join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      const searchTerm = event.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      if (searchString.includes(searchTerm)) {
+        return feature;
+      }
+      return null;
+    });
+    createDoctorsList('search-results', results);
+  }
 }
 
 document.getElementById('search-input').onkeyup = search;
+
+createSpectialitiesList('search-results', specialities);
 
 export default SitnMap;

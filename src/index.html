@@ -10,8 +10,11 @@
 
 <body>
   <div class="search above-map">
-    <button class="form-control rounded-pill fake-input" type="button" id="search" data-bs-toggle="modal"
+    <button class="form-control rounded-pill fake-input fake-input-placeholder" type="button" id="search" data-bs-toggle="modal"
       data-bs-target="#search-modal">Rechercher</button>
+  </div>
+  <div id="reset-search-input" class="reset-search-input" hidden>
+    <button type="button" class="btn-close" aria-label="Reset filters"></button>
   </div>
 
 
@@ -23,7 +26,8 @@
             placeholder="Rechercher" autofocus>
         </div>
         <div class="modal-body p-0">
-          <ul class="list-group list-group-flush" id="search-results"></ul>
+          <ul class="list-group list-group-flush" id="search-results">
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>

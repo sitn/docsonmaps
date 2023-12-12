@@ -24,8 +24,11 @@ body {
   width: 100%;
 }
 
-.fake-input {
+.fake-input-placeholder {
   color: $gray-600;
+}
+
+.fake-input {
   text-align: left;
 }
 
@@ -36,6 +39,14 @@ body {
 
 .filter {
   padding: 1em;
+}
+
+.reset-search-input {
+  top: 0em;
+  right: 1em;
+  padding: 1em;
+  position: absolute;
+  z-index: 100;
 }
 
 .above-map {
@@ -49,8 +60,8 @@ body {
   width: 300px;
   height: 40px;
   background: #d62f2f;
-  top: 50px;
-  right: -80px;
+  bottom: 50px;
+  left: -80px;
   text-align: center;
   font-size: 1.2em;
   font-family: "Gill Sans", sans-serif;
@@ -65,3 +76,4 @@ body {
 #prototype > a {
   color: white;
 }
+
