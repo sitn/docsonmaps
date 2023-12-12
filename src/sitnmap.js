@@ -129,13 +129,19 @@ const offcanvasPanelEl = document.getElementById('offcanvasPanel');
 const offcanvasPanel = new Offcanvas(offcanvasPanelEl);
 
 function showOffcanvasView(offcanvasViewId) {
-  const toBeShown = document.getElementById(offcanvasViewId);
-  const toBeHidden = document.getElementById('offcanvasPanel').children;
-  if (toBeShown.hidden) {
-    for (const divEl of toBeHidden) {
+  const toBeShownTitle = document.getElementById(`${offcanvasViewId}Title`);
+  const toBeShownBody = document.getElementById(`${offcanvasViewId}Body`);
+  const toBeHiddenTitle = document.querySelectorAll('#offcanvasPanel > .offcanvas-header > div');
+  const toBeHiddenBody = document.querySelectorAll('#offcanvasPanel > .offcanvas-body > :is(div, ul)');
+  if (toBeShownTitle.hidden) {
+    for (const divEl of toBeHiddenTitle) {
       divEl.hidden = true;
     }
-    toBeShown.hidden = false;
+    for (const divEl of toBeHiddenBody) {
+      divEl.hidden = true;
+    }
+    toBeShownTitle.hidden = false;
+    toBeShownBody.hidden = false;
   }
 }
 
