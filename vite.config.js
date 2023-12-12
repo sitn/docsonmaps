@@ -15,6 +15,6 @@ export default {
   },
   build: {
     sourcemap: true,
-    target: 'ES2015',
+    target: 'ES2022',
   },
 };
