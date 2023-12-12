@@ -1,5 +1,4 @@
 import GeoJSON from 'ol/format/GeoJSON';
-import Feature from 'ol/Feature.js';
 
 class Doctors {
   /**

@@ -16,6 +16,7 @@ import {
   Style,
 } from 'ol/style';
 import Doctors from './doctors';
+import SitesProvider from './sites';
 
 proj4.defs(
   'EPSG:2056',
@@ -114,7 +115,7 @@ const clusters = new VectorLayer({
       style = new Style({
         image: new Icon({
           displacement: [0, 15],
-          src,
+          src: `static/${src}`,
         }),
       });
       styleCache[color] = style;
@@ -124,6 +125,7 @@ const clusters = new VectorLayer({
 });
 
 SitnMap.addLayer(clusters);
+const sites = await SitesProvider.getSites();
 
 const offcanvasPanelEl = document.getElementById('offcanvasPanel');
 const offcanvasPanel = new Offcanvas(offcanvasPanelEl);
@@ -187,28 +189,45 @@ function doctorListElement(feature) {
   const liEl = document.createElement('LI');
   liEl.classList = 'list-group-item list-group-item-action';
   liEl.innerHTML = `
-    <div class="row justify-content-between">
+    <div class="row justify-content-between align-items-center">
       <div class="col-8">
         <h6>${feature.get('nom')} ${feature.get('prenoms')}</h6>
+        <span class="fw-light">${feature.get('specialites').replace('<br>', ' · ')}</span><br>
       </div>
       <div class="col-4">
-        <span class="badge rounded-pill text-bg-${feature.get('text_color')} text-wrap">
+        <span class="badge rounded-pill text-bg-${feature.get('text_color')} text-wrap w-100">
           ${feature.get('availability_fr')}
         </span>
       </div>
-      <span class="fw-light">${feature.get('specialites').replace('<br>', ' · ')}</span><br>
     </div>`;
   return liEl;
+}
+
+function showQueryTitle(firstFeature) {
+  const titleEl = document.getElementById('queryResultTitle');
+  const address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
+
+  const currentSite = sites.find((site) => site.address === address);
+  if (currentSite) {
+    titleEl.innerHTML = `
+    <h5 class="card-title">${currentSite.name}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      ${firstFeature.get('sitn_address')} <br>
+      ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}
+    </h6>
+    <a href="${currentSite.link}">Voir les prestations détaillées</a>`;
+  } else {
+    titleEl.innerHTML = `
+    <h5 class="card-title">${firstFeature.get('sitn_address')}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">${firstFeature.get('nopostal')} ${firstFeature.get('localite')}</h6>`;
+  }
 }
 
 function showQueryResults(features) {
   const queryResultBodyEl = document.getElementById('queryResultBody');
   showOffcanvasView('queryResult');
-  const firstFeature = features[0];
-  const titleEl = document.getElementById('queryResultTitle');
-  titleEl.innerHTML = `
-    <h5 class="card-title">${firstFeature.get('sitn_address')}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">${firstFeature.get('nopostal')} ${firstFeature.get('localite')}</h6>`;
+  showQueryTitle(features[0]);
+
   const orderedList = {
     Available: [],
     'Available with conditions': [],
