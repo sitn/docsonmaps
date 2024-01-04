@@ -3,10 +3,24 @@ body {
   font-family: sans-serif;
 }
 
+#initially-hidden {
+  visibility: hidden;
+}
+
 custom-loading, sitn-map {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+custom-loading {
+  z-index: 1;
+}
+
+sitn-searchbar, sitn-searchmodal {
+  position: relative;
+  z-index: 10;
+  margin: 1em;
 }

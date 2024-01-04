@@ -1,0 +1,8 @@
+.fake-input {
+  color: gray;
+  text-align: left;
+}
+
+button {
+  min-width: 200px;
+}

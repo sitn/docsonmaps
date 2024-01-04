@@ -5,6 +5,9 @@ class State {
   loading = false;
   map?: Map;
   doctors?: Feature[] | FeatureLike[];
+  interface = {
+    isSearchmodalVisible: false,
+  }
 }
 
 export default State;

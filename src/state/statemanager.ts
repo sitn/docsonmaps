@@ -15,7 +15,7 @@ class StateManager {
       this.#state,
       (path, value, oldValue, _applyData) => {
         if (!this.areEqual(oldValue, value)) {
-          console.debug(`${path} has changed.`);
+          //console.debug(`${path} has changed.`);
           this.triggerCallbacks(path, oldValue, value);
         }
       });

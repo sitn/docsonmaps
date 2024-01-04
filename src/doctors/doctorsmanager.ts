@@ -11,7 +11,11 @@ class DoctorsManager {
    */
   constructor() {
     this.stateManager = StateManager.getInstance();
-    this.getDoctors().then((docs) => this.stateManager.state.doctors = docs);
+    this.stateManager.state.loading = true;
+    this.getDoctors().then((docs) => {
+      this.stateManager.state.doctors = docs;
+      this.stateManager.state.loading = false;
+    });
   }
 
   private async getDoctors() {
