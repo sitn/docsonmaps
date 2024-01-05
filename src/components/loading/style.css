@@ -3,8 +3,8 @@
   position: relative;
   width: 80px;
   height: 80px;
-  top: 50%;
-  left: 50%;
+  top: calc(50vh - 32px);
+  left: calc(50vw - 32px);
 }
 
 .lds-ring div {

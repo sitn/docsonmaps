@@ -10,6 +10,7 @@ class SearchModal extends HTMLElement {
   templateUrl = './template.html';
   styleUrl = './style.css';
   #modal?: Modal;
+  #modalElement?: HTMLDivElement;
 
   constructor() {
     super();
@@ -26,6 +27,13 @@ class SearchModal extends HTMLElement {
       }
       this.update();
     });
+
+    this.#modalElement!.addEventListener('shown.bs.modal', () => {
+      const inputElement = this.#modalElement!.querySelector('#search-input') as HTMLInputElement;
+      inputElement.focus();
+    });
+
+    this.#modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.closeModal());
   }
 
   closeModal() {
@@ -34,8 +42,8 @@ class SearchModal extends HTMLElement {
 
   connectedCallback() {
     this.update();
-    this.#modal = new Modal(this.shadowRoot?.getElementById('search-modal') as Element)
-    this.shadowRoot!.getElementById('close-button')?.addEventListener('click', () => this.closeModal());
+    this.#modalElement = this.shadowRoot?.getElementById('search-modal') as HTMLDivElement;
+    this.#modal = new Modal(this.#modalElement)
     this.registerEvents();
   }
 

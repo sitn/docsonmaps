@@ -18,6 +18,8 @@ class StateManager {
           //console.debug(`${path} has changed.`);
           this.triggerCallbacks(path, oldValue, value);
         }
+      },{
+        ignoreKeys: ['styleFunction_', 'values_']
       });
     Object.preventExtensions(this.#state);
   }

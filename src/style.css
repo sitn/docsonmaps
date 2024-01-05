@@ -17,10 +17,19 @@ custom-loading, sitn-map {
 
 custom-loading {
   z-index: 1;
+  pointer-events: none;
 }
 
 sitn-searchbar, sitn-searchmodal {
   position: relative;
   z-index: 10;
-  margin: 1em;
+}
+
+.desktop-container {
+  max-width: 540px;
+  margin-right: 0;
+  margin-left: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
 }

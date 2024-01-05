@@ -1,8 +1,4 @@
-.fake-input {
-  color: gray;
+button.fake-input {
+  color: var(--bs-gray-600);
   text-align: left;
-}
-
-button {
-  min-width: 200px;
 }

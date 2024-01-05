@@ -82,9 +82,6 @@ class SitnMap extends HTMLElement {
     
   }
 
-  updateDoctorsSource() {
-
-  }
 
   connectedCallback() {
     this.update();

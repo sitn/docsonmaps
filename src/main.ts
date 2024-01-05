@@ -3,7 +3,7 @@ import SitnMap from './components/map/map';
 import Loading from './components/loading/loading';
 import SearchBar from './components/searchbar/searchbar';
 import DoctorsManager from './doctors/doctorsmanager';
-import DoctorsLayerManager from './doctors/doctorsLayer';
+import DoctorsLayerManager from './doctors/doctorslayer';
 import sheets from './utils/stylemanager';
 import SearchModal from './components/searchmodal/searchmodal';
 
