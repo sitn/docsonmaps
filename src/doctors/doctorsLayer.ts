@@ -32,12 +32,12 @@ class DoctorsLayerManager {
         const features = feature.get('features');
         let color = '#f8f9fa';
         let src = 'map_icon_white.svg';
-        if (features.find((f) => f.get('availability') === 'Available')) {
+        if (features.find((f: Feature) => f.get('availability') === 'Available')) {
           src = 'map_icon_green.svg';
-        } else if (features.find((f) => f.get('availability') === 'Available with conditions')) {
+        } else if (features.find((f: Feature) => f.get('availability') === 'Available with conditions')) {
           color = '#f6c8c8';
           src = 'map_icon_pink.svg';
-        } else if (features.find((f) => f.get('availability') === 'Not available')) {
+        } else if (features.find((f: Feature) => f.get('availability') === 'Not available')) {
           color = '#e24848';
           src = 'map_icon_red.svg';
         }
