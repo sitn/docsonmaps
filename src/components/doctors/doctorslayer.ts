@@ -1,5 +1,5 @@
 import VectorLayer from 'ol/layer/Vector';
-import StateManager from '../state/statemanager';
+import StateManager from '../../state/statemanager';
 import VectorSource from 'ol/source/Vector';
 import { Cluster } from 'ol/source';
 import { Icon, Style } from 'ol/style';
@@ -77,7 +77,11 @@ class DoctorsLayerManager {
             );
             view.fit(extentClicked, { duration: 250, padding: [50, 50, 50, 50] });
           } else {
-            this.stateManager.state.currentCluster.title = features[0].get('sitn_address');
+            const currentCluster = {
+              title: features[0].get('sitn_address'),
+              doctors: features
+            }
+            this.stateManager.state.currentCluster = currentCluster;
             this.stateManager.state.interface.isResultPanelVisible = true;
           }
         }

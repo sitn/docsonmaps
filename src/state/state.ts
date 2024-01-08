@@ -1,6 +1,11 @@
 import Map from 'ol/Map';
 import Feature, { FeatureLike } from 'ol/Feature';
 
+type CurrentCluster = {
+  title: string;
+  doctors: Feature[];
+}
+
 class State {
   loading = false;
   map?: Map;
@@ -9,8 +14,9 @@ class State {
     isSearchmodalVisible: false,
     isResultPanelVisible: false,
   };
-  currentCluster = {
+  currentCluster: CurrentCluster = {
     title: '',
+    doctors: []
   }
 }
 
