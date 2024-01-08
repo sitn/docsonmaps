@@ -20,7 +20,7 @@ custom-loading {
   pointer-events: none;
 }
 
-sitn-searchbar, sitn-searchmodal {
+search-bar, search-modal, result-panel {
   position: relative;
   z-index: 10;
 }

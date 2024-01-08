@@ -71,15 +71,14 @@ class DoctorsLayerManager {
           // Get clustered Coordinates
           const features = clickedFeatures[0].get('features');
           const view = olMap.getView();
-          console.log(features.length)
           if (features.length > 1 && view.getZoom()! < 5) {
             const extentClicked = boundingExtent(
               features.map((r: Feature<Point>) => r.getGeometry()!.getCoordinates()),
             );
             view.fit(extentClicked, { duration: 250, padding: [50, 50, 50, 50] });
           } else {
-            // show resultspanel
-            console.log('TODO')
+            this.stateManager.state.currentCluster.title = features[0].get('sitn_address');
+            this.stateManager.state.interface.isResultPanelVisible = true;
           }
         }
       });

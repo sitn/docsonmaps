@@ -1,4 +1,3 @@
-import Feature, { FeatureLike } from 'ol/Feature';
 import GeoJSON from 'ol/format/GeoJSON';
 import StateManager from '../state/statemanager';
 

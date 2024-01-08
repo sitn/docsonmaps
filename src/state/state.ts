@@ -7,6 +7,10 @@ class State {
   doctors?: Feature[] | FeatureLike[];
   interface = {
     isSearchmodalVisible: false,
+    isResultPanelVisible: false,
+  };
+  currentCluster = {
+    title: '',
   }
 }
 
