@@ -79,9 +79,9 @@ class DoctorsLayerManager {
           } else {
             const currentCluster = {
               title: features[0].get('sitn_address'),
-              doctors: features
+              content: features
             }
-            this.stateManager.state.currentCluster = currentCluster;
+            this.stateManager.state.resultPanelContent = currentCluster;
             this.stateManager.state.interface.isResultPanelVisible = true;
           }
         }

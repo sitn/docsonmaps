@@ -10,19 +10,21 @@ class FeatureList extends HTMLElement {
   stateManager: StateManager;
   templateUrl = './template.html';
   styleUrl = './style.css';
-  #doctorsList: Feature[];
+  #doctorsList: Feature[] = [];
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.stateManager = StateManager.getInstance();
-    this.#doctorsList = this.stateManager.state.currentCluster.doctors;
   }
 
   registerEvents() {
     this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, _newValue) => {
-      this.#doctorsList = this.prepareOrderedList(this.stateManager.state.currentCluster.doctors);
-      this.update();
+      const resultPanelContent = this.stateManager.state.resultPanelContent.content;
+      if (Array.isArray(resultPanelContent)) {
+        this.#doctorsList = this.prepareOrderedList(resultPanelContent);
+        this.update();
+      }
     });
   }
 
@@ -48,6 +50,13 @@ class FeatureList extends HTMLElement {
       orderedList[availability].push(feature);
     });
     return Object.values(orderedList).flat();
+  }
+
+  clickDoctorHandler(doctor: Feature) {
+    this.stateManager.state.resultPanelContent = {
+      title: `${doctor.get('nom')} ${doctor.get('prenoms')}`,
+      content: doctor
+    };
   }
 }
 

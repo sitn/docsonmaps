@@ -1,5 +1,7 @@
 <ul class="list-group list-group-flush">
-  ${this.#doctorsList.map(feature => uHtml`<li class="list-group-item list-group-item-action">
+  ${this.#doctorsList.map(feature => uHtml`<li 
+    class="list-group-item list-group-item-action"
+    onclick="${() => this.clickDoctorHandler(feature)}">
     <div class="row justify-content-between align-items-center">
       <div class="col-8">
         <h6>${feature.get('nom')} ${feature.get('prenoms')}</h6>

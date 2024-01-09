@@ -3,6 +3,7 @@ import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import sheets from '../../utils/stylemanager';
 import { Offcanvas } from 'bootstrap';
+import { ResultPanelContent } from '../../state/state';
 
 class ResultPanel extends HTMLElement {
   template?: () => Hole;
@@ -12,6 +13,7 @@ class ResultPanel extends HTMLElement {
   #title = '';
   #offcanvas?: Offcanvas;
   #offcanvasElement?: HTMLDivElement;
+  #contentType: 'LIST' | 'DOCTOR' = 'LIST';
 
   constructor() {
     super();
@@ -22,12 +24,23 @@ class ResultPanel extends HTMLElement {
   registerEvents() {
     this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, newValue) => {
       if (newValue) {
-        this.#title = this.stateManager.state.currentCluster.title;
+        this.#title = this.stateManager.state.resultPanelContent.title;
         this.#offcanvas?.show();
       } else {
         if (this.#offcanvasElement!.classList.contains('show')) {
           this.#offcanvas?.hide();
         }
+      }
+      this.update();
+    });
+
+    this.stateManager.subscribe('resultPanelContent', (_oldValue, newValue) => {
+      const panelContent = newValue as ResultPanelContent
+      this.#title = panelContent.title;
+      if (Array.isArray(panelContent.content)) {
+        this.#contentType = 'LIST';
+      } else {
+        this.#contentType = 'DOCTOR';
       }
       this.update();
     });

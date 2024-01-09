@@ -4,6 +4,7 @@
     <button type="button" class="btn-close text-reset" id="offcanvas-close" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body small p-0">
-    <feature-list></feature-list>
+    <feature-list ?hidden="${this.#contentType !== 'LIST'}"></feature-list>
+    <doctor-detail ?hidden="${this.#contentType !== 'DOCTOR'}"></doctor-detail>
   </div>
 </div>

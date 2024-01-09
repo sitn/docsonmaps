@@ -1,9 +1,9 @@
 import Map from 'ol/Map';
 import Feature, { FeatureLike } from 'ol/Feature';
 
-type CurrentCluster = {
+export type ResultPanelContent = {
   title: string;
-  doctors: Feature[];
+  content: Feature[] | Feature;
 }
 
 class State {
@@ -14,9 +14,9 @@ class State {
     isSearchmodalVisible: false,
     isResultPanelVisible: false,
   };
-  currentCluster: CurrentCluster = {
+  resultPanelContent: ResultPanelContent = {
     title: '',
-    doctors: []
+    content: []
   }
 }
 
