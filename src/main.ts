@@ -8,6 +8,7 @@ import sheets from './utils/stylemanager';
 import SearchModal from './components/searchmodal/searchmodal';
 import ResultPanel from './components/resultpanel/resultpanel';
 import FeatureList from './components/featurelist/featurelist';
+import DoctorDetails from './components/doctors/doctordetails/doctordetails';
 
 customElements.define('custom-loading', Loading);
 customElements.define('sitn-map', SitnMap);
@@ -15,6 +16,7 @@ customElements.define('search-bar', SearchBar);
 customElements.define('search-modal', SearchModal);
 customElements.define('result-panel', ResultPanel);
 customElements.define('feature-list', FeatureList);
+customElements.define('doctor-details', DoctorDetails);
 
 const doctorsLayerManager = new DoctorsLayerManager();
 doctorsLayerManager.addLayer();
