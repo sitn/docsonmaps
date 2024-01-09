@@ -77,16 +77,25 @@ class DoctorsLayerManager {
             );
             view.fit(extentClicked, { duration: 250, padding: [50, 50, 50, 50] });
           } else {
-            const currentCluster = {
-              title: features[0].get('sitn_address'),
-              content: features
-            }
-            this.stateManager.state.resultPanelContent = currentCluster;
-            this.stateManager.state.interface.isResultPanelVisible = true;
+            this.showResult(features);
           }
         }
       });
     });
+  }
+
+  showResult(features: Feature[]) {
+    const firstFeature = features[0];
+    let address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
+    const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
+    console.log(currentSite?.address)
+    const currentCluster = {
+      title: currentSite?.name || firstFeature.get('sitn_address'),
+      title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
+      content: features
+    }
+    this.stateManager.state.resultPanelContent = currentCluster;
+    this.stateManager.state.interface.isResultPanelVisible = true;
   }
 
   updateDoctors(features: Feature[]) {

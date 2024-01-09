@@ -11,6 +11,7 @@ class ResultPanel extends HTMLElement {
   templateUrl = './template.html';
   styleUrl = './style.css';
   #title = '';
+  #title2 = '';
   #offcanvas?: Offcanvas;
   #offcanvasElement?: HTMLDivElement;
   #contentType: 'LIST' | 'DOCTOR' = 'LIST';
@@ -25,6 +26,7 @@ class ResultPanel extends HTMLElement {
     this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, newValue) => {
       if (newValue) {
         this.#title = this.stateManager.state.resultPanelContent.title;
+        this.#title2 = this.stateManager.state.resultPanelContent.title2;
         this.#offcanvas?.show();
       } else {
         if (this.#offcanvasElement!.classList.contains('show')) {
@@ -37,6 +39,7 @@ class ResultPanel extends HTMLElement {
     this.stateManager.subscribe('resultPanelContent', (_oldValue, newValue) => {
       const panelContent = newValue as ResultPanelContent
       this.#title = panelContent.title;
+      this.#title2 = panelContent.title2;
       if (Array.isArray(panelContent.content)) {
         this.#contentType = 'LIST';
       } else {
