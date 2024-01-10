@@ -1,3 +1,8 @@
-<button id="searchbar" class="${'form-control rounded-pill fake-input ' + this.#classList}" type="button">
-  ${this.#searchText}
-</button>
+<div class="position-relative">
+  <button id="searchbar" class="${'form-control rounded-pill fake-input ' + this.#classList}" type="button">
+    ${this.#searchText}
+  </button>
+  <div class="position-absolute reset-search-input align-middle" ?hidden="${this.#searchText === 'Rechercher'}">
+    <button type="button" class="btn-close align-middle" aria-label="Reset filters" onclick="${() => this.resetSearchBar()}"></button>
+  </div>
+</div>

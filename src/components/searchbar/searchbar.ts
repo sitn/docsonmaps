@@ -24,12 +24,17 @@ class SearchBar extends HTMLElement {
       if (newValue !== '') {
         this.#searchText = newValue as string;
         this.#classList = '';
+        this.update();
       } else {
-        this.#searchText = 'Rechercher';
-        this.#classList = ' fake-input-placeholder';
+        this.resetSearchBar();
       }
-      this.update();
     });
+  }
+
+  resetSearchBar() {
+    this.#searchText = 'Rechercher';
+    this.#classList = ' fake-input-placeholder';
+    this.update();
   }
 
   connectedCallback() {

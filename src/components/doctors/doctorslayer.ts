@@ -131,7 +131,6 @@ class DoctorsLayerManager {
     const firstFeature = features[0];
     let address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
-    console.log(currentSite?.address)
     const currentCluster = {
       title: currentSite?.name || firstFeature.get('sitn_address'),
       title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
