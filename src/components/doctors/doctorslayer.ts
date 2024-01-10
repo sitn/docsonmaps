@@ -58,9 +58,38 @@ class DoctorsLayerManager {
     this.registerEvents();
   }
 
+  private doctors() {
+    const doctorFeatures = this.stateManager.state.doctors;
+    if (doctorFeatures) {
+      return doctorFeatures as Feature[];
+    }
+    return [] as Feature[];
+  }
+
   registerEvents() {
-    this.stateManager.subscribe('doctors', (_oldDoctors, newDoctors) => this.updateDoctors(newDoctors as Feature[]));
+    this.stateManager.subscribe('doctors', (_oldDoctors, _newDoctors) => this.resetDoctors());
+    this.stateManager.subscribe('currentFilter', (_oldFilter, newFilter) => this.applyFilter(newFilter as string));
     this.addClickListener();
+  }
+
+  applyFilter(filter: string) {
+    if (filter === '') {
+      this.resetDoctors();
+    } else {
+      const filteredDoctors: Feature[] = [];
+      this.doctors().forEach((doctorFeature) => {
+        if (filter === 'Médecin généraliste') {
+          if (doctorFeature.get('specialites').includes('Médecine interne générale')
+             || doctorFeature.get('specialites').includes('Médecin praticien')) {
+            filteredDoctors.push(doctorFeature);
+          }
+        } else if (doctorFeature.get('specialites').includes(filter)) {
+          filteredDoctors.push(doctorFeature);
+        }
+      });
+      this.#doctorsSource.clear();
+      this.#doctorsSource.addFeatures(filteredDoctors);
+    }
   }
 
   addClickListener() {
@@ -112,8 +141,9 @@ class DoctorsLayerManager {
     this.stateManager.state.interface.isResultPanelVisible = true;
   }
 
-  updateDoctors(features: Feature[]) {
-    this.#doctorsSource.addFeatures(features);
+  private resetDoctors() {
+    this.#doctorsSource.clear();
+    this.#doctorsSource.addFeatures(this.doctors());
   }
 
   addLayer() {

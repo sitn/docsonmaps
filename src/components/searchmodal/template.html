@@ -2,11 +2,16 @@
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <input class="form-control rounded-pill" type="text" id="search-input" name="search-input"
+        <input class="form-control rounded-pill" type="search" id="search-input" name="search-input"
           placeholder="Rechercher">
       </div>
       <div class="modal-body p-0">
         <ul class="list-group list-group-flush" id="search-results">
+          ${this.#specialities.map(speciality => uHtml`<li 
+            class="list-group-item list-group-item-action"
+            onclick="${() => this.clickSpecialityHandler(speciality)}">
+            ${speciality}
+          </li>`)}
         </ul>
       </div>
       <div class="modal-footer">

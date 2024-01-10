@@ -1,4 +1,7 @@
 button.fake-input {
-  color: var(--bs-gray-600);
   text-align: left;
+}
+
+button.fake-input-placeholder {
+  color: var(--bs-gray-600);
 }

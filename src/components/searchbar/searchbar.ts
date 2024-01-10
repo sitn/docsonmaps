@@ -5,9 +5,11 @@ import sheets from '../../utils/stylemanager';
 
 class SearchBar extends HTMLElement {
   template?: () => Hole;
-  stateManager?: StateManager;
+  stateManager: StateManager;
   templateUrl = './template.html';
   styleUrl = './style.css';
+  #searchText = 'Rechercher';
+  #classList = ' fake-input-placeholder'
 
   constructor() {
     super();
@@ -15,9 +17,24 @@ class SearchBar extends HTMLElement {
     this.stateManager = StateManager.getInstance();
   }
 
+  registerEvents() {
+    this.shadowRoot!.getElementById('searchbar')?.addEventListener('click', () => this.toggle());
+
+    this.stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
+      if (newValue !== '') {
+        this.#searchText = newValue as string;
+        this.#classList = '';
+      } else {
+        this.#searchText = 'Rechercher';
+        this.#classList = ' fake-input-placeholder';
+      }
+      this.update();
+    });
+  }
+
   connectedCallback() {
     this.update();
-    this.shadowRoot!.getElementById('searchbar')?.addEventListener('click', () => this.toggle())
+    this.registerEvents();
   }
 
   toggle() {

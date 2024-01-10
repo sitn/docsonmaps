@@ -3,6 +3,7 @@ import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import sheets from '../../utils/stylemanager';
 import { Modal } from 'bootstrap';
+import { SPECIALITIES } from '../doctors/doctorsmanager';
 
 class SearchModal extends HTMLElement {
   template?: () => Hole;
@@ -11,11 +12,15 @@ class SearchModal extends HTMLElement {
   styleUrl = './style.css';
   #modal?: Modal;
   #modalElement?: HTMLDivElement;
+  #searchText = '';
+  #specialities: string[];
+  #resetFilterText = 'Afficher tous les médecins';
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.stateManager = StateManager.getInstance();
+    this.#specialities = [this.#resetFilterText].concat(SPECIALITIES);
   }
 
   registerEvents() {
@@ -38,6 +43,15 @@ class SearchModal extends HTMLElement {
 
   closeModal() {
     this.stateManager.state.interface.isSearchmodalVisible = false;
+  }
+
+  clickSpecialityHandler(speciality: string) {
+    if(speciality === this.#resetFilterText) {
+      this.stateManager.state.currentFilter = '';
+    } else {
+      this.stateManager.state.currentFilter = speciality;
+    }
+    this.closeModal();
   }
 
   connectedCallback() {
