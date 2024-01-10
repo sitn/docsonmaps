@@ -3,16 +3,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <input class="form-control rounded-pill" type="search" id="search-input" name="search-input"
-          placeholder="Rechercher">
+          placeholder="Rechercher" onkeyup="${(e) => this.handleInput(e)}">
       </div>
       <div class="modal-body p-0">
-        <ul class="list-group list-group-flush" id="search-results">
+        <ul class="list-group list-group-flush" ?hidden="${this.#contentType !== 'SPECIALITIES'}">
           ${this.#specialities.map(speciality => uHtml`<li 
             class="list-group-item list-group-item-action"
             onclick="${() => this.clickSpecialityHandler(speciality)}">
             ${speciality}
           </li>`)}
         </ul>
+        <feature-list ?hidden="${this.#contentType !== 'DOCTORS'}"></feature-list>
       </div>
       <div class="modal-footer">
         <button id="close-button" type="button" class="btn btn-primary">Ok</button>

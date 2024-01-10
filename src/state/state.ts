@@ -1,10 +1,9 @@
 import Map from 'ol/Map';
 import Feature, { FeatureLike } from 'ol/Feature';
 
-export type ResultPanelContent = {
+export type ResultPanelHeader = {
   title: string;
   title2: string;
-  content: Feature[] | Feature;
 }
 
 export interface iSite {
@@ -28,19 +27,35 @@ export class Site {
   }
 }
 
+export type ResultPanelMode = 'LIST' | 'DOCTOR';
+
+export type ResultPanelInterface = {
+  isVisible: boolean,
+  mode: ResultPanelMode
+}
+
+type AppInterface = {
+  isSearchmodalVisible: boolean,
+  resultPanel: ResultPanelInterface
+};
+
 class State {
   loading = false;
   map?: Map;
   doctors?: Feature[] | FeatureLike[];
-  interface = {
+  interface: AppInterface = {
     isSearchmodalVisible: false,
-    isResultPanelVisible: false,
+    resultPanel: {
+      isVisible: false,
+      mode: 'LIST'
+    },
   };
-  resultPanelContent: ResultPanelContent = {
+  resultPanelHeader: ResultPanelHeader = {
     title: '',
     title2: '',
-    content: []
   };
+  featureList: Feature[] = [];
+  currentDoctor?: Feature;
   sites: Site[] = [];
   currentFilter = '';
 }

@@ -3,7 +3,10 @@ import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import sheets from '../../utils/stylemanager';
 import { Offcanvas } from 'bootstrap';
-import { ResultPanelContent } from '../../state/state';
+import { ResultPanelHeader } from '../../state/state';
+import { Feature } from 'ol';
+import { ResultPanelMode } from '../../state/state';
+import { ResultPanelInterface } from '../../state/state';
 
 class ResultPanel extends HTMLElement {
   template?: () => Hole;
@@ -14,7 +17,7 @@ class ResultPanel extends HTMLElement {
   #title2 = '';
   #offcanvas?: Offcanvas;
   #offcanvasElement?: HTMLDivElement;
-  #contentType: 'LIST' | 'DOCTOR' = 'LIST';
+  #contentType: ResultPanelMode = 'LIST';
 
   constructor() {
     super();
@@ -23,10 +26,12 @@ class ResultPanel extends HTMLElement {
   }
 
   registerEvents() {
-    this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, newValue) => {
-      if (newValue) {
-        this.#title = this.stateManager.state.resultPanelContent.title;
-        this.#title2 = this.stateManager.state.resultPanelContent.title2;
+    this.stateManager.subscribe('interface.resultPanel', (_oldValue, newValue) => {
+      const panelInterface = newValue as ResultPanelInterface
+      if (panelInterface.isVisible) {
+        this.#contentType = panelInterface.mode;
+        this.#title = this.stateManager.state.resultPanelHeader.title;
+        this.#title2 = this.stateManager.state.resultPanelHeader.title2;
         this.#offcanvas?.show();
       } else {
         if (this.#offcanvasElement!.classList.contains('show')) {
@@ -36,16 +41,25 @@ class ResultPanel extends HTMLElement {
       this.update();
     });
 
-    this.stateManager.subscribe('resultPanelContent', (_oldValue, newValue) => {
-      const panelContent = newValue as ResultPanelContent
-      this.#title = panelContent.title;
-      this.#title2 = panelContent.title2;
-      if (Array.isArray(panelContent.content)) {
+    this.stateManager.subscribe('resultPanelHeader', (_oldValue, newValue) => {
+      const titles = newValue as ResultPanelHeader;
+      this.#title = titles.title;
+      this.#title2 = titles.title2;
+    });
+
+    this.stateManager.subscribe('featureList', (_oldValue, newValue) => {
+      const featureList = newValue as Feature[];
+      if (featureList.length > 0) {
         this.#contentType = 'LIST';
-      } else {
-        this.#contentType = 'DOCTOR';
+        this.update();
       }
-      this.update();
+    });
+
+    this.stateManager.subscribe('currentDoctor', (_oldValue, newValue) => {
+      if (newValue) {
+        this.#contentType = 'DOCTOR';
+        this.update();
+      }
     });
 
     this.#offcanvasElement!.querySelector('#offcanvas-close')!.addEventListener('click', () => this.closeOffcanvas());
@@ -53,7 +67,9 @@ class ResultPanel extends HTMLElement {
   }
 
   closeOffcanvas() {
-    this.stateManager.state.interface.isResultPanelVisible = false;
+    this.stateManager.state.interface.resultPanel.isVisible = false;
+    this.stateManager.state.featureList = [];
+    this.#offcanvas?.hide();
   }
 
   connectedCallback() {

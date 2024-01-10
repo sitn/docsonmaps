@@ -19,10 +19,10 @@ class FeatureList extends HTMLElement {
   }
 
   registerEvents() {
-    this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, _newValue) => {
-      const resultPanelContent = this.stateManager.state.resultPanelContent.content;
-      if (Array.isArray(resultPanelContent)) {
-        this.#doctorsList = resultPanelContent;
+    this.stateManager.subscribe('featureList', (_oldValue, newValue) => {
+      const featureList = newValue as Feature[];
+      if (featureList.length > 0) {
+        this.#doctorsList = featureList;
         this.update();
       }
     });
@@ -39,11 +39,15 @@ class FeatureList extends HTMLElement {
   }
 
   clickDoctorHandler(doctor: Feature) {
-    this.stateManager.state.resultPanelContent = {
+    this.stateManager.state.resultPanelHeader = {
       title: `${doctor.get('nom')} ${doctor.get('prenoms')}`,
       title2: `${doctor.get('sitn_address')}, ${doctor.get('nopostal')} ${doctor.get('localite')}`,
-      content: doctor
     };
+    this.stateManager.state.currentDoctor = doctor;
+    this.stateManager.state.interface.resultPanel = {
+      isVisible: true,
+      mode: 'DOCTOR'
+    }
   }
 }
 

@@ -131,13 +131,16 @@ class DoctorsLayerManager {
     const firstFeature = features[0];
     let address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
-    const currentCluster = {
+    const titles = {
       title: currentSite?.name || firstFeature.get('sitn_address'),
       title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
-      content: this.prepareOrderedList(features)
     }
-    this.stateManager.state.resultPanelContent = currentCluster;
-    this.stateManager.state.interface.isResultPanelVisible = true;
+    this.stateManager.state.resultPanelHeader = titles;
+    this.stateManager.state.featureList = this.prepareOrderedList(features);
+    this.stateManager.state.interface.resultPanel = {
+      isVisible: true,
+      mode: 'LIST'
+    }
   }
 
   private resetDoctors() {

@@ -3,7 +3,6 @@ import { Hole } from 'uhtml/keyed';
 import StateManager from '../../../state/statemanager';
 import sheets from '../../../utils/stylemanager';
 import { Feature } from 'ol';
-import { ResultPanelContent } from '../../../state/state';
 
 
 class DoctorDetails extends HTMLElement {
@@ -20,10 +19,10 @@ class DoctorDetails extends HTMLElement {
   }
 
   registerEvents() {
-    this.stateManager.subscribe('resultPanelContent', (_oldValue, _newValue) => {
-      const resultPanelContent = _newValue as ResultPanelContent;
-      if (!Array.isArray(resultPanelContent.content)) {
-        this.#doctor = resultPanelContent.content;
+    this.stateManager.subscribe('currentDoctor', (_oldValue, newValue) => {
+      const currentDoctor = newValue as Feature;
+      if (currentDoctor) {
+        this.#doctor = currentDoctor;
         this.update();
       }
     });
