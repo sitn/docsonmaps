@@ -84,6 +84,20 @@ class DoctorsLayerManager {
     });
   }
 
+  private prepareOrderedList(doctors: Feature[]) {
+    const orderedList: Record<string, Feature[]> = {
+      'Available': [],
+      'Available with conditions': [],
+      'Unknown': [],
+      'Not available': [],
+    };
+    doctors.forEach((feature) => {
+      const availability = feature.get('availability');
+      orderedList[availability].push(feature);
+    });
+    return Object.values(orderedList).flat();
+  }
+
   showResult(features: Feature[]) {
     const firstFeature = features[0];
     let address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
@@ -92,7 +106,7 @@ class DoctorsLayerManager {
     const currentCluster = {
       title: currentSite?.name || firstFeature.get('sitn_address'),
       title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
-      content: features
+      content: this.prepareOrderedList(features)
     }
     this.stateManager.state.resultPanelContent = currentCluster;
     this.stateManager.state.interface.isResultPanelVisible = true;

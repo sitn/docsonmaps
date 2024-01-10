@@ -22,7 +22,7 @@ class FeatureList extends HTMLElement {
     this.stateManager.subscribe('interface.isResultPanelVisible', (_oldValue, _newValue) => {
       const resultPanelContent = this.stateManager.state.resultPanelContent.content;
       if (Array.isArray(resultPanelContent)) {
-        this.#doctorsList = this.prepareOrderedList(resultPanelContent);
+        this.#doctorsList = resultPanelContent;
         this.update();
       }
     });
@@ -36,20 +36,6 @@ class FeatureList extends HTMLElement {
 
   update() {
     render(this.shadowRoot, this.template!);
-  }
-
-  private prepareOrderedList(doctors: Feature[]) {
-    const orderedList: Record<string, Feature[]> = {
-      'Available': [],
-      'Available with conditions': [],
-      'Unknown': [],
-      'Not available': [],
-    };
-    doctors.forEach((feature) => {
-      const availability = feature.get('availability');
-      orderedList[availability].push(feature);
-    });
-    return Object.values(orderedList).flat();
   }
 
   clickDoctorHandler(doctor: Feature) {
