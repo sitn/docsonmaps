@@ -5,8 +5,16 @@ npm i
 npm start
 ```
 
-Set your base url in vite.config.js.
+## Deploy
+
+Create a `.env.prod` file and set your base_url like:
+
+```env
+VITE_BASE_URL=/path/to/your/app
+```
+
+Then run
 
 ```
-npm run build
+npm run build -- --mode prod
 ```

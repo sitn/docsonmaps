@@ -26,7 +26,8 @@ doctorsLayerManager.addLayer();
 new DoctorsManager();
 
 const state = StateManager.getInstance().state;
-const sitesData = await getSites();
-state.sites = sitesData.map((sitedata: iSite) => new Site(sitedata));
+getSites().then((sitesData) => {
+  state.sites = sitesData.map((sitedata: iSite) => new Site(sitedata));
+});
 
 document.adoptedStyleSheets = sheets;
