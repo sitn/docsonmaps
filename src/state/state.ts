@@ -36,6 +36,7 @@ export type ResultPanelInterface = {
 
 type AppInterface = {
   isSearchmodalVisible: boolean,
+  isEditModalVisible: boolean,
   resultPanel: ResultPanelInterface
 };
 
@@ -45,6 +46,7 @@ class State {
   doctors?: Feature[] | FeatureLike[];
   interface: AppInterface = {
     isSearchmodalVisible: false,
+    isEditModalVisible: false,
     resultPanel: {
       isVisible: false,
       mode: 'LIST'

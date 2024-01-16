@@ -1,0 +1,51 @@
+<div id="edit-modal" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modifier une information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div ?hidden="${this.#modalPage !== 'MAIN'}">
+          <p>Je suis médecin et je souhaite modifier les informations me concernant:</p>
+          <button class="btn btn-outline-primary" type="button" onclick="${() => this.showPage('DOCTOR')}">Modifer mes
+            informations</button>
+          <hr>
+          <p>Je suis un utilisateur et je souhaite suggérer des modifications:</p>
+          <button class="btn btn-outline-primary" type="button" onclick="${() => this.showPage('USER')}">Suggérer des
+            modifications</button>
+        </div>
+        <div ?hidden="${this.#modalPage !== 'DOCTOR'}">
+          <form>
+            <div class="mb-3">
+              <label for="input-email" class="form-label">Veuillez saisir le courriel correspondant à votre cabinet. Un
+                lien vous sera envoyé pour mettre à jour vos
+                informations.</label>
+              <input type="email" class="form-control" id="input-email">
+            </div>
+            <button class="btn btn-primary" type="button">Envoyer</button>
+          </form>
+        </div>
+        <div ?hidden="${this.#modalPage !== 'USER'}">
+          <form>
+            <div class="mb-3">
+              <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin">
+                <option selected>Modifier la disponibilité:</option>
+                <option value="false">N'accepte plus de nouveaux patients</option>
+                <option value="true">Accepte des nouveaux patients</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="user-remarks" class="form-label">Autres modifications à apporter:</label>
+              <textarea name="user-remarks" class="form-control" id="user-remarks" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" type="button">Envoyer</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancel-button" type="button" class="btn btn-secondary">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -56,3 +56,7 @@ search-bar, search-modal, result-panel {
 #prototype > a {
   color: white;
 }
+
+#prototype > a::after {
+  content: "PROTOTYPE";
+}

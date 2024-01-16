@@ -28,6 +28,10 @@ class DoctorDetails extends HTMLElement {
     });
   }
 
+  callModifiy() {
+    this.stateManager.state.interface.isEditModalVisible = true;
+  }
+
   connectedCallback() {
     this.shadowRoot!.adoptedStyleSheets = sheets;
     this.update();
