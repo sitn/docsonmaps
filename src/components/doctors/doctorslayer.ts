@@ -47,7 +47,7 @@ class DoctorsLayerManager {
           style = new Style({
             image: new Icon({
               displacement: [0, 15],
-              src: `${src}`,
+              src: `icons/${src}`,
             }),
           });
           styleCache[color] = style;

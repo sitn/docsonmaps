@@ -50,7 +50,7 @@ search-bar, search-modal, result-panel {
   color: #fff;
   line-height: 41px;
   transform: rotate(45deg);
-  z-index: 2000;
+  z-index: 9;
 }
 
 #prototype > a {

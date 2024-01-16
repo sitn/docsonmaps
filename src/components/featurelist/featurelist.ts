@@ -41,7 +41,7 @@ class FeatureList extends HTMLElement {
   clickDoctorHandler(doctor: Feature) {
     this.stateManager.state.resultPanelHeader = {
       title: `${doctor.get('nom')} ${doctor.get('prenoms')}`,
-      title2: `${doctor.get('sitn_address')}, ${doctor.get('nopostal')} ${doctor.get('localite')}`,
+      title2: `${doctor.get('specialites')}`,
     };
     this.stateManager.state.currentDoctor = doctor;
     this.stateManager.state.interface.resultPanel = {
