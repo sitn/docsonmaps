@@ -69,8 +69,8 @@ class SitnMap extends HTMLElement {
       ],
       controls: [],
       view: new View({
-        center: [2562282, 1205150],
-        zoom: 10,
+        center: [2550000, 1205000],
+        zoom: 1,
         projection,
         resolutions,
         constrainResolution: true,

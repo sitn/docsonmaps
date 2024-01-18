@@ -69,7 +69,7 @@ class DoctorsManager {
   }
 
   private async getDoctors() {
-    const doctorsData = await fetch('../sample_data/data.json', {
+    const doctorsData = await fetch('./sample_data/data.json', {
       headers: {
         Accept: 'application/geo+json',
       },
