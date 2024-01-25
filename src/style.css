@@ -3,10 +3,6 @@ body {
   font-family: sans-serif;
 }
 
-#initially-hidden {
-  visibility: hidden;
-}
-
 custom-loading, sitn-map {
   position: absolute;
   top: 0;
@@ -59,4 +55,14 @@ search-bar, search-modal, result-panel {
 
 #prototype > a::after {
   content: "PROTOTYPE";
+}
+
+/* About button */
+#about-button {
+  position: fixed;
+  width: 1em;
+  height: 1em;
+  bottom: 50px;
+  right: 50px;
+  z-index: 9;
 }
