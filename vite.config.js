@@ -9,7 +9,10 @@ export default defineConfig(({ mode }) => {
     root: './src',
     build: {
       sourcemap: true,
-      emptyOutDir: true
+      emptyOutDir: true,
+      chunkSizeWarningLimit: '1MB',
+      target: 'es2020',
+      minify: false,
     },
     plugins: [InlineTemplatesPlugin(), RestartPlugin()]
   }
