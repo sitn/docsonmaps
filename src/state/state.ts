@@ -37,6 +37,7 @@ export type ResultPanelInterface = {
 type AppInterface = {
   isSearchmodalVisible: boolean,
   isEditModalVisible: boolean,
+  isAboutModalVisible: boolean,
   resultPanel: ResultPanelInterface
 };
 
@@ -47,6 +48,7 @@ class State {
   interface: AppInterface = {
     isSearchmodalVisible: false,
     isEditModalVisible: false,
+    isAboutModalVisible: false,
     resultPanel: {
       isVisible: false,
       mode: 'LIST'
