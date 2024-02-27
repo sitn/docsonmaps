@@ -27,6 +27,11 @@ export class Site {
   }
 }
 
+export type DoctorFilter = {
+  doctorType: string,
+  doctorDisponibility: boolean,
+}
+
 export type ResultPanelMode = 'LIST' | 'DOCTOR';
 
 export type ResultPanelInterface = {
@@ -38,6 +43,7 @@ type AppInterface = {
   isSearchmodalVisible: boolean,
   isEditModalVisible: boolean,
   isAboutModalVisible: boolean,
+  isFilterModalVisible: boolean,
   resultPanel: ResultPanelInterface
 };
 
@@ -49,6 +55,7 @@ class State {
     isSearchmodalVisible: false,
     isEditModalVisible: false,
     isAboutModalVisible: false,
+    isFilterModalVisible: false,
     resultPanel: {
       isVisible: false,
       mode: 'LIST'
@@ -61,7 +68,10 @@ class State {
   featureList: Feature[] = [];
   currentDoctor?: Feature;
   sites: Site[] = [];
-  currentFilter = '';
+  currentFilter: DoctorFilter = {
+    doctorType: '',
+    doctorDisponibility: false,
+  };
 }
 
 export default State;
