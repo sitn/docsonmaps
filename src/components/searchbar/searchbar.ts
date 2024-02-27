@@ -2,6 +2,7 @@ import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import sheets from '../../utils/stylemanager';
+import { DoctorFilter } from "../../state/state";
 
 class SearchBar extends HTMLElement {
   template?: () => Hole;
@@ -21,8 +22,9 @@ class SearchBar extends HTMLElement {
     this.shadowRoot!.getElementById('searchbar')?.addEventListener('click', () => this.toggle());
 
     this.stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
-      if (newValue !== '') {
-        this.#searchText = newValue as string;
+      const currentFilter = newValue as DoctorFilter;
+      if (currentFilter.doctorType !== '') {
+        this.#searchText = currentFilter.doctorType;
         this.#classList = '';
         this.update();
       } else {

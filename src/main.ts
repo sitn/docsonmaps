@@ -7,6 +7,7 @@ import DoctorsLayerManager from './components/doctors/doctorslayer';
 import sheets from './utils/stylemanager';
 import SearchModal from './components/searchmodal/searchmodal';
 import AboutModal from './components/aboutmodal/aboutmodal';
+import FilterModal from './components/filtermodal/filtermodal';
 import ResultPanel from './components/resultpanel/resultpanel';
 import FeatureList from './components/featurelist/featurelist';
 import DoctorDetails from './components/doctors/doctordetails/doctordetails';
@@ -24,6 +25,7 @@ customElements.define('feature-list', FeatureList);
 customElements.define('doctor-details', DoctorDetails);
 customElements.define('edit-modal', EditModal);
 customElements.define('about-modal', AboutModal);
+customElements.define('filter-modal', FilterModal);
 
 const doctorsLayerManager = new DoctorsLayerManager();
 doctorsLayerManager.addLayer();
@@ -43,5 +45,13 @@ about_button?.addEventListener("click", () => {
   }
 });
 
+const filter_button = document.querySelector("#filter-button");
+filter_button?.addEventListener("click", () => {
+  if (state.interface.isFilterModalVisible === true) {
+    state.interface.isFilterModalVisible = false
+  } else {
+    state.interface.isFilterModalVisible = true
+  }
+});
 
 document.adoptedStyleSheets = sheets;
