@@ -41,19 +41,21 @@ type AppInterface = {
   resultPanel: ResultPanelInterface
 };
 
+const defaultInterface: AppInterface = {
+  isSearchmodalVisible: false,
+  isEditModalVisible: false,
+  isAboutModalVisible: false,
+  resultPanel: {
+    isVisible: false,
+    mode: 'LIST'
+  },
+}; 
+
 class State {
   loading = false;
   map?: Map;
   doctors?: Feature[] | FeatureLike[];
-  interface: AppInterface = {
-    isSearchmodalVisible: false,
-    isEditModalVisible: false,
-    isAboutModalVisible: false,
-    resultPanel: {
-      isVisible: false,
-      mode: 'LIST'
-    },
-  };
+  interface = defaultInterface; 
   resultPanelHeader: ResultPanelHeader = {
     title: '',
     title2: '',
@@ -62,6 +64,12 @@ class State {
   currentDoctor?: Feature;
   sites: Site[] = [];
   currentFilter = '';
+
+  resetInterface() {
+    this.interface = defaultInterface;
+    this.currentDoctor = undefined;
+    this.currentFilter = '';
+  }
 }
 
 export default State;

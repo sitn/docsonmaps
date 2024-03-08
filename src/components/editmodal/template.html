@@ -23,11 +23,14 @@
                 informations.</label>
               <input type="email" class="form-control" id="input-email">
             </div>
-            <button class="btn btn-primary" type="button">Envoyer</button>
+            <button class="btn btn-primary" type="button" id="submit">Envoyer</button>
           </form>
         </div>
         <div ?hidden="${this.#modalPage !== 'USER'}">
           <form>
+            <div class="alert alert-danger">
+              ⚠ Cette fonctionnalité n'est pas encore implémentée!
+            </div>
             <div class="mb-3">
               <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin">
                 <option selected>Modifier la disponibilité:</option>
@@ -39,7 +42,7 @@
               <label for="user-remarks" class="form-label">Autres modifications à apporter:</label>
               <textarea name="user-remarks" class="form-control" id="user-remarks" rows="3"></textarea>
             </div>
-            <button class="btn btn-primary" type="button">Envoyer</button>
+            <button class="btn btn-primary" type="button" disabled>Envoyer</button>
           </form>
         </div>
       </div>
