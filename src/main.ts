@@ -4,7 +4,6 @@ import Loading from './components/loading/loading';
 import SearchBar from './components/searchbar/searchbar';
 import DoctorsManager from './components/doctors/doctorsmanager';
 import DoctorsLayerManager from './components/doctors/doctorslayer';
-import sheets from './utils/stylemanager';
 import SearchModal from './components/searchmodal/searchmodal';
 import AboutModal from './components/aboutmodal/aboutmodal';
 import FilterModal from './components/filtermodal/filtermodal';
@@ -34,6 +33,7 @@ new DoctorsManager();
 const state = StateManager.getInstance().state;
 getSites().then((sitesData) => {
   state.sites = sitesData.map((sitedata: iSite) => new Site(sitedata));
+  document.getElementById('initially-hidden')!.style.visibility = 'visible';
 });
 
 const about_button = document.querySelector("#about-button");
@@ -53,5 +53,3 @@ filter_button?.addEventListener("click", () => {
     state.interface.isFilterModalVisible = true
   }
 });
-
-document.adoptedStyleSheets = sheets;

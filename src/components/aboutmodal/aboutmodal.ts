@@ -1,7 +1,6 @@
 import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
-import sheets from '../../utils/stylemanager';
 import { Modal } from 'bootstrap';
 
 class AboutModal extends HTMLElement {
@@ -48,7 +47,6 @@ class AboutModal extends HTMLElement {
 
   update() {
     render(this.shadowRoot, this.template!);
-    this.shadowRoot!.adoptedStyleSheets = sheets;
   }
 
 }

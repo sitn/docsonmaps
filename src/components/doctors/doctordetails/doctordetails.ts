@@ -1,7 +1,6 @@
 import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../../state/statemanager';
-import sheets from '../../../utils/stylemanager';
 import { Feature } from 'ol';
 
 
@@ -33,7 +32,6 @@ class DoctorDetails extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot!.adoptedStyleSheets = sheets;
     this.update();
     this.registerEvents();
   }

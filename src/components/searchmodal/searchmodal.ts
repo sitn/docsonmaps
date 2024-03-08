@@ -1,7 +1,6 @@
 import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
-import sheets from '../../utils/stylemanager';
 import { Modal } from 'bootstrap';
 import { SPECIALITIES } from '../doctors/doctorsmanager';
 import { Feature } from 'ol';
@@ -108,7 +107,6 @@ class SearchModal extends HTMLElement {
 
   update() {
     render(this.shadowRoot, this.template!);
-    this.shadowRoot!.adoptedStyleSheets = sheets;
   }
 }
 
