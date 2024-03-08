@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         input: {
-          main: resolve(__dirname, 'index.html'),
-          edit: resolve(__dirname, 'edit/index.html'),
+          main: resolve(__dirname, 'src/index.html'),
+          edit: resolve(__dirname, 'src/edit/index.html'),
         },
       },
       sourcemap: true,

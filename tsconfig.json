@@ -18,5 +18,5 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
-  },
+  }
 }
