@@ -6,6 +6,7 @@ import { Icon, Style } from 'ol/style';
 import { Feature } from 'ol';
 import { boundingExtent } from 'ol/extent';
 import { Point } from 'ol/geom';
+import { DoctorFilter } from "../../state/state";
 
 class DoctorsLayerManager {
   stateManager: StateManager;
@@ -68,24 +69,40 @@ class DoctorsLayerManager {
 
   registerEvents() {
     this.stateManager.subscribe('doctors', (_oldDoctors, _newDoctors) => this.resetDoctors());
-    this.stateManager.subscribe('currentFilter', (_oldFilter, newFilter) => this.applyFilter(newFilter as string));
+    this.stateManager.subscribe('currentFilter', (_oldFilter, newFilter) => this.applyFilter(newFilter as DoctorFilter));
     this.addClickListener();
   }
 
-  applyFilter(filter: string) {
-    if (filter === '') {
+  applyFilter(filter: DoctorFilter) {
+
+    if (filter.doctorType === '' && filter.doctorDisponibility === false) {
       this.resetDoctors();
     } else {
       const filteredDoctors: Feature[] = [];
       this.doctors().forEach((doctorFeature) => {
-        if (filter === 'Médecin généraliste') {
-          if (doctorFeature.get('specialites').includes('Médecine interne générale')
-             || doctorFeature.get('specialites').includes('Médecin praticien')) {
+        if (filter.doctorType === '' && filter.doctorDisponibility === true) {
+          if (doctorFeature.get('availability') === 'Available') {
             filteredDoctors.push(doctorFeature);
           }
-        } else if (doctorFeature.get('specialites').includes(filter)) {
-          filteredDoctors.push(doctorFeature);
-        }
+        } else if (filter.doctorType === 'Médecin généraliste' && filter.doctorDisponibility === false) {
+          if (doctorFeature.get('specialites').includes('Médecine interne générale')
+              || doctorFeature.get('specialites').includes('Médecin praticien')) {
+            filteredDoctors.push(doctorFeature);
+          }
+        } else if (filter.doctorType === 'Médecin généraliste' && filter.doctorDisponibility === true) {
+          if ((doctorFeature.get('specialites').includes('Médecine interne générale')
+              || doctorFeature.get('specialites').includes('Médecin praticien'))
+              && doctorFeature.get('availability') === 'Available') {
+            filteredDoctors.push(doctorFeature);
+       }
+        } else if (doctorFeature.get('specialites').includes(filter.doctorType)
+                  && doctorFeature.get('availability') === 'Available'
+                  && filter.doctorDisponibility === true) {
+            filteredDoctors.push(doctorFeature);
+        } else if (doctorFeature.get('specialites').includes(filter.doctorType)
+                  && filter.doctorDisponibility === false) {
+            filteredDoctors.push(doctorFeature);
+      }
       });
       this.#doctorsSource.clear();
       this.#doctorsSource.addFeatures(filteredDoctors);
