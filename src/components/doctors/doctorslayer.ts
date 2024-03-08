@@ -129,10 +129,10 @@ class DoctorsLayerManager {
 
   showResult(features: Feature[]) {
     const firstFeature = features[0];
-    let address = `${firstFeature.get('sitn_address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
+    let address = `${firstFeature.get('address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
     const titles = {
-      title: currentSite?.name || firstFeature.get('sitn_address'),
+      title: currentSite?.name || firstFeature.get('address'),
       title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
     }
     this.stateManager.state.resultPanelHeader = titles;
