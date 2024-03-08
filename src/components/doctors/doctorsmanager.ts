@@ -2,6 +2,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const SPECIALITIES = [
   'Médecin généraliste',
@@ -69,9 +70,9 @@ class DoctorsManager {
   }
 
   private async getDoctors() {
-    const doctorsData = await fetch('./sample_data/data.json', {
+    const doctorsData = await fetch(`${API_URL}/doctors/as_geojson/`, {
       headers: {
-        Accept: 'application/geo+json',
+        Accept: 'application/json',
       },
     }).then((response) => response.json());
     const doctors = new GeoJSON().readFeatures(doctorsData);
@@ -84,7 +85,7 @@ class DoctorsManager {
     const conditions = doctorFeature.get('availability_conditions');
     switch (availability) {
       case 'Available':
-        doctorFeature.set('availability_fr', 'Accepte des nouveaux patients');
+        doctorFeature.set('availability_fr', 'Accepte de nouveaux patients');
         doctorFeature.set('text_color', 'primary');
         break;
       case 'Available with conditions':
@@ -93,7 +94,7 @@ class DoctorsManager {
           doctorFeature.set('availability_fr', conditions);
           break;
         }
-        doctorFeature.set('availability_fr', 'Accepte des nouveaux patients sous conditions');
+        doctorFeature.set('availability_fr', 'Accepte de nouveaux patients sous conditions');
         break;
       case 'Not available':
         doctorFeature.set('availability_fr', 'Ne prend plus de nouveaux patients');
