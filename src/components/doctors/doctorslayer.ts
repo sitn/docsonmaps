@@ -74,7 +74,6 @@ class DoctorsLayerManager {
   }
 
   applyFilter(filter: DoctorFilter) {
-
     if (filter.doctorType === '' && filter.doctorDisponibility === false) {
       this.resetDoctors();
     } else {

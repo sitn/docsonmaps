@@ -14,6 +14,7 @@ import EditModal from './components/editmodal/editmodal';
 import getSites from './components/sites/sitesmanager';
 import StateManager from './state/statemanager';
 import { Site, iSite } from './state/state';
+import { DoctorFilter } from './state/state';
 
 customElements.define('custom-loading', Loading);
 customElements.define('sitn-map', SitnMap);
@@ -30,7 +31,8 @@ const doctorsLayerManager = new DoctorsLayerManager();
 doctorsLayerManager.addLayer();
 new DoctorsManager();
 
-const state = StateManager.getInstance().state;
+const stateManager = StateManager.getInstance();
+const state = stateManager.state;
 getSites().then((sitesData) => {
   state.sites = sitesData.map((sitedata: iSite) => new Site(sitedata));
   document.getElementById('initially-hidden')!.style.visibility = 'visible';
@@ -51,5 +53,15 @@ filter_button?.addEventListener("click", () => {
     state.interface.isFilterModalVisible = false
   } else {
     state.interface.isFilterModalVisible = true
+  }
+});
+stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
+  const has_filter = (newValue as DoctorFilter).doctorDisponibility;
+  if (has_filter) {
+    filter_button!.classList.remove('btn-primary');
+    filter_button!.classList.add('btn-danger');
+  } else {
+    filter_button!.classList.remove('btn-danger');
+    filter_button!.classList.add('btn-primary');
   }
 });
