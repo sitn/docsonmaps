@@ -3,3 +3,7 @@
 div.offcanvas.offcanvas-bottom {
   height: 70vh;
 }
+
+div.offcanvas.offcanvas-start {
+  width: 540px;
+}

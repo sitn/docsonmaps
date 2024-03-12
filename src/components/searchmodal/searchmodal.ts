@@ -41,6 +41,13 @@ class SearchModal extends HTMLElement {
       inputElement.focus();
     });
 
+    // Handle search modal is closed by ESC key or other event
+    this.#modalElement!.addEventListener('hidden.bs.modal', () => {
+      if (this.stateManager.state.interface.isSearchmodalVisible === true) {
+        this.stateManager.state.interface.isSearchmodalVisible = false;
+      }
+    });
+
     this.#modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.closeModal());
   }
 
@@ -101,7 +108,7 @@ class SearchModal extends HTMLElement {
   connectedCallback() {
     this.update();
     this.#modalElement = this.shadowRoot?.getElementById('search-modal') as HTMLDivElement;
-    this.#modal = new Modal(this.#modalElement)
+    this.#modal = new Modal(this.#modalElement);
     this.registerEvents();
   }
 
