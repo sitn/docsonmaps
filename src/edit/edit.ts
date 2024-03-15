@@ -18,10 +18,8 @@ if (!guid) {
   window.location.href = '/';
 }
 
-const doctor = await DoctorsManager.getDoctorByToken(guid as string);
-
-if (doctor) {
+DoctorsManager.getDoctorByToken(guid as string).then((doctor) => {
   stateManager.state.loading = false;
   stateManager.state.editDoctor = doctor;
   document.getElementById('initially-hidden')!.style.visibility = 'visible';
-}
+});
