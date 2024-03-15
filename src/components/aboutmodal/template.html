@@ -2,41 +2,46 @@
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">A propos</h5>
+        <h4 class="modal-title">A propos</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        <div>
-          <p>L'application de disponibilité des médecins est une application qui vous est proposée par:</p>
-          <ul>
-            <li>Le service de la santé publique (SCSP)</li>
-            <li>La société neuchâteloise des médecins (SNM)</li>
-            <li>Le système d'information du territoire neuchâtelois (SITN)</li>
-          </ul>
-        </div>
+        <p>L'application de disponibilité des médecins vous est proposée par:</p>
+        <ul>
+          <li>Le service de la santé publique (SCSP)</li>
+          <li>La société neuchâteloise des médecins (SNM)</li>
+          <li>Le système d'information du territoire neuchâtelois (SITN)</li>
+        </ul>
         <hr>
-        <div>
-          <h5>Légende de la carte</h5>
-          <table class="legend">
-            <tr>
-              <td><img src="icons/map_icon_green.svg" alt="marqueur vert" /></td>
-              <td class="px-2">Accepte de nouveaux patients</td>
-            </tr>
-            <tr>
-              <td><img src="icons/map_icon_pink.svg" alt="marqueur rose" /></td>
-              <td class="px-2">Accepte de nouveaux patients sous conditions</td>
-            </tr>
-            <tr>
-              <td><img src="icons/map_icon_red.svg" alt="marqueur rouge" /></td>
-              <td class="px-2">Ne prend plus de nouveaux patients</td>
-            </tr>
-            <tr>
-              <td><img src="icons/map_icon_white.svg" alt="marqueur blanc" /></td>
-              <td class="px-2">Disponibilité inconnue, information manquante</td>
-            </tr>
-          </table>
-        </div>
+        <h4>Légende de la carte</h4>
+        <table class="legend">
+          <tr>
+            <td><img src="icons/map_icon_green.svg" alt="marqueur vert" /></td>
+            <td class="px-2">Accepte de nouveaux patients</td>
+          </tr>
+          <tr>
+            <td><img src="icons/map_icon_pink.svg" alt="marqueur rose" /></td>
+            <td class="px-2">Accepte de nouveaux patients sous conditions</td>
+          </tr>
+          <tr>
+            <td><img src="icons/map_icon_red.svg" alt="marqueur rouge" /></td>
+            <td class="px-2">Ne prend plus de nouveaux patients</td>
+          </tr>
+          <tr>
+            <td><img src="icons/map_icon_white.svg" alt="marqueur blanc" /></td>
+            <td class="px-2">Disponibilité inconnue, information manquante</td>
+          </tr>
+        </table>
         <hr>
+        <h4>Aide</h4>
+        <h5>Filtrer la carte</h5>
+        <p>Il est possible de filtrer la carte en cliquant sur le bouton <span
+            class="badge rounded-pill text-bg-primary">Filtrer</span>.<br>
+            Si un filtre est actif, le bouton <span class="badge rounded-pill text-bg-danger">Filtrer</span> devriendra rouge</p>
+        <h5>Recherche</h5>
+        <p>Le champ <em>Recherche</em> vous permet de sélectionner une spécialité parmi une liste préconfigurée. En
+          sélectionnant "Pédiatre", tous le pédiatres seront affichés sur la carte. Vous pouvez également effectuer une
+          recherche par nom, prénom du médecin.</p>
       </div>
     </div>
   </div>
