@@ -79,6 +79,23 @@ class DoctorsManager {
     return doctors;
   }
 
+  static async getDoctorByToken(guid: string) {
+    const doctorData = await fetch(`${API_URL}/doctors/edit/${guid}/`, {
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then((response) => {
+        if (response.status === 404) {
+          alert(
+            "Le lien utilisé n'est plus valable ou a déjà été utilisé. "
+            + "Demandez-en un autre si vous souhaitez modifier vos informations.");
+          window.location.href = '/';
+        }
+        return response.json();
+      })
+    return doctorData;
+  }
+
   private prepareDoctor(doctorFeature: Feature) {
     doctorFeature.set('specialites', doctorFeature.get('specialites') || 'Médecin');
     const availability = doctorFeature.get('availability');

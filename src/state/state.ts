@@ -27,6 +27,13 @@ export class Site {
   }
 }
 
+export type Doctor = {
+  id_person_address: string,
+  spoken_languages: string[],
+  availability: 'Available' | 'Available with conditions' | 'Not available' | 'Unknown',
+  availability_conditions: string,
+}
+
 export type DoctorFilter = {
   doctorType: string,
   doctorDisponibility: boolean,
@@ -69,6 +76,7 @@ class State {
   };
   featureList: Feature[] = [];
   currentDoctor?: Feature;
+  editDoctor?: Doctor;
   sites: Site[] = [];
   currentFilter: DoctorFilter = {
     doctorType: '',

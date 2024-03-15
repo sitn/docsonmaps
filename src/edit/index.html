@@ -9,96 +9,9 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="alert alert-danger mt-2">
-      ⚠ Cette interface n'est pas encore fonctionnelle.
-    </div>
-    <div class="row mt-5">
-      <div class="col border-end">
-        <h3>Informations issues de nemedreg</h3>
-      </div>
-      <div class="col">
-        <h3>Modifier mes informations</h3>
-        <form>
-          <div class="mb-3">
-            <label for="availability" class="form-label">Disponibilité</label>
-            <select id="availability" name="availability" class="form-select">
-              <option>Accepte de nouveaux patients</option>
-              <option>Accepte de nouveaux patients sous conditions</option>
-              <option>Ne prend plus de nouveaux patients</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="availability_conditions" class="form-label">Conditions</label>
-            <textarea class="form-control" id="availability_conditions">Seulement les jeudis.</textarea>
-          </div>
-          <div class="mb-3 d-flex">
-            <label for="spoken_languages" class="form-label">Langues parlées</label>
-          </div>
-          <div class="mb-3">
-            <label for="has_parking" class="form-label">Accès en voiture</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_parking" id="has_parking1">
-              <label class="form-check-label" for="has_parking1">
-                Parking à disposition des patients
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_parking" id="has_parking2" checked>
-              <label class="form-check-label" for="has_parking2">
-                Pas de parking.
-              </label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="has_disabled_access" class="form-label">Accessible aux personnes à mobilité réduite?</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access1">
-              <label class="form-check-label" for="has_disabled_access1">
-                Oui, place de parc réservée et accessiblité dans le bâtiment
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access2" checked>
-              <label class="form-check-label" for="has_disabled_access2">
-                Non, barrières d'accessiblité présentes
-              </label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="has_lift" class="form-label">Toutes les prestations sont accessibles sans escalier?</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_lift" id="has_lift1">
-              <label class="form-check-label" for="has_lift1">
-                Oui, accessible de plein pied ou par ascenseur
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_lift" id="has_lift2" checked>
-              <label class="form-check-label" for="has_lift2">
-                Non
-              </label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="has_lift" class="form-label">Etes-vous membre du Réseau de Soins Neuchâtelois?</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_lift" id="has_lift1">
-              <label class="form-check-label" for="has_lift1">
-                Oui
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="has_lift" id="has_lift2" checked>
-              <label class="form-check-label" for="has_lift2">
-                Non
-              </label>
-            </div>
-          </div>
-        </form>
-      </div>
-
-    </div>
+  <custom-loading></custom-loading>
+  <div class="container" id="initially-hidden" style="visibility: hidden;">
+    <doctor-edit></doctor-edit>
   </div>
 </body>
 

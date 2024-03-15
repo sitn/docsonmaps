@@ -1,0 +1,142 @@
+<div class="row mt-5">
+  <div class="col border-end">
+    <h3>Informations issues de NeMedReg</h3>
+    <div class="alert alert-info mt-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill"
+        viewBox="0 0 16 16">
+        <path
+          d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+      </svg>
+      Les informations ci-dessous sont issues de NeMedReg et leur modification doivent être demandées auprès du Service
+      de la Santé publique.
+    </div>
+    <form>
+      <fieldset disabled class="row g-3">
+        <div class="col-md-6">
+          <label for="nom" class="form-label">Nom(s)</label>
+          <input type="text" id="nom" class="form-control" value="${this.#doctor?.nom}">
+        </div>
+        <div class="col-md-6">
+          <label for="prenoms" class="form-label">Prénom(s)</label>
+          <input type="text" id="prenoms" class="form-control" value="${this.#doctor?.prenoms}">
+        </div>
+        <div class="col-12">
+          <label for="address" class="form-label">Adresse</label>
+          <input type="text" id="address" class="form-control" value="${this.#doctor?.address}">
+        </div>
+        <div class="col-md-3">
+          <label for="nopostal" class="form-label">NPA</label>
+          <input type="text" id="nopostal" class="form-control" value="${this.#doctor?.nopostal}">
+        </div>
+        <div class="col-md-9">
+          <label for="localite" class="form-label">Localité</label>
+          <input type="text" id="localite" class="form-control" value="${this.#doctor?.localite}">
+        </div>
+        <div class="col-md-3">
+          <label for="profession" class="form-label">Profession</label>
+          <input type="text" id="profession" class="form-control" value="${this.#doctor?.profession}">
+        </div>
+        <div class="col-md-9">
+          <label for="specialites" class="form-label">Spécialités</label>
+          <input type="text" id="specialites" class="form-control" value="${this.#doctor?.specialites}">
+        </div>
+      </fieldset>
+    </form>
+    <a href="mailto:scsp.opam@ne.ch&subject=Demande%20de%20modifications%20NeMedReg"
+      target="_top" class="btn btn-primary mt-3">Demander des modifications NeMedReg</a>
+  </div>
+  <div class="col">
+    <h3>Modifier mes informations</h3>
+    <form id="editData">
+      <div class="mb-3">
+        <label for="availability" class="form-label">Disponibilité</label>
+        <select id="availability" name="availability" class="form-select">
+          <option value="Unknown" ?selected="${this.#doctor?.availability === 'Unknown'}" disabled>
+            Veuillez choisir une option
+          </option>
+          <option value="Available" ?selected="${this.#doctor?.availability === 'Available'}">
+            Accepte de nouveaux patients
+          </option>
+          <option value="Available with conditions" ?selected="${this.#doctor?.availability === 'Available with conditions'}">
+            Accepte de nouveaux patients sous conditions
+          </option>
+          <option value="Not available" ?selected="${this.#doctor?.availability === 'Not available'}">
+            Ne prend plus de nouveaux patients
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="availability_conditions" class="form-label">Conditions</label>
+        <textarea class="form-control" id="availability_conditions">${this.#doctor?.availability_conditions}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="spoken_languages" class="form-label">Langues parlées
+          <span class="text-danger"><strong><em>(Bientôt disponible à la modification)</em></strong></span></label>
+          <input type="text" class="form-control" id="spoken_languages" value="${this.#doctor?.spoken_languages}" disabled>
+      </div>
+      <div class="mb-3">
+        <label for="has_parking" class="form-label">Accès en voiture</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_parking" id="has_parking1" ?checked="${this.#doctor?.has_parking}">
+          <label class="form-check-label" for="has_parking1">
+            Parking à disposition des patients
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_parking" id="has_parking2" ?checked="${!this.#doctor?.has_parking}">
+          <label class="form-check-label" for="has_parking2">
+            Pas de parking.
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="has_disabled_access" class="form-label">Accessible aux personnes à mobilité réduite?</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access1" ?checked="${this.#doctor?.has_disabled_access}">
+          <label class="form-check-label" for="has_disabled_access1">
+            Oui, place de parc réservée et accessiblité dans le bâtiment
+          </label>
+        </div>
+        <!-- TODO: check when is null -->
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access2" ?checked="${!this.#doctor?.has_disabled_access}">
+          <label class="form-check-label" for="has_disabled_access2">
+            Non, barrières d'accessiblité présentes
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="has_lift" class="form-label">Toutes les prestations sont accessibles sans escalier?</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_lift" id="has_lift1" ?checked="${this.#doctor?.has_lift}">
+          <label class="form-check-label" for="has_lift1">
+            Oui, accessible de plein pied ou par ascenseur
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="has_lift" id="has_lift2" ?checked="${this.#doctor?.has_lift}">
+          <label class="form-check-label" for="has_lift2">
+            Non
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="is_rsn_member" class="form-label">Etes-vous membre du Réseau de Soins Neuchâtelois?</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member1" ?checked="${this.#doctor?.is_rsn_member}">
+          <label class="form-check-label" for="is_rsn_member1">
+            Oui
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member2" ?checked="${this.#doctor?.is_rsn_member}">
+          <label class="form-check-label" for="is_rsn_member2">
+            Non
+          </label>
+        </div>
+      </div>
+      <span class="text-danger"><strong><em>(Envoi des modifications en cours de développement)</em></strong></span></label><br>
+      <button class="btn btn-primary" type="button" disabled>Enregistrer mes modifications</button>
+    </form>
+  </div>
+</div>
