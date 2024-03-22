@@ -42,12 +42,12 @@
         </div>
       </fieldset>
     </form>
-    <a href="mailto:scsp.opam@ne.ch&subject=Demande%20de%20modifications%20NeMedReg"
-      target="_top" class="btn btn-primary mt-3">Demander des modifications NeMedReg</a>
+    <a href="mailto:scsp.opam@ne.ch&subject=Demande%20de%20modifications%20NeMedReg" target="_top"
+      class="btn btn-primary mt-3">Demander des modifications NeMedReg</a>
   </div>
   <div class="col">
     <h3>Modifier mes informations</h3>
-    <form id="editData">
+    <form id="editData" class="mb-3">
       <div class="mb-3">
         <label for="availability" class="form-label">Disponibilité</label>
         <select id="availability" name="availability" class="form-select">
@@ -57,7 +57,8 @@
           <option value="Available" ?selected="${this.#doctor?.availability === 'Available'}">
             Accepte de nouveaux patients
           </option>
-          <option value="Available with conditions" ?selected="${this.#doctor?.availability === 'Available with conditions'}">
+          <option value="Available with conditions"
+            ?selected="${this.#doctor?.availability === 'Available with conditions'}">
             Accepte de nouveaux patients sous conditions
           </option>
           <option value="Not available" ?selected="${this.#doctor?.availability === 'Not available'}">
@@ -67,23 +68,30 @@
       </div>
       <div class="mb-3">
         <label for="availability_conditions" class="form-label">Conditions</label>
-        <textarea class="form-control" id="availability_conditions">${this.#doctor?.availability_conditions}</textarea>
+        <textarea name="availability_conditions" class="form-control" id="availability_conditions">
+          ${this.#doctor?.availability_conditions}
+        </textarea>
       </div>
       <div class="mb-3">
-        <label for="spoken_languages" class="form-label">Langues parlées
-          <span class="text-danger"><strong><em>(Bientôt disponible à la modification)</em></strong></span></label>
-          <input type="text" class="form-control" id="spoken_languages" value="${this.#doctor?.spoken_languages}" disabled>
+        <label for="spoken_languages" class="form-label">
+          Langue(s) parlée(s), séparées par des virgules si plusieurs
+        </label>
+        <input type="text" name="spoken_languages" class="form-control" id="spoken_languages"
+          value="${this.#doctor?.spoken_languages.join(', ')}" required pattern="([a-zA-ZÀ-Ÿ \\-]{3,}( ?, ?)?)+"
+          title="Les langues parlées doivent être séparées par des virgules">
       </div>
       <div class="mb-3">
         <label for="has_parking" class="form-label">Accès en voiture</label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_parking" id="has_parking1" ?checked="${this.#doctor?.has_parking}">
+          <input class="form-check-input" type="radio" name="has_parking" id="has_parking1" value="true"
+            ?checked="${this.#doctor?.has_parking === true}" required>
           <label class="form-check-label" for="has_parking1">
             Parking à disposition des patients
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_parking" id="has_parking2" ?checked="${!this.#doctor?.has_parking}">
+          <input class="form-check-input" type="radio" name="has_parking" id="has_parking2" value="false"
+            ?checked="${this.#doctor?.has_parking === false}">
           <label class="form-check-label" for="has_parking2">
             Pas de parking.
           </label>
@@ -92,14 +100,15 @@
       <div class="mb-3">
         <label for="has_disabled_access" class="form-label">Accessible aux personnes à mobilité réduite?</label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access1" ?checked="${this.#doctor?.has_disabled_access}">
+          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access1"
+            value="true" ?checked="${this.#doctor?.has_disabled_access === true}" required>
           <label class="form-check-label" for="has_disabled_access1">
             Oui, place de parc réservée et accessiblité dans le bâtiment
           </label>
         </div>
-        <!-- TODO: check when is null -->
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access2" ?checked="${!this.#doctor?.has_disabled_access}">
+          <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access2"
+            value="false" ?checked="${this.#doctor?.has_disabled_access === false}">
           <label class="form-check-label" for="has_disabled_access2">
             Non, barrières d'accessiblité présentes
           </label>
@@ -108,13 +117,15 @@
       <div class="mb-3">
         <label for="has_lift" class="form-label">Toutes les prestations sont accessibles sans escalier?</label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_lift" id="has_lift1" ?checked="${this.#doctor?.has_lift}">
+          <input class="form-check-input" type="radio" name="has_lift" id="has_lift1" value="true"
+            ?checked="${this.#doctor?.has_lift === true}" required>
           <label class="form-check-label" for="has_lift1">
             Oui, accessible de plein pied ou par ascenseur
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="has_lift" id="has_lift2" ?checked="${this.#doctor?.has_lift}">
+          <input class="form-check-input" type="radio" name="has_lift" id="has_lift2" value="false"
+            ?checked="${this.#doctor?.has_lift === false}">
           <label class="form-check-label" for="has_lift2">
             Non
           </label>
@@ -123,20 +134,21 @@
       <div class="mb-3">
         <label for="is_rsn_member" class="form-label">Etes-vous membre du Réseau de Soins Neuchâtelois?</label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member1" ?checked="${this.#doctor?.is_rsn_member}">
+          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member1"
+            value="true" ?checked="${this.#doctor?.is_rsn_member === true}" required>
           <label class="form-check-label" for="is_rsn_member1">
             Oui
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member2" ?checked="${this.#doctor?.is_rsn_member}">
+          <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member2"
+            value="false" ?checked="${this.#doctor?.is_rsn_member === false}">
           <label class="form-check-label" for="is_rsn_member2">
             Non
           </label>
         </div>
       </div>
-      <span class="text-danger"><strong><em>(Envoi des modifications en cours de développement)</em></strong></span></label><br>
-      <button class="btn btn-primary" type="button" disabled>Enregistrer mes modifications</button>
+      <button id="submit-changes" class="btn btn-primary">Enregistrer mes modifications</button>
     </form>
   </div>
 </div>

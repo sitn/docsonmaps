@@ -96,6 +96,29 @@ class DoctorsManager {
     return doctorData;
   }
 
+  static async submitDoctorChanges(guid: string, data: FormData) {
+    const doctorData = Object.fromEntries(data.entries()) as Record<string, string | boolean | string[]>;
+    const spokenLanguagesString = doctorData['spoken_languages'].toString();
+    doctorData['spoken_languages'] = spokenLanguagesString.split(',').map(lang => lang.trim());
+    console.log(doctorData)
+    await fetch(`${API_URL}/doctors/edit/${guid}/`, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(doctorData)
+    }).then((response) => {
+      if (response.ok) {
+        // TODO : snack
+        alert("Modifications apportées avec succès.");
+        return true;
+      }
+      alert("Une erreur s'est produite, merci de nous contacter.")
+      return true;
+    })
+  }
+
   private prepareDoctor(doctorFeature: Feature) {
     doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
     const availability = doctorFeature.get('availability');
