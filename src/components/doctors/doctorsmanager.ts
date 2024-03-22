@@ -97,7 +97,7 @@ class DoctorsManager {
   }
 
   private prepareDoctor(doctorFeature: Feature) {
-    doctorFeature.set('specialites', doctorFeature.get('specialites') || 'Médecin');
+    doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
     const availability = doctorFeature.get('availability');
     const conditions = doctorFeature.get('availability_conditions');
     switch (availability) {
