@@ -61,11 +61,29 @@ class DoctorsManager {
    */
   constructor() {
     this.stateManager = StateManager.getInstance();
-    this.stateManager.state.loading = true;
+    const state = this.stateManager.state;
+    state.loading = true;
     this.getDoctors().then((docs) => {
       docs.map((doctor) => this.prepareDoctor(doctor as Feature));
-      this.stateManager.state.doctors = docs;
-      this.stateManager.state.loading = false;
+      state.doctors = docs;
+      state.loading = false;
+      // TODO: refactor this, repetition of featurelist
+      const currentDoctorId = new URLSearchParams(window.location.search).get('currentDoctor');
+      if (currentDoctorId) {
+        const currentDoctor = docs.find(doctor => doctor.get('id_person_address') === currentDoctorId);
+        if (currentDoctor) {
+          state.resultPanelHeader = {
+            title: `${currentDoctor.get('nom')} ${currentDoctor.get('prenoms')}`,
+            title2: `${currentDoctor.get('specialites')}`,
+          };
+          state.currentDoctor = currentDoctor as Feature;
+          this.stateManager.state.interface.resultPanel = {
+            isVisible: true,
+            mode: 'DOCTOR'
+          }
+        }
+        window.history.pushState({}, document.title, '/');
+      }
     });
   }
 
