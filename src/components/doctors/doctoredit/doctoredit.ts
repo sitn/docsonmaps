@@ -28,13 +28,25 @@ class DoctorEdit extends HTMLElement {
     const buttonEl = this.shadowRoot?.querySelector('#submit-changes') as HTMLButtonElement;
     buttonEl.addEventListener('click', (e) => this.handleSubmit(e));
 
-    this.#spokenLanguagesEl?.addEventListener('focusout', (e) => this.handleSpokenLanguages(e))
+    this.#spokenLanguagesEl?.addEventListener('focusout', () => this.handleSpokenLanguages());
+
+    const availabilityEl = this.shadowRoot?.querySelector('#availability') as HTMLSelectElement;
+    availabilityEl.addEventListener('change', (e) => this.handleAvailabilityChange(e));
   }
 
-  handleSpokenLanguages(e: FocusEvent) {
+  handleSpokenLanguages() {
     const initialValue = this.#spokenLanguagesEl?.value as string;
     const spoken_languages = initialValue?.split(',').map(lang => lang.trim());
     this.#spokenLanguagesEl!.value = spoken_languages.join(', ');
+  }
+
+  handleAvailabilityChange(e: Event) {
+    // #TODO: do a type for this
+    this.#doctor!.availability = (e.target as HTMLSelectElement).value as "Available" | "Available with conditions" | "Not available" | "Unknown";
+    if (this.#doctor!.availability !== 'Available with conditions') {
+      this.#doctor!.availability_conditions = "";
+    }
+    this.update();
   }
 
   handleSubmit(e: MouseEvent) {

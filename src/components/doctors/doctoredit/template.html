@@ -42,7 +42,7 @@
         </div>
       </fieldset>
     </form>
-    <a href="mailto:scsp.opam@ne.ch&subject=Demande%20de%20modifications%20NeMedReg" target="_top"
+    <a href="mailto:scsp.opam@ne.ch?subject=Demande%20de%20modifications%20NeMedReg" target="_top"
       class="btn btn-primary mt-3">Demander des modifications NeMedReg</a>
   </div>
   <div class="col">
@@ -68,7 +68,9 @@
       </div>
       <div class="mb-3">
         <label for="availability_conditions" class="form-label">Conditions</label>
-        <textarea name="availability_conditions" class="form-control" id="availability_conditions">
+        <textarea name="availability_conditions" class="form-control" id="availability_conditions"
+          ?required="${this.#doctor?.availability === 'Available with conditions'}"
+          ?disabled="${this.#doctor?.availability !== 'Available with conditions'}">
           ${this.#doctor?.availability_conditions}
         </textarea>
       </div>

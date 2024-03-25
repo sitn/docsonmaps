@@ -82,7 +82,7 @@ class DoctorsManager {
             mode: 'DOCTOR'
           }
         }
-        window.history.pushState({}, document.title, '/');
+        window.history.pushState({}, document.title, window.location.pathname);
       }
     });
   }
