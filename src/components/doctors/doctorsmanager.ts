@@ -118,7 +118,6 @@ class DoctorsManager {
     const doctorData = Object.fromEntries(data.entries()) as Record<string, string | boolean | string[]>;
     const spokenLanguagesString = doctorData['spoken_languages'].toString();
     doctorData['spoken_languages'] = spokenLanguagesString.split(',').map(lang => lang.trim());
-    console.log(doctorData)
     await fetch(`${API_URL}/doctors/edit/${guid}/`, {
       method: "PUT",
       mode: "cors",
