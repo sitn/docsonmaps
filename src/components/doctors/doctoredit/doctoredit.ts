@@ -4,6 +4,8 @@ import StateManager from '../../../state/statemanager';
 import { Doctor } from '../../../state/state';
 import DoctorsManager from '../doctorsmanager';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 class DoctorEdit extends HTMLElement {
   template?: () => Hole;
   stateManager: StateManager;
@@ -56,7 +58,7 @@ class DoctorEdit extends HTMLElement {
       const guid = new URLSearchParams(window.location.search).get('guid') as string;
       const formData = new FormData(this.#formElement);
       DoctorsManager.submitDoctorChanges(guid, formData).then(() => {
-        window.location.href = `/?currentDoctor=${this.#doctor!.id_person_address}`;
+        window.location.href = `${VITE_BASE_URL}/?currentDoctor=${this.#doctor!.id_person_address}`;
       });
     }
   }

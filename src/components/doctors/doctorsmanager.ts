@@ -3,6 +3,7 @@ import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const SPECIALITIES = [
   'Médecin généraliste',
@@ -107,7 +108,7 @@ class DoctorsManager {
           alert(
             "Le lien utilisé n'est plus valable ou a déjà été utilisé. "
             + "Demandez-en un autre si vous souhaitez modifier vos informations.");
-          window.location.href = '/';
+          window.location.href = VITE_BASE_URL;
         }
         return response.json();
       })
