@@ -26,6 +26,79 @@
       </a>
     </div>
   </div>
+  <hr>
+  <div class="row mt-2" 
+    ?hidden="${this.#doctor?.get('has_disabled_access') === null && this.#doctor?.get('has_lift') === null && this.#doctor?.get('has_parking') === null}">
+    <h5>Accessibilité</h5>
+    <div class="col-12" ?hidden="${this.#doctor?.get('has_disabled_access') === null}">
+      <div class="text-primary" ?hidden="${this.#doctor?.get('has_disabled_access') !== true}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+        </svg> Accessible aux personnes à mobilité réduite
+      </div>
+      <div class="text-danger" ?hidden="${this.#doctor?.get('has_disabled_access') !== false}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+        </svg> Non accessible aux personnes à mobilité réduite
+      </div>
+    </div>
+    <div class="col-12" ?hidden="${this.#doctor?.get('has_lift') === null}">
+      <div class="text-primary" ?hidden="${this.#doctor?.get('has_lift') !== true}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+        </svg> Accessible de plein pied ou par ascenseur
+      </div>
+      <div class="text-danger" ?hidden="${this.#doctor?.get('has_lift') !== false}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+        </svg> Pas d'ascenseur
+      </div>
+    </div>
+    <div class="col-12" ?hidden="${this.#doctor?.get('has_parking') === null}">
+      <div class="text-primary" ?hidden="${this.#doctor?.get('has_parking') !== true}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+        </svg> Parking à disposition des patients
+      </div>
+      <div class="text-danger" ?hidden="${this.#doctor?.get('has_parking') !== false}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+        </svg> Pas de parking à disposition pour les patients
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-2" ?hidden="${this.#doctor?.get('spoken_languages') === null}">
+    <h5>Langues parlées</h5>
+    <div class="col-12">
+      ${this.#doctor?.get('spoken_languages').join(',').replaceAll(',', ' · ')}
+    </div>
+  </div>
+  <hr>
+  <div class="row mt-2" ?hidden="${this.#doctor?.get('is_rsn_member') === null}">
+    <h5>Réseau de soins</h5>    
+    <div class="col-12">
+      <div class="text-primary" ?hidden="${this.#doctor?.get('is_rsn_member') !== true}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+        </svg> Membre du Réseau de Soins Neuchâtelois
+      </div>
+      <div class="text-danger" ?hidden="${this.#doctor?.get('is_rsn_member') !== false}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+        </svg> Ce médecin n'est pas membre du Réseau de Soins Neuchâtelois
+      </div>
+    </div>
+  </div>
+  <hr>
   <div class="row mt-2 align-items-center">
     <div class="col-8">Suggérer des modifications</div>
     <div class="col-4 text-end">

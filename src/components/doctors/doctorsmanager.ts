@@ -159,6 +159,7 @@ class DoctorsManager {
         doctorFeature.set('text_color', 'danger');
         break;
       default:
+        doctorFeature.set('availability', 'Unknown');
         doctorFeature.set('availability_fr', 'Accepte peut-être des nouveaux patients');
         doctorFeature.set('text_color', 'light');
     }
