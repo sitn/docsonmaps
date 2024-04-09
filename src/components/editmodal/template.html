@@ -2,8 +2,8 @@
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modifier une information</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        <h5 class="modal-title">Suggérer des modifications</h5>
+        <button id="close-button" type="button" class="btn-close" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
         <div ?hidden="${this.#modalPage !== 'MAIN'}">
@@ -16,33 +16,40 @@
             modifications</button>
         </div>
         <div ?hidden="${this.#modalPage !== 'DOCTOR'}">
-          <form>
+          <form id="submit-form">
             <div class="mb-3">
               <label for="input-email" class="form-label">Veuillez saisir le courriel correspondant à votre cabinet. Un
                 lien vous sera envoyé pour mettre à jour vos
                 informations.</label>
-              <input type="email" class="form-control" id="input-email">
+              <input type="email" class="form-control" id="input-email" required>
             </div>
             <button class="btn btn-primary" type="button" id="submit">Envoyer</button>
           </form>
         </div>
         <div ?hidden="${this.#modalPage !== 'USER'}">
-          <form>
-            <div class="alert alert-danger">
-              ⚠ Cette fonctionnalité n'est pas encore implémentée!
-            </div>
+          <form id="suggest-form">
             <div class="mb-3">
-              <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin">
-                <option selected>Modifier la disponibilité:</option>
-                <option value="false">N'accepte plus de nouveaux patients</option>
-                <option value="true">Accepte des nouveaux patients</option>
+              <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin" required>
+                <option selected disabled>Modifier la disponibilité:</option>
+                <option value="Unknown">
+                  Inconnu
+                </option>
+                <option value="Available">
+                  Accepte de nouveaux patients
+                </option>
+                <option value="Available with conditions">
+                  Accepte de nouveaux patients sous conditions
+                </option>
+                <option value="Not available">
+                  Ne prend plus de nouveaux patients
+                </option>
               </select>
             </div>
             <div class="mb-3">
-              <label for="user-remarks" class="form-label">Autres modifications à apporter:</label>
-              <textarea name="user-remarks" class="form-control" id="user-remarks" rows="3"></textarea>
+              <label for="comments" class="form-label">Autres modifications à apporter ou remarques:</label>
+              <textarea name="comments" class="form-control" id="comments" rows="3"></textarea>
             </div>
-            <button class="btn btn-primary" type="button" disabled>Envoyer</button>
+            <button class="btn btn-primary" type="button" id="suggest">Envoyer</button>
           </form>
         </div>
       </div>

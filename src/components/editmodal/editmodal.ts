@@ -23,25 +23,33 @@ class EditModal extends HTMLElement {
 
   registerEvents() {
     this.stateManager.subscribe('interface.isEditModalVisible', (_oldValue, newValue) => this.toggleModal(newValue as boolean));
-    this.#modalElement!.querySelector('#cancel-button')!.addEventListener('click', () => this.handleCancel());
     this.#modalElement!.querySelector('#submit')!.addEventListener('click', () => this.handleSubmit());
-    this.#modalElement!.addEventListener('hidden.bs.modal', () => this.closeModal());
+    this.#modalElement!.querySelector('#suggest')!.addEventListener('click', () => this.handleSuggest());
+    this.#modalElement!.querySelector('#cancel-button')!.addEventListener('click', () => this.handleCancel());
+    this.#modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.handleCancel());
   }
 
-  toggleModal(isVisible: boolean) {
-    if (isVisible) {
+  toggleModal(shouldBeVisible: boolean) {
+    if (shouldBeVisible) {
       this.#modalEdit?.show();
     } else {
+      this.#modalPage = 'MAIN';
       this.#modalEdit?.hide();
     }
   }
 
-  handleSubmit() {
+  #getCurrentDoctorId() {
     const state = this.stateManager.state;
     const currentDoctor = state.currentDoctor as Feature;
-    const doctorId = currentDoctor.get('id_person_address');
+    return currentDoctor.get('id_person_address');
+  }
+
+  handleSubmit() {
+    const doctorId = this.#getCurrentDoctorId();
     const inputEmailEl = this.#modalElement!.querySelector('#input-email') as HTMLInputElement;
-    if (!inputEmailEl.validity.valid) {
+    const submitFormEl = this.#modalElement!.querySelector('#submit-form') as HTMLFormElement;
+    submitFormEl.reportValidity();
+    if (!submitFormEl.checkValidity()) {
       return;
     }
     fetch(`${API_URL}/doctors/${doctorId}/request_change/`, {
@@ -62,6 +70,43 @@ class EditModal extends HTMLElement {
       } else {
         alert("Une erreur s'est produite, merci de nous contacter.")
       }
+      submitFormEl.reset();
+      this.#modalPage = 'MAIN';
+      this.update();
+      this.closeModal();
+    })
+  }
+
+  handleSuggest() {
+    const doctorId = this.#getCurrentDoctorId();
+    const availabilityEl = this.#modalElement!.querySelector('#availability') as HTMLSelectElement;
+    const commentsEl = this.#modalElement!.querySelector('#comments') as HTMLTextAreaElement;
+    const suggestFormEl = this.#modalElement!.querySelector('#suggest-form') as HTMLFormElement;
+    suggestFormEl.reportValidity();
+    if (!suggestFormEl.checkValidity()) {
+      return;
+    }
+    fetch(`${API_URL}/doctors/suggest`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        doctor: doctorId,
+        availability: availabilityEl.value,
+        comments: commentsEl.value
+      })
+    }).then((response) => {
+      if (response.ok) {
+        // TODO : snack
+        alert("Merci pour votre suggestion. Une fois vérifiées les informations seront mises à jour.");
+      } else if (response.status == 429) {
+        alert("Plusieurs suggestions on déjà été signalées sur ce médecin récemment, merci de patienter.")
+      } else {
+        alert("Une erreur s'est produite, merci de contacter le SITN: sitn@ne.ch.")
+      }
+      suggestFormEl.reset();
       this.#modalPage = 'MAIN';
       this.update();
       this.closeModal();
