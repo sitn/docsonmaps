@@ -2,7 +2,7 @@ import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import { Modal } from 'bootstrap';
-import { SPECIALITIES } from '../doctors/doctorsmanager';
+import DoctorsManager, { SPECIALITIES } from '../doctors/doctorsmanager';
 import { Feature } from 'ol';
 
 class SearchModal extends HTMLElement {
@@ -100,7 +100,7 @@ class SearchModal extends HTMLElement {
         }
         return null;
       });
-      this.stateManager.state.featureList = results;
+      this.stateManager.state.featureList = results.sort(DoctorsManager.compareByAvailability);
     }
     this.update()
   }

@@ -1,6 +1,7 @@
 import GeoJSON from 'ol/format/GeoJSON';
 import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
+import { FeatureLike } from 'ol/Feature';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -88,6 +89,11 @@ class DoctorsManager {
     });
   }
 
+  static compareByAvailability(doctorA: FeatureLike, doctorB: FeatureLike): number {
+    console.log(doctorA)
+    return doctorA.get('idx') - doctorB.get('idx');
+  }
+
   private async getDoctors() {
     const doctorsData = await fetch(`${API_URL}/doctors/as_geojson/`, {
       headers: {
@@ -144,9 +150,12 @@ class DoctorsManager {
     switch (availability) {
       case 'Available':
         doctorFeature.set('availability_fr', 'Accepte de nouveaux patients');
+        // idx is an index based on availability for sorting
+        doctorFeature.set('idx', 0);
         doctorFeature.set('text_color', 'primary');
         break;
       case 'Available with conditions':
+        doctorFeature.set('idx', 1);
         doctorFeature.set('text_color', 'warning');
         if (conditions) {
           doctorFeature.set('availability_fr', conditions);
@@ -156,11 +165,13 @@ class DoctorsManager {
         break;
       case 'Not available':
         doctorFeature.set('availability_fr', 'Ne prend plus de nouveaux patients');
+        doctorFeature.set('idx', 3);
         doctorFeature.set('text_color', 'danger');
         break;
       default:
         doctorFeature.set('availability', 'Unknown');
         doctorFeature.set('availability_fr', 'Accepte peut-être des nouveaux patients');
+        doctorFeature.set('idx', 2);
         doctorFeature.set('text_color', 'light');
     }
   }
