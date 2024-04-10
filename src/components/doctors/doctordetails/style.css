@@ -1,1 +1,25 @@
 @import url('https://sitn.ne.ch/sitnstatic/sitn-bootstrap@v5.2.3/sitn-bootstrap.css');
+
+.alert.alert-warning {
+    --bs-alert-color: black;
+    --bs-alert-bg: #f6c8c8;
+    --bs-alert-border-color: black;
+}
+
+.alert.alert-primary {
+    --bs-alert-color: white;
+    --bs-alert-bg: #26a59a;
+    --bs-alert-border-color: white;
+}
+
+.alert.alert-danger {
+    --bs-alert-color: white;
+    --bs-alert-bg: #e24848;
+    --bs-alert-border-color: white;
+}
+
+.alert.alert-light {
+    --bs-alert-color: black;
+    --bs-alert-bg: #f8f9fa;
+    --bs-alert-border-color: black;
+}
