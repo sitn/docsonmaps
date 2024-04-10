@@ -90,7 +90,6 @@ class DoctorsManager {
   }
 
   static compareByAvailability(doctorA: FeatureLike, doctorB: FeatureLike): number {
-    console.log(doctorA)
     return doctorA.get('idx') - doctorB.get('idx');
   }
 

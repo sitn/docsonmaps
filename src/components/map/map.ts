@@ -78,17 +78,25 @@ class SitnMap extends HTMLElement {
     });
   }
 
-  registerEvents() {
-    
+  /**
+   * Computes a padding depending on viewport so fit to feature will always look
+   * centered even with overlays on the map
+   * @returns an array of 4 ints to be used as padding for view fit
+   */
+  static getViewPadding() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    if (width > 540) {
+      return [0, 0, 0, 540];
+    }
+    return [0, 0, .6 * height, 0];
   }
-
 
   connectedCallback() {
     this.update();
     const mapTarget = this.shadowRoot!.getElementById('map') as HTMLDivElement;
     this.#map.setTarget(mapTarget);
     this.stateManager.state.map = this.#map;
-    this.registerEvents();
   }
 
   update() {

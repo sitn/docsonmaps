@@ -5,8 +5,9 @@ import { Cluster } from 'ol/source';
 import { Icon, Style } from 'ol/style';
 import { Feature } from 'ol';
 import { boundingExtent } from 'ol/extent';
-import { Point } from 'ol/geom';
+import { Point, SimpleGeometry } from 'ol/geom';
 import { DoctorFilter } from "../../state/state";
+import SitnMap from '../map/map';
 
 class DoctorsLayerManager {
   stateManager: StateManager;
@@ -70,7 +71,15 @@ class DoctorsLayerManager {
   registerEvents() {
     this.stateManager.subscribe('doctors', (_oldDoctors, _newDoctors) => this.resetDoctors());
     this.stateManager.subscribe('currentFilter', (_oldFilter, newFilter) => this.applyFilter(newFilter as DoctorFilter));
+    this.stateManager.subscribe('currentDoctor', (_old, newValue) => this.zoomToDoctor(newValue as Feature));
     this.addClickListener();
+  }
+
+  zoomToDoctor(doctor: Feature) {
+    const olMap = this.stateManager.state.map!;
+    const view = olMap.getView();
+    const doctorGeom = doctor.getGeometry() as SimpleGeometry;
+    view.fit(doctorGeom, { duration: 250, padding: SitnMap.getViewPadding(), maxZoom: 12 });
   }
 
   applyFilter(filter: DoctorFilter) {

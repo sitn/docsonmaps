@@ -19,17 +19,22 @@ class SearchBar extends HTMLElement {
 
   registerEvents() {
     this.shadowRoot!.getElementById('searchbar')?.addEventListener('click', () => this.toggle());
+    this.stateManager.subscribe('currentFilter', (_old, newValue) => this.handleFilterChange(newValue));
+  }
 
-    this.stateManager.subscribe('currentFilter.doctorType', (_oldValue, newValue) => {
-      const currentFilter = newValue as string;
-      if (currentFilter !== '') {
-        this.#searchText = currentFilter;
-        this.#classList = '';
-        this.update();
-      } else {
-        this.resetSearchBar();
-      }
-    });
+  handleFilterChange(newValue: unknown) {
+    const currentFilter = newValue as DoctorFilter;
+    if (currentFilter.doctorType !== '') {
+      this.setSearchText(currentFilter.doctorType);
+    } else {
+      this.resetSearchBar();
+    }
+  }
+
+  setSearchText(searchText: string) {
+    this.#searchText = searchText;
+    this.#classList = '';
+    this.update();
   }
 
   resetSearchBar() {
