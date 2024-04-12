@@ -89,8 +89,22 @@ class DoctorsManager {
     });
   }
 
-  static compareByAvailability(doctorA: FeatureLike, doctorB: FeatureLike): number {
-    return doctorA.get('idx') - doctorB.get('idx');
+  /**
+   * This function is meant to be used as a param of Array.sort()
+   * @param doctorA first doctor as an ol Feature or FeatureLike
+   * @param doctorB second doctor as an ol Feature or FeatureLike
+   * @returns positive integer if doctorA should appear after doctorB,
+   * negative if before, and zero if they are equivalent
+   */
+  static compareByAvailabilityAndName(doctorA: FeatureLike, doctorB: FeatureLike): number {
+    // idx is availability casted into an integer
+    const idxComparison = doctorA.get('idx') - doctorB.get('idx');
+    if (idxComparison !== 0) {
+      return idxComparison;
+    }
+    const nameA = doctorA.get('nom');
+    const nameB = doctorB.get('nom');
+    return nameA.localeCompare(nameB);
   }
 
   private async getDoctors() {

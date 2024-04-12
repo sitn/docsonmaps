@@ -92,6 +92,7 @@ class SearchModal extends HTMLElement {
           feature.get('nom'),
           feature.get('prenoms'),
           feature.get('specialites'),
+          feature.get('localite'),
         ];
         const searchString = searchFields.join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         const searchTerm = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -100,7 +101,7 @@ class SearchModal extends HTMLElement {
         }
         return null;
       });
-      this.stateManager.state.featureList = results.sort(DoctorsManager.compareByAvailability);
+      this.stateManager.state.featureList = results.sort(DoctorsManager.compareByAvailabilityAndName);
     }
     this.update()
   }
