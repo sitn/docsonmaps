@@ -2,6 +2,7 @@ import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
+import DoctorsManager from '../doctors/doctorsmanager';
 
 
 class FeatureList extends HTMLElement {
@@ -21,7 +22,7 @@ class FeatureList extends HTMLElement {
     this.stateManager.subscribe('featureList', (_oldValue, newValue) => {
       const featureList = newValue as Feature[];
       if (featureList.length > 0) {
-        this.#doctorsList = featureList;
+        this.#doctorsList = featureList.sort(DoctorsManager.compareByAvailabilityAndName);
         this.update();
       }
     });
