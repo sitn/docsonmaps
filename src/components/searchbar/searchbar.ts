@@ -1,7 +1,7 @@
 import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
-import { DoctorFilter } from "../../state/state";
+import State, { DoctorFilter } from "../../state/state";
 
 class SearchBar extends HTMLElement {
   template?: () => Hole;
@@ -10,11 +10,13 @@ class SearchBar extends HTMLElement {
   styleUrl = './style.css';
   #searchText = 'Rechercher';
   #classList = ' fake-input-placeholder'
+  #state: State;
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.stateManager = StateManager.getInstance();
+    this.#state = this.stateManager.state;
   }
 
   registerEvents() {
@@ -40,9 +42,10 @@ class SearchBar extends HTMLElement {
   resetSearchBar() {
     this.#searchText = 'Rechercher';
     this.#classList = ' fake-input-placeholder';
-    this.stateManager.state.currentFilter = {
+    const currentDisponibility = this.#state.currentFilter.doctorDisponibility;
+    this.#state.currentFilter = {
       doctorType: '',
-      doctorDisponibility: false,
+      doctorDisponibility: currentDisponibility,
     };
     this.update();
   }

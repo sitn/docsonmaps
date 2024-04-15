@@ -82,39 +82,37 @@ class DoctorsLayerManager {
     view.fit(doctorGeom, { duration: 250, padding: SitnMap.getViewPadding(), maxZoom: 12 });
   }
 
+  /**
+   * Will filter the current features in app and store them this.#doctorsSource
+   * @param filter either by availability, spectiality or both
+   * @returns 
+   */
   applyFilter(filter: DoctorFilter) {
-    if (filter.doctorType === '' && filter.doctorDisponibility === false) {
+    if (filter.doctorType === '' && !filter.doctorDisponibility) {
       this.resetDoctors();
-    } else {
-      const filteredDoctors: Feature[] = [];
-      this.doctors().forEach((doctorFeature) => {
-        if (filter.doctorType === '' && filter.doctorDisponibility === true) {
-          if (doctorFeature.get('availability') === 'Available') {
-            filteredDoctors.push(doctorFeature);
-          }
-        } else if (filter.doctorType === 'Médecin généraliste' && filter.doctorDisponibility === false) {
-          if (doctorFeature.get('specialites').includes('Médecine interne générale')
-              || doctorFeature.get('specialites').includes('Médecin praticien')) {
-            filteredDoctors.push(doctorFeature);
-          }
-        } else if (filter.doctorType === 'Médecin généraliste' && filter.doctorDisponibility === true) {
-          if ((doctorFeature.get('specialites').includes('Médecine interne générale')
-              || doctorFeature.get('specialites').includes('Médecin praticien'))
-              && doctorFeature.get('availability') === 'Available') {
-            filteredDoctors.push(doctorFeature);
-       }
-        } else if (doctorFeature.get('specialites').includes(filter.doctorType)
-                  && doctorFeature.get('availability') === 'Available'
-                  && filter.doctorDisponibility === true) {
-            filteredDoctors.push(doctorFeature);
-        } else if (doctorFeature.get('specialites').includes(filter.doctorType)
-                  && filter.doctorDisponibility === false) {
-            filteredDoctors.push(doctorFeature);
-      }
-      });
-      this.#doctorsSource.clear();
-      this.#doctorsSource.addFeatures(filteredDoctors);
+      return;
     }
+
+    console.log(filter);
+
+    const filteredDoctors: Feature[] = [];
+
+    this.doctors().forEach((doctorFeature) => {
+      const specialities = doctorFeature.get('specialites');
+      const availability = doctorFeature.get('availability');
+      const matchesType = filter.doctorType === '' || specialities.includes(filter.doctorType) ||
+        (filter.doctorType === 'Médecin généraliste' &&
+          (specialities.includes('Médecine interne générale') ||
+            specialities.includes('Médecin praticien')));
+
+      const matchesAvailability = !filter.doctorDisponibility || availability === 'Available';
+
+      if (matchesType && matchesAvailability) {
+        filteredDoctors.push(doctorFeature);
+      }
+    });
+    this.#doctorsSource.clear();
+    this.#doctorsSource.addFeatures(filteredDoctors);
   }
 
   addClickListener() {
@@ -158,7 +156,7 @@ class DoctorsLayerManager {
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
     const titles = {
       title: currentSite?.name || firstFeature.get('address'),
-      title2:currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
+      title2: currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
     }
     this.stateManager.state.resultPanelHeader = titles;
     this.stateManager.state.featureList = this.prepareOrderedList(features);
