@@ -29,11 +29,9 @@
         <div ?hidden="${this.#modalPage !== 'USER'}">
           <form id="suggest-form">
             <div class="mb-3">
-              <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin" required>
-                <option selected disabled>Modifier la disponibilité:</option>
-                <option value="Unknown">
-                  Inconnu
-                </option>
+              <label for="comments" class="form-label">Modifier la disponibilité:</label>
+              <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin">
+                <option value="" selected>Je ne souhaite pas modifier la disponibilité</option>
                 <option value="Available">
                   Accepte de nouveaux patients
                 </option>

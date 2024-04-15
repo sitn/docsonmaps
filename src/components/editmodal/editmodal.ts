@@ -82,21 +82,26 @@ class EditModal extends HTMLElement {
     const availabilityEl = this.#modalElement!.querySelector('#availability') as HTMLSelectElement;
     const commentsEl = this.#modalElement!.querySelector('#comments') as HTMLTextAreaElement;
     const suggestFormEl = this.#modalElement!.querySelector('#suggest-form') as HTMLFormElement;
-    suggestFormEl.reportValidity();
-    if (!suggestFormEl.checkValidity()) {
+    if (!availabilityEl.value && !commentsEl.value) {
+      alert('Le formulaire de suggestion de modification est vide.')
       return;
     }
+
+    const data: { [key: string]: string } = {
+      doctor: doctorId,
+      comments: commentsEl.value
+    }
+    if (availabilityEl.value) {
+      data.availability = availabilityEl.value;
+    }
+
     fetch(`${API_URL}/doctors/suggest`, {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        doctor: doctorId,
-        availability: availabilityEl.value,
-        comments: commentsEl.value
-      })
+      body: JSON.stringify(data)
     }).then((response) => {
       if (response.ok) {
         // TODO : snack

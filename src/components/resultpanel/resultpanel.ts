@@ -2,7 +2,7 @@ import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import { Offcanvas } from 'bootstrap';
-import { ResultPanelHeader } from '../../state/state';
+import State from '../../state/state';
 import { Feature } from 'ol';
 import { ResultPanelMode } from '../../state/state';
 import { ResultPanelInterface } from '../../state/state';
@@ -13,15 +13,26 @@ class ResultPanel extends HTMLElement {
   templateUrl = './template.html';
   styleUrl = './style.css';
   #title = '';
-  #title2 = '';
+  #title2Element?: HTMLHeadingElement;
   #offcanvas?: Offcanvas;
   #offcanvasElement?: HTMLDivElement;
   #contentType: ResultPanelMode = 'LIST';
+  #state: State;
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.stateManager = StateManager.getInstance();
+    this.#state = this.stateManager.state;
+  }
+
+  private setTitles() {
+    if (this.#title2Element) {
+      this.#title = this.#state.resultPanelHeader.title;
+      this.#title2Element.innerHTML = this.#state.resultPanelHeader.title2;
+      return
+    }
+    console.error('setTitles() called before DOM is ready')
   }
 
   registerEvents() {
@@ -29,8 +40,7 @@ class ResultPanel extends HTMLElement {
       const panelInterface = newValue as ResultPanelInterface
       if (panelInterface.isVisible) {
         this.#contentType = panelInterface.mode;
-        this.#title = this.stateManager.state.resultPanelHeader.title;
-        this.#title2 = this.stateManager.state.resultPanelHeader.title2;
+        this.setTitles()
         this.#offcanvas?.show();
       } else {
         if (this.#offcanvasElement!.classList.contains('show')) {
@@ -40,10 +50,8 @@ class ResultPanel extends HTMLElement {
       this.update();
     });
 
-    this.stateManager.subscribe('resultPanelHeader', (_oldValue, newValue) => {
-      const titles = newValue as ResultPanelHeader;
-      this.#title = titles.title;
-      this.#title2 = titles.title2;
+    this.stateManager.subscribe('resultPanelHeader', (_oldValue, _newValue) => {
+      this.setTitles();
     });
 
     this.stateManager.subscribe('featureList', (_oldValue, newValue) => {
@@ -76,7 +84,8 @@ class ResultPanel extends HTMLElement {
   connectedCallback() {
     this.update();
     this.#offcanvasElement = this.shadowRoot?.getElementById('offcanvas-panel') as HTMLDivElement;
-    this.#offcanvas = new Offcanvas(this.#offcanvasElement)
+    this.#offcanvas = new Offcanvas(this.#offcanvasElement);
+    this.#title2Element = this.shadowRoot?.getElementById('title2') as HTMLHeadingElement;
     this.resizePanel();
     this.registerEvents();
   }

@@ -154,9 +154,17 @@ class DoctorsLayerManager {
     const firstFeature = features[0];
     let address = `${firstFeature.get('address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
-    const titles = {
-      title: currentSite?.name || firstFeature.get('address'),
-      title2: currentSite?.address || `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`,
+    let titles = {
+      title: firstFeature.get('address'),
+      title2: `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`
+    }
+    if (currentSite) {      
+      titles = {
+        title: currentSite.name,
+        title2: `${currentSite.address}<br>
+          <a class="link-primary lh-base" href="${currentSite.link}" target="_blank">
+          Voir les prestations</a>`
+      }
     }
     this.stateManager.state.resultPanelHeader = titles;
     this.stateManager.state.featureList = this.prepareOrderedList(features);
