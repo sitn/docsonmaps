@@ -75,11 +75,19 @@
         </textarea>
       </div>
       <div class="mb-3">
+        <label for="public_phone" class="form-label">
+          Numéro de téléphone de contact public (format: +41 32 123 45 67)
+        </label>
+        <input type="tel" name="public_phone" class="form-control" id="public_phone"
+          value="${this.#doctor?.public_phone}" pattern="\\+[0-9]{2} [0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+          title="Le format du téléphone ne correspond pas au format attendu, exemple: +41 32 123 45 67">
+      </div>
+      <div class="mb-3">
         <label for="spoken_languages" class="form-label">
           Langue(s) parlée(s), séparées par des virgules si plusieurs
         </label>
         <input type="text" name="spoken_languages" class="form-control" id="spoken_languages"
-          value="${this.#doctor?.spoken_languages.join(', ')}" required pattern="([a-zA-ZÀ-Ÿ \\-]{3,}( ?, ?)?)+"
+          value="${this.#doctor?.spoken_languages ? this.#doctor.spoken_languages.join(', ') : ''}" required pattern="([a-zA-ZÀ-Ÿ \\-]{3,}( ?, ?)?)+"
           title="Les langues parlées doivent être séparées par des virgules">
       </div>
       <div class="mb-3">

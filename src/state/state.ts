@@ -32,6 +32,7 @@ export type Doctor = {
   spoken_languages: string[],
   availability: 'Available' | 'Available with conditions' | 'Not available' | 'Unknown',
   availability_conditions: string,
+  public_phone: string,
   has_parking: boolean,
   has_disabled_access: boolean,
   has_lift: boolean,

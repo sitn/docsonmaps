@@ -17,12 +17,12 @@
       </a>
     </div>
   </div>
-  <div class="row mt-2 align-items-center" ?hidden="${this.#doctor?.get('notel') === null}">
+  <div class="row mt-2 align-items-center" ?hidden="${this.#doctor?.get('public_phone') === null}">
     <div class="col-8">
-      Tél.: ${this.#doctor?.get('notel')}
+      Tél.: ${this.#doctor?.get('public_phone')}
     </div>
     <div class="col-4 text-end">
-      <a class="btn text-primary" target="_blank" href="${'tel:' + this.#doctor?.get('notel')}">
+      <a class="btn text-primary" target="_blank" href="${'tel:' + this.#doctor?.get('public_phone')}">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-telephone"
           viewBox="0 0 16 16">
           <path
