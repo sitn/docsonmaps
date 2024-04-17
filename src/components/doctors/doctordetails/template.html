@@ -17,7 +17,7 @@
       </a>
     </div>
   </div>
-  <div class="row mt-2 align-items-center" ?hidden="${this.#doctor?.get('public_phone') === null}">
+  <div class="row mt-2 align-items-center" ?hidden="${this.#doctor?.get('public_phone') === null || this.#doctor?.get('public_phone') === ''}">
     <div class="col-8">
       Tél.: ${this.#doctor?.get('public_phone')}
     </div>

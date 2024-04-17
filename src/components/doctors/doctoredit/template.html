@@ -48,6 +48,21 @@
   <div class="col">
     <h3>Modifier mes informations</h3>
     <form id="editData" class="mb-3">
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="change-email">
+        <label class="form-check-label" for="change-email">Je souhaite modifier mon email</label>
+      </div>
+      <div class="mb-3">        
+        <label for="email1" class="form-label">Nouvelle adresse email d'authentification:</label>
+        <input ?disabled="${!this.#changeEmail}" type="email" class="form-control" name="email1" id="email1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">L'email sera utilisé uniquement pour vous permettre de modifier vos informations. <br>Il ne sera jamais partagé avec le public ni communiqué à des tiers.</div>
+      </div>
+      <div class="mb-3">        
+        <label for="email2" class="form-label">Confirmez l'adresse email précédemment saisie:</label>
+        <input ?disabled="${!this.#changeEmail}" type="email" class="form-control" name="email2" id="email2">
+      </div>
+      <div class="col" ?disabled="${!this.#changeEmail}"></div>
+      <div class="col" ?disabled="${!this.#changeEmail}"></div>
       <div class="mb-3">
         <label for="availability" class="form-label">Disponibilité</label>
         <select id="availability" name="availability" class="form-select">
