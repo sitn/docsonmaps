@@ -66,7 +66,10 @@ class EditModal extends HTMLElement {
         // TODO : snack
         alert("Un email vous a été envoyé.");
       } else if (response.status == 429) {
-        alert("Un email vous a déjà été envoyé récement. Si vous pensez que c'est une erreur merci de nous contacter.")
+        alert("Un email vous a déjà été envoyé récemment.\n"
+        + "Veuillez attendre 10 minutes avant de redemander un lien unique.\n" 
+        + "Si vous pensez que c’est une erreur, merci de nous contacter à:\n"
+        + "sitn@ne.ch")
       } else {
         alert("Une erreur s'est produite, merci de nous contacter.")
       }
