@@ -57,7 +57,7 @@ class DoctorEdit extends HTMLElement {
     this.update();
   }
 
-  handleEmailChange(e: InputEvent) {
+  handleEmailChange(e: Event) {
     const target = e.target as HTMLInputElement
     this.#changeEmail = target.checked;
     if (!this.#changeEmail) {
