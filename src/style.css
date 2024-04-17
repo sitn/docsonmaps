@@ -5,6 +5,18 @@ body {
   font-family: sans-serif;
 }
 
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-size: large;
+  text-align: center;
+  padding: 1em;
+  background: #F3D60B;
+}
+
 custom-loading, sitn-map {
   position: absolute;
   top: 0;
