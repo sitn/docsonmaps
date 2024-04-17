@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  front: # name of the container
+    image: sitn-medecins
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - "5021:80"

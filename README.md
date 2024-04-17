@@ -7,14 +7,16 @@ npm start
 
 ## Deploy
 
-Create a `.env.prod` file and set your base_url like:
+Create a `.env.prod` file and set your vars like:
 
 ```env
 VITE_BASE_URL=/path/to/your/app
+VITE_API_URL=your.backend.com/apps/health
 ```
 
-Then run
+Set the DOCKER_HOST environment variable and launch the build/run :
 
 ```
-npm run build -- --mode prod
+$env:DOCKER_HOST="<PATH_TO_REMOTE_HOST>"
+docker compose up -d --build
 ```

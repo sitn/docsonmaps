@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Hôpital Pourtalès - Réseau hospitalier neuchâtelois",
+    "link": "https://www.rhne.ch/prestations",
+    "address": "Rue de la Maladière 45, 2000 Neuchâtel"
+  },
+  {
+    "name": "Hôpital de la Chaux-de-Fonds - Réseau hospitalier neuchâtelois",
+    "link": "https://www.rhne.ch/prestations",
+    "address": "Rue de Chasseral 20, 2300 La Chaux-de-Fonds"
+  },
+  {
+    "name": "Policlinique du Val-de-Travers - Réseau hospitalier neuchâtelois",
+    "link": "https://www.rhne.ch/prestations",
+    "address": "Rue de l'Hôpital 4, 2108 Couvet"
+  },
+  {
+    "name": "Hôpital de la Providence",
+    "link": "https://www.swissmedical.net/fr/hopitaux/providence/annuaire-medecins",
+    "address": "Faubourg de l'Hôpital 81, 2000 Neuchâtel"
+  },
+  {
+    "name": "Clinique Montbrillant SA",
+    "link": "https://www.swissmedical.net/fr/hopitaux/montbrillant/annuaire-medecins",
+    "address": "Rue de la Montagne 2, 2300 La Chaux-de-Fonds"
+  },
+  {
+    "name": "Medbase Neuchâtel La Côte",
+    "link": "https://www.medbase.ch/fr/les-centres/detail/medbase-neuchatel-la-cote",
+    "address": "Rue du Petit-Berne 14, 2035 Corcelles"
+  },
+  {
+    "name": "Clinique Volta SA",
+    "link": "https://cliniquevolta.ch/#",
+    "address": "Rue Numa-Droz 185, 2300 La Chaux-de-Fonds"
+  },
+  {
+    "name": "Centre Médical des Cadolles",
+    "link": "https://cmdcadolles.ch/prestations/",
+    "address": "Rue du Plan 28, 2000 Neuchâtel"
+  }
+]
