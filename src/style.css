@@ -17,6 +17,13 @@ body {
   background: #F3D60B;
 }
 
+@media screen and (max-width: 1380px) {
+  div.banner {
+    top: auto;
+    bottom: 0;
+  }
+}
+
 custom-loading, sitn-map {
   position: absolute;
   top: 0;
@@ -53,6 +60,13 @@ search-bar, search-modal, result-panel {
   z-index: 9;
 }
 
+/* Filter button */
+#filter-button {
+  position: relative;
+  margin-top: 1rem;
+  z-index: 9;
+}
+
 @media screen and (max-width: 600px) {
   #about-button {
     position: relative;
@@ -61,13 +75,6 @@ search-bar, search-modal, result-panel {
     margin-top: 1rem;
     z-index: 9;
   }
-}
-
-/* Filter button */
-#filter-button {
-  position: relative;
-  margin-top: 1rem;
-  z-index: 9;
 }
 
 @media screen and (min-width: 540px) {
