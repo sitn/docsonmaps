@@ -75,7 +75,7 @@ class DoctorsManager {
         const currentDoctor = docs.find(doctor => doctor.get('id_person_address') === currentDoctorId);
         if (currentDoctor) {
           state.resultPanelHeader = {
-            title: `${currentDoctor.get('nom')} ${currentDoctor.get('prenoms')}`,
+            title: `${currentDoctor.get('nom')} ${currentDoctor.get('first_name')}`,
             title2: `${currentDoctor.get('specialites')}`,
           };
           state.currentDoctor = currentDoctor as Feature;
@@ -158,6 +158,11 @@ class DoctorsManager {
 
   private prepareDoctor(doctorFeature: Feature) {
     doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
+    let first_name = doctorFeature.get('prenoms');
+    if (doctorFeature.get('public_first_name')?.length > 1) {
+      first_name = doctorFeature.get('public_first_name')
+    }
+    doctorFeature.set('first_name', first_name);
     const availability = doctorFeature.get('availability');
     const conditions = doctorFeature.get('availability_conditions');
     switch (availability) {

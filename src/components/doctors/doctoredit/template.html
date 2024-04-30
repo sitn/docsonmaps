@@ -91,6 +91,13 @@
       </div>
       <div class="mb-3">
         <label for="public_phone" class="form-label">
+          Prénom affiché sur la fiche. Laisser vide si le(s) prénom(s) NeMedReg sont corrects.
+        </label>
+        <input type="text" name="public_first_name" class="form-control" id="public_first_name"
+          value="${this.#doctor?.public_first_name}">
+      </div>
+      <div class="mb-3">
+        <label for="public_phone" class="form-label">
           Numéro de téléphone de contact public (format: +41 32 123 45 67)
         </label>
         <input type="tel" name="public_phone" class="form-control" id="public_phone"

@@ -90,12 +90,18 @@ class SearchModal extends HTMLElement {
       const results = doctors.filter((feature) => {
         const searchFields = [
           feature.get('nom'),
-          feature.get('prenoms'),
+          feature.get('first_name'),
           feature.get('specialites'),
           feature.get('localite'),
         ];
-        const searchString = searchFields.join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        const searchTerm = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const searchString = searchFields.join(' ').replace('-', ' ')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
+        const searchTerm = value.replace('-', ' ')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
         if (searchString.includes(searchTerm)) {
           return feature;
         }
