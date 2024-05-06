@@ -14,9 +14,6 @@ class DoctorEdit extends HTMLElement {
   #doctor?: Doctor;
   #formElement?: HTMLFormElement;
   #spokenLanguagesEl?: HTMLInputElement; 
-  #inputEmail1El?: HTMLInputElement; 
-  #inputEmail2El?: HTMLInputElement; 
-  #changeEmail = false;
 
   constructor() {
     super();
@@ -37,9 +34,6 @@ class DoctorEdit extends HTMLElement {
 
     const availabilityEl = this.shadowRoot?.querySelector('#availability') as HTMLSelectElement;
     availabilityEl.addEventListener('change', (e) => this.handleAvailabilityChange(e));
-
-    const changeEmailEl  = this.shadowRoot?.querySelector('#change-email') as HTMLInputElement;
-    changeEmailEl.addEventListener('change', (e) => this.handleEmailChange(e));
   }
 
   handleSpokenLanguages() {
@@ -57,31 +51,9 @@ class DoctorEdit extends HTMLElement {
     this.update();
   }
 
-  handleEmailChange(e: Event) {
-    const target = e.target as HTMLInputElement
-    this.#changeEmail = target.checked;
-    if (!this.#changeEmail) {
-      this.#inputEmail1El!.value = "";
-      this.#inputEmail2El!.value = "";
-    }
-    this.update();
-  }
-
-  #validateEmail() {
-    if (this.#changeEmail) {
-      const is_valid = this.#inputEmail1El!.value === this.#inputEmail2El!.value;
-      if (!is_valid) {
-        alert('Les deux emails saisis ne correspondent pas.')
-      }
-      return is_valid;
-    }
-    return true
-  }
-
   #validateForm() {
-    let isValid = this.#validateEmail();
     this.#formElement?.reportValidity();
-    isValid = isValid && this.#formElement!.checkValidity()
+    let isValid = this.#formElement!.checkValidity()
     return isValid
   }
 
@@ -90,10 +62,6 @@ class DoctorEdit extends HTMLElement {
     if (this.#validateForm()) {
       const guid = new URLSearchParams(window.location.search).get('guid') as string;
       const formData = new FormData(this.#formElement);
-      if (!this.#changeEmail) {
-        formData.delete('email1');
-        formData.delete('email2');
-      }
       DoctorsManager.submitDoctorChanges(guid, formData).then(() => {
         window.location.href = `${VITE_BASE_URL}/?currentDoctor=${this.#doctor!.id_person_address}`;
       });
@@ -104,8 +72,6 @@ class DoctorEdit extends HTMLElement {
     this.update();
     this.#formElement = this.shadowRoot?.querySelector('#editData') as HTMLFormElement;
     this.#spokenLanguagesEl = this.shadowRoot?.querySelector('#spoken_languages') as HTMLInputElement;
-    this.#inputEmail1El = this.shadowRoot?.querySelector('#email1') as HTMLInputElement;
-    this.#inputEmail2El  = this.shadowRoot?.querySelector('#email2') as HTMLInputElement;
     this.registerEvents();
   }
 

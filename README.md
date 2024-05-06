@@ -7,6 +7,8 @@ npm start
 
 ## Deploy
 
+Don't forget to add to `version.html` what you've done.
+
 Create a `.env.prod` file and set your vars like:
 
 ```env
