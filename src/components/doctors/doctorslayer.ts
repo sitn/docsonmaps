@@ -160,9 +160,9 @@ class DoctorsLayerManager {
     }
     if (currentSite) {      
       titles = {
-        title: currentSite.name,
+        title: currentSite.site_name,
         title2: `${currentSite.address}<br>
-          <a class="link-primary lh-base" href="${currentSite.link}" target="_blank">
+          <a class="link-primary lh-base" href="${currentSite.public_link}" target="_blank">
           Voir les prestations</a>`
       }
     }
