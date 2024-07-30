@@ -42,10 +42,10 @@ class SearchBar extends HTMLElement {
   resetSearchBar() {
     this.#searchText = 'Rechercher';
     this.#classList = ' fake-input-placeholder';
-    const currentDisponibility = this.#state.currentFilter.doctorDisponibility;
+    const currentDisponibilities = this.#state.currentFilter.doctorDisponibilities;
     this.#state.currentFilter = {
       doctorType: '',
-      doctorDisponibility: currentDisponibility,
+      doctorDisponibilities: currentDisponibilities,
     };
     this.update();
   }

@@ -38,7 +38,7 @@ export type Doctor = {
 
 export type DoctorFilter = {
   doctorType: string,
-  doctorDisponibility: boolean,
+  doctorDisponibilities: string[],
 }
 
 export type ResultPanelMode = 'LIST' | 'DOCTOR';
@@ -82,7 +82,12 @@ class State {
   sites: Site[] = [];
   currentFilter: DoctorFilter = {
     doctorType: '',
-    doctorDisponibility: false,
+    doctorDisponibilities: [
+      'Available',
+      'Available with conditions',
+      'Not available',
+      'Unknown'
+    ],
   };
 
   resetInterface() {

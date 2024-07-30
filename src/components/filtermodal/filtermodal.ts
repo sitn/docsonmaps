@@ -11,6 +11,7 @@ class FilterModal extends HTMLElement {
   styleUrl = './style.css';
   #modalFilter?: Modal;
   #modalElement?: HTMLDivElement;
+  #checkBoxes?: NodeListOf<HTMLInputElement>;
 
   constructor() {
     super();
@@ -20,18 +21,27 @@ class FilterModal extends HTMLElement {
 
   registerEvents() {
     this.stateManager.subscribe('interface.isFilterModalVisible', (_oldValue, newValue) => this.toggleModal(newValue as boolean));
-    this.shadowRoot!.getElementById('filterCheckBox')?.addEventListener('change', (e) => {
-        let check = (e.target as HTMLInputElement).checked;
-        this.callFilterState(check)
+    this.#checkBoxes?.forEach((checkBox) => {
+      checkBox.addEventListener('change', () => this.callFilterState());
     });
     this.#modalElement!.addEventListener('hidden.bs.modal', () => this.closeModal());
+    this.#modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.closeModal());
   }
 
-  callFilterState(filter: boolean) {
+  /**
+   * Gets selected disponibilites from checkboxes and put them in the state.
+   */
+  callFilterState() {
     const doctor_type = this.stateManager.state.currentFilter.doctorType;
+    const selectedDisponibilities: string[] = [];
+    this.#checkBoxes?.forEach((checkBox) => {
+      if (checkBox.checked) {
+        selectedDisponibilities.push(checkBox.value);
+      }
+    });
     this.stateManager.state.currentFilter = {
       doctorType: doctor_type,
-      doctorDisponibility: filter,
+      doctorDisponibilities: selectedDisponibilities,
     };
   }
 
@@ -54,7 +64,8 @@ class FilterModal extends HTMLElement {
   connectedCallback() {
     this.update();
     this.#modalElement = this.shadowRoot?.getElementById('filter-modal') as HTMLDivElement;
-    this.#modalFilter = new Modal(this.#modalElement)
+    this.#modalFilter = new Modal(this.#modalElement);
+    this.#checkBoxes = this.shadowRoot!.querySelectorAll('input[name="filterCheckBox"]') as NodeListOf<HTMLInputElement>;
     this.registerEvents();
   }
 

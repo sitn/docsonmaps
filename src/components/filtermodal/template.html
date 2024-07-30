@@ -6,15 +6,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        <div>
+        <fieldset class="mb-3">
+          <legend class="pt-0">Filtrer par disponibilité</legend>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="filterCheckBox">
-            <label class="form-check-label" for="filterCheckBox">
-              Ne montrer que les médecins acceptant les nouveaux patients
+            <input class="form-check-input" type="checkbox" name="filterCheckBox" value="Available" id="filterCheckBox1"
+              checked>
+            <label class="form-check-label" for="filterCheckBox1">
+              Accepte de nouveaux patients
             </label>
-          </div>          
-        </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="filterCheckBox" value="Available with conditions"
+              id="filterCheckBox2" checked>
+            <label class="form-check-label" for="filterCheckBox2">
+              Accepte de nouveaux patients sous conditions
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="filterCheckBox" value="Not available"
+              id="filterCheckBox3" checked>
+            <label class="form-check-label" for="filterCheckBox3">
+              Ne prend plus de nouveaux patients
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="filterCheckBox" value="Unknown" id="filterCheckBox4"
+              checked>
+            <label class="form-check-label" for="filterCheckBox4">
+              Disponibilité inconnue, information manquante
+            </label>
+          </div>
+        </fieldset>
         <hr>
+      </div>
+      <div class="modal-footer">
+        <button id="close-button" type="button" class="btn btn-primary">Ok</button>
       </div>
     </div>
   </div>
