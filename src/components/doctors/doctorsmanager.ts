@@ -158,6 +158,7 @@ class DoctorsManager {
 
   private prepareDoctor(doctorFeature: Feature) {
     doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
+    doctorFeature.set('compl_formation', (doctorFeature.get('compl_formation') || '').replaceAll('<br>', ' · '));
     let first_name = doctorFeature.get('prenoms');
     if (doctorFeature.get('public_first_name')?.length > 1) {
       first_name = doctorFeature.get('public_first_name')

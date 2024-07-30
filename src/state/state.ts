@@ -7,23 +7,20 @@ export type ResultPanelHeader = {
 }
 
 export interface iSite {
-  name: string;
-  link: string;
+  site_name: string;
+  public_link: string;
   address: string;
-  isHidden?: boolean;
 }
 
 export class Site {
-  name: string;
-  link: string;
+  site_name: string;
+  public_link: string;
   address: string;
-  isHidden: boolean;
 
   constructor(jsonData: iSite) {
-    this.name = jsonData['name'];
-    this.link = jsonData['link'];
+    this.site_name = jsonData['site_name'];
+    this.public_link = jsonData['public_link'];
     this.address = jsonData['address'];
-    this.isHidden = jsonData['isHidden'] || false;
   }
 }
 
