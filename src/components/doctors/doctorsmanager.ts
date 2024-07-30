@@ -6,6 +6,13 @@ import { FeatureLike } from 'ol/Feature';
 const API_URL = import.meta.env.VITE_API_URL;
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+export const BANNED_TRAININGS = [
+  'Cytopathologie',
+  'Pratique du laboratoire au cabinet médical',
+  'Qualification pour les ex. radiologiques à fortes doses en cardiologie',
+  'Qualification pour les examens radiologiques à fortes doses'
+]
+
 export const SPECIALITIES = [
   'Médecin généraliste',
   'Gynécologie et obstétrique',
@@ -156,14 +163,35 @@ class DoctorsManager {
     })
   }
 
+  /**
+   * Each doctor is prepared for the app.
+   * @param doctorFeature 
+   */
   private prepareDoctor(doctorFeature: Feature) {
+    // specialities are separated with a ·
     doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
-    doctorFeature.set('compl_formation', (doctorFeature.get('compl_formation') || '').replaceAll('<br>', ' · '));
+    
+    // some additionnal trainings are banned because irrelevant in this app
+    const compl_formations = doctorFeature.get('compl_formation');
+    const clean_formations: string[] = [];
+    if (compl_formations) {
+      const formations: string[] = compl_formations.split('<br>')
+      formations.forEach(formation => {
+        if (!BANNED_TRAININGS.includes(formation)) {
+          clean_formations.push(formation)
+        }
+      });
+      doctorFeature.set('compl_formation', clean_formations.join(' · '));
+    }
+    
+    // in case doctor set its preferred first_name, we give priority to it.
     let first_name = doctorFeature.get('prenoms');
     if (doctorFeature.get('public_first_name')?.length > 1) {
       first_name = doctorFeature.get('public_first_name')
     }
     doctorFeature.set('first_name', first_name);
+
+    // availability are matched with a translation, priority index and a color
     const availability = doctorFeature.get('availability');
     const conditions = doctorFeature.get('availability_conditions');
     switch (availability) {
