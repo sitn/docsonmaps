@@ -88,7 +88,7 @@ class DoctorsLayerManager {
    * @returns 
    */
   applyFilter(filter: DoctorFilter) {
-    if (filter.doctorType === '' && !filter.doctorDisponibility) {
+    if (filter.doctorType === '' && filter.doctorDisponibilities.length === 4) {
       this.resetDoctors();
       return;
     }
@@ -105,7 +105,8 @@ class DoctorsLayerManager {
           (specialities.includes('Médecine interne générale') ||
             specialities.includes('Médecin praticien')));
 
-      const matchesAvailability = !filter.doctorDisponibility || availability === 'Available';
+      const matchesAvailability = filter.doctorDisponibilities.length === 4 ||
+        filter.doctorDisponibilities.includes(availability);
 
       if (matchesType && matchesAvailability) {
         filteredDoctors.push(doctorFeature);
@@ -158,7 +159,7 @@ class DoctorsLayerManager {
       title: firstFeature.get('address'),
       title2: `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`
     }
-    if (currentSite) {      
+    if (currentSite) {
       titles = {
         title: currentSite.site_name,
         title2: `${currentSite.address}<br>

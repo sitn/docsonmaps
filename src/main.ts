@@ -56,8 +56,8 @@ filter_button?.addEventListener("click", () => {
   }
 });
 stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
-  const has_filter = (newValue as DoctorFilter).doctorDisponibility;
-  if (has_filter) {
+  // if selected disponibilities are less than 4
+  if ((newValue as DoctorFilter).doctorDisponibilities.length < 4) {
     filter_button!.classList.remove('btn-primary');
     filter_button!.classList.add('btn-danger');
   } else {

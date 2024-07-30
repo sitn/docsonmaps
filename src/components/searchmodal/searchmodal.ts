@@ -65,16 +65,16 @@ class SearchModal extends HTMLElement {
   }
 
   clickSpecialityHandler(speciality: string) {
-    const currentDisponibility = this.stateManager.state.currentFilter.doctorDisponibility;
+    const currentDisponibilities = this.stateManager.state.currentFilter.doctorDisponibilities;
     if(speciality === this.#resetFilterText) {
       this.stateManager.state.currentFilter = {
         doctorType: '',
-        doctorDisponibility: currentDisponibility,
+        doctorDisponibilities: currentDisponibilities,
       };
     } else {
       this.stateManager.state.currentFilter = {
         doctorType: speciality,
-        doctorDisponibility: currentDisponibility,
+        doctorDisponibilities: currentDisponibilities,
       }
     }
     this.closeModal();
