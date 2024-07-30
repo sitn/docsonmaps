@@ -93,8 +93,6 @@ class DoctorsLayerManager {
       return;
     }
 
-    console.log(filter);
-
     const filteredDoctors: Feature[] = [];
 
     this.doctors().forEach((doctorFeature) => {
