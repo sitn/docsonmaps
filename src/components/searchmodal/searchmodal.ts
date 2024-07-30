@@ -92,6 +92,7 @@ class SearchModal extends HTMLElement {
           feature.get('nom'),
           feature.get('first_name'),
           feature.get('specialites'),
+          feature.get('compl_formation'),
           feature.get('localite'),
         ];
         const searchString = searchFields.join(' ').replace('-', ' ')
