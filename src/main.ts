@@ -47,8 +47,9 @@ about_button?.addEventListener("click", () => {
   }
 });
 
-const filter_button = document.querySelector("#filter-button");
-filter_button?.addEventListener("click", () => {
+const filter_button = document.querySelector("#filter-button")!;
+const filter_button_text = document.querySelector("#filter-button-text")!;
+filter_button.addEventListener("click", () => {
   if (state.interface.isFilterModalVisible === true) {
     state.interface.isFilterModalVisible = false
   } else {
@@ -58,10 +59,12 @@ filter_button?.addEventListener("click", () => {
 stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
   // if selected disponibilities are less than 4
   if ((newValue as DoctorFilter).doctorDisponibilities.length < 4) {
-    filter_button!.classList.remove('btn-primary');
-    filter_button!.classList.add('btn-danger');
+    filter_button.classList.remove('btn-primary');
+    filter_button.classList.add('btn-danger');
+    filter_button_text.textContent = 'La carte est filtrée';
   } else {
-    filter_button!.classList.remove('btn-danger');
-    filter_button!.classList.add('btn-primary');
+    filter_button.classList.remove('btn-danger');
+    filter_button.classList.add('btn-primary');
+    filter_button_text.textContent = 'Filtrer la carte';
   }
 });
