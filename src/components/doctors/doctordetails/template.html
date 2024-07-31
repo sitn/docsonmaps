@@ -1,5 +1,5 @@
 <div class="mx-3">
-  <p ?hidden=${this.#doctor?.get('compl_formation')==''}>${this.#doctor?.get('compl_formation')}</p>
+  <p ?hidden=${!this.#doctor?.get('compl_formation')}>${this.#doctor?.get('compl_formation')}</p>
   <div class="${'alert alert-' + this.#doctor?.get('text_color')}">${this.#doctor?.get('availability_fr')}</div>
   <div class="row">
     <div class="col-8">
