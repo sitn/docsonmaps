@@ -35,6 +35,7 @@ custom-loading, sitn-map {
 custom-loading {
   z-index: 1;
   pointer-events: none;
+  touch-action: none;
 }
 
 search-bar, search-modal, result-panel {
