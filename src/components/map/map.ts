@@ -74,6 +74,7 @@ class SitnMap extends HTMLElement {
         projection,
         resolutions,
         constrainResolution: true,
+        enableRotation: false,
       }),
     });
   }

@@ -15,11 +15,9 @@ export default defineConfig(({ mode }) => {
           edit: resolve(__dirname, 'src/edit/index.html'),
         },
       },
-      sourcemap: true,
       emptyOutDir: true,
       chunkSizeWarningLimit: '1MB',
       target: 'es2020',
-      minify: false,
     },
     plugins: [InlineTemplatesPlugin(), RestartPlugin()]
   }

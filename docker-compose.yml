@@ -1,6 +1,6 @@
 services:
   front: # name of the container
-    image: sitn-medecins
+    image: ne2harbor.ne.ch/sgrf/sitn-medecins
     build:
       context: .
     restart: unless-stopped
