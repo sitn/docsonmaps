@@ -19,7 +19,6 @@ class StateManager {
       this.#state,
       (path, value, oldValue, _applyData) => {
         if (!this.areEqual(oldValue, value)) {
-          console.debug(`${path} has changed.`);
           this.onChange(path, oldValue, value);
         }
       },
@@ -79,9 +78,6 @@ class StateManager {
       this.#callbacks[pathAsString] = [];
     }
     this.#callbacks[pathAsString].push(callback);
-    console.debug(
-      `Subscribing to ${path}. ${this.#callbacks[pathAsString].length} are currently subscribing ${pathAsString}.`
-    );
 
     // At the application start, perhaps the value in state was initialized before the subscribe method was called
     // Therefore, if the subscribed value os not null, undefined or an empty object or array
@@ -117,7 +113,6 @@ class StateManager {
         if (index !== -1) {
           found = true;
           callbacks.splice(index, 1);
-          console.debug(`Unsubscribing to ${path}. ${this.#callbacks[path].length} subscribtions remaining.`);
         }
       }
       if (!found) {
