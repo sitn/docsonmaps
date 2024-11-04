@@ -16,7 +16,6 @@
 <body>
   <div id="initially-hidden" style="visibility: hidden;">
     <div class="desktop-container">
-      <div class="banner" style="visibility: hidden;">⚠ Données en cours de consolidation ⚠</div>
       <search-bar></search-bar>
       <search-modal></search-modal>
       <result-panel></result-panel>
@@ -38,20 +37,6 @@
   </div>
   <custom-loading></custom-loading>
   <sitn-map></sitn-map>
-  <script>
-    function setBannerVisibility() {
-      const currentDate = new Date();
-      const targetDate = new Date('2024-10-21');
-
-      const banner = document.querySelector('.banner');
-      console.log(currentDate >= targetDate)
-
-      if (currentDate < targetDate) {
-        banner.style.visibility = 'visible';
-      } 
-    }
-    setBannerVisibility();
-  </script>
 </body>
 
 </html>
