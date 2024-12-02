@@ -31,6 +31,22 @@ class DoctorDetails extends HTMLElement {
     this.stateManager.state.interface.isEditModalVisible = true;
   }
 
+  callShare() {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set(
+      "currentDoctor",
+      this.#doctor?.get("id_person_address")
+    );
+    if (navigator.share) {
+      navigator.share({
+        url: "currentUrl",
+      });
+    } else {
+      navigator.clipboard.writeText(currentUrl.toString());
+      alert("Le lien vers cette fiche a été copié dans le presse-papiers");
+    }
+  }
+
   connectedCallback() {
     this.update();
     this.registerEvents();
