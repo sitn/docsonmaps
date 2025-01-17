@@ -27,5 +27,6 @@ Set the DOCKER_HOST environment variable and launch the build/run :
 
 ```powershell
 $env:DOCKER_HOST="<PATH_TO_REMOTE_HOST>"
-docker compose up -d --build
+docker compose pull
+docker compose up -d
 ```
