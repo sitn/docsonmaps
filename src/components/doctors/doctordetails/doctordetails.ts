@@ -39,7 +39,7 @@ class DoctorDetails extends HTMLElement {
     );
     if (navigator.share) {
       navigator.share({
-        url: "currentUrl",
+        url: currentUrl.toString(),
       });
     } else {
       navigator.clipboard.writeText(currentUrl.toString());
