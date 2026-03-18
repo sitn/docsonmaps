@@ -84,7 +84,12 @@ class EditModal extends HTMLElement {
     const doctorId = this.#getCurrentDoctorId();
     const availabilityEl = this.#modalElement!.querySelector('#availability') as HTMLSelectElement;
     const commentsEl = this.#modalElement!.querySelector('#comments') as HTMLTextAreaElement;
+    const requestorEl = this.#modalElement!.querySelector('#requestor') as HTMLTextAreaElement;
     const suggestFormEl = this.#modalElement!.querySelector('#suggest-form') as HTMLFormElement;
+    if (!suggestFormEl.checkValidity()) {
+      suggestFormEl.reportValidity();
+      return;
+    }
     if (!availabilityEl.value && !commentsEl.value) {
       alert('Le formulaire de suggestion de modification est vide.')
       return;
@@ -92,7 +97,8 @@ class EditModal extends HTMLElement {
 
     const data: { [key: string]: string } = {
       doctor: doctorId,
-      comments: commentsEl.value
+      comments: commentsEl.value,
+      requestor: requestorEl.value ?? ''
     }
     if (availabilityEl.value) {
       data.availability = availabilityEl.value;

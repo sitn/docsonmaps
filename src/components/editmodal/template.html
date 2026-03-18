@@ -29,7 +29,7 @@
         <div ?hidden="${this.#modalPage !== 'USER'}">
           <form id="suggest-form">
             <div class="mb-3">
-              <label for="comments" class="form-label">Modifier la disponibilité:</label>
+              <label for="availability" class="form-label">Modifier la disponibilité:</label>
               <select id="availability" name="availability" class="form-select" aria-label="Dispoibilité du médecin">
                 <option value="" selected>Je ne souhaite pas modifier la disponibilité</option>
                 <option value="Available">
@@ -46,6 +46,10 @@
             <div class="mb-3">
               <label for="comments" class="form-label">Autres modifications à apporter ou remarques:</label>
               <textarea name="comments" class="form-control" id="comments" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="requestor" class="form-label">Email de contact (optionel):</label>
+              <input type="email" name="requestor" class="form-control" id="requestor">
             </div>
             <button class="btn btn-primary" type="button" id="suggest">Envoyer</button>
           </form>
