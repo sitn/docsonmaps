@@ -6,6 +6,7 @@ import DoctorsManager from './components/doctors/doctorsmanager';
 import DoctorsLayerManager from './components/doctors/doctorslayer';
 import SearchModal from './components/searchmodal/searchmodal';
 import AboutModal from './components/aboutmodal/aboutmodal';
+import ToastAlert from './components/toastalert/toastalert';
 import FilterModal from './components/filtermodal/filtermodal';
 import ResultPanel from './components/resultpanel/resultpanel';
 import FeatureList from './components/featurelist/featurelist';
@@ -25,6 +26,7 @@ customElements.define('feature-list', FeatureList);
 customElements.define('doctor-details', DoctorDetails);
 customElements.define('edit-modal', EditModal);
 customElements.define('about-modal', AboutModal);
+customElements.define('toast-alert', ToastAlert);
 customElements.define('filter-modal', FilterModal);
 
 const doctorsLayerManager = new DoctorsLayerManager();

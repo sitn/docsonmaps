@@ -2,6 +2,7 @@ import { render } from 'uhtml';
 import { Hole } from 'uhtml/keyed';
 import StateManager from '../../../state/statemanager';
 import { Feature } from 'ol';
+import { ToastAlertData } from '../../../state/state';
 
 
 class DoctorDetails extends HTMLElement {
@@ -43,7 +44,9 @@ class DoctorDetails extends HTMLElement {
       });
     } else {
       navigator.clipboard.writeText(currentUrl.toString());
-      alert("Le lien vers cette fiche a été copié dans le presse-papiers");
+      this.stateManager.state.interface.toast = new ToastAlertData(
+        "Le lien vers cette fiche a été copié dans le presse-papiers"
+      );
     }
   }
 

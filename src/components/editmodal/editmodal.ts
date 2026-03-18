@@ -3,6 +3,7 @@ import { Hole } from 'uhtml/keyed';
 import StateManager from '../../state/statemanager';
 import { Modal } from 'bootstrap';
 import { Feature } from 'ol';
+import { ToastAlertData } from '../../state/state';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -63,13 +64,14 @@ class EditModal extends HTMLElement {
       })
     }).then((response) => {
       if (response.ok) {
-        // TODO : snack
-        alert("Un email vous a été envoyé.");
+        this.stateManager.state.interface.toast = new ToastAlertData(
+          "Un email vous a été envoyé."
+        );
       } else if (response.status == 429) {
         alert("Un email vous a déjà été envoyé récemment.\n"
-        + "Veuillez attendre 10 minutes avant de redemander un lien unique.\n" 
-        + "Si vous pensez que c’est une erreur, merci de nous contacter à:\n"
-        + "sitn@ne.ch")
+          + "Veuillez attendre 10 minutes avant de redemander un lien unique.\n"
+          + "Si vous pensez que c’est une erreur, merci de nous contacter à:\n"
+          + "sitn@ne.ch")
       } else {
         alert("Une erreur s'est produite, merci de nous contacter.")
       }
@@ -91,7 +93,10 @@ class EditModal extends HTMLElement {
       return;
     }
     if (!availabilityEl.value && !commentsEl.value) {
-      alert('Le formulaire de suggestion de modification est vide.')
+      this.stateManager.state.interface.toast = new ToastAlertData(
+        "ERREUR: Le formulaire de suggestion de modification est vide.",
+        "danger"
+      );
       return;
     }
 
@@ -113,8 +118,9 @@ class EditModal extends HTMLElement {
       body: JSON.stringify(data)
     }).then((response) => {
       if (response.ok) {
-        // TODO : snack
-        alert("Merci pour votre suggestion. Une fois vérifiées les informations seront mises à jour.");
+        this.stateManager.state.interface.toast = new ToastAlertData(
+          "Merci pour votre suggestion. Une fois vérifiées les informations seront mises à jour."
+        );
       } else if (response.status == 429) {
         alert("Plusieurs suggestions on déjà été signalées sur ce médecin récemment, merci de patienter.")
       } else {

@@ -1,0 +1,7 @@
+
+@import url('https://sitn.ne.ch/sitnstatic/sitn-bootstrap@v5.2.3/sitn-bootstrap.css');
+
+div.toast {
+  --bs-toast-max-width: 600px;
+  z-index: 2000;
+}

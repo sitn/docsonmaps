@@ -2,6 +2,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
 import { FeatureLike } from 'ol/Feature';
+import { ToastAlertData } from '../../state/state';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -145,6 +146,7 @@ class DoctorsManager {
     const doctorData = Object.fromEntries(data.entries()) as Record<string, string | boolean | string[]>;
     const spokenLanguagesString = doctorData['spoken_languages'].toString();
     doctorData['spoken_languages'] = spokenLanguagesString.split(',').map(lang => lang.trim());
+    const stateManager = StateManager.getInstance();
     await fetch(`${API_URL}/doctors/edit/${guid}/`, {
       method: "PUT",
       mode: "cors",
@@ -154,11 +156,13 @@ class DoctorsManager {
       body: JSON.stringify(doctorData)
     }).then((response) => {
       if (response.ok) {
-        // TODO : snack
-        alert("Modifications apportées avec succès.");
+        stateManager.state.interface.toast = new ToastAlertData("Modifications apportées avec succès.");
         return true;
       }
-      alert("Une erreur s'est produite, merci de nous contacter.")
+      stateManager.state.interface.toast = new ToastAlertData(
+        "Une erreur s'est produite, merci de nous contacter.",
+        'danger'
+      );
       return true;
     })
   }

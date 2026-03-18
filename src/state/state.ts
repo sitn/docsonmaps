@@ -48,12 +48,22 @@ export type ResultPanelInterface = {
   mode: ResultPanelMode
 }
 
+export type AlertLevel = 'primary' | 'danger';
+
+export class ToastAlertData {
+  constructor(
+    public message: string,
+    public level: AlertLevel = 'primary'
+  ) {}
+}
+
 type AppInterface = {
   isSearchmodalVisible: boolean,
   isEditModalVisible: boolean,
   isAboutModalVisible: boolean,
   isFilterModalVisible: boolean,
-  resultPanel: ResultPanelInterface
+  resultPanel: ResultPanelInterface,
+  toast?: ToastAlertData
 };
 
 const defaultInterface: AppInterface = {
