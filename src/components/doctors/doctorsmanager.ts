@@ -82,10 +82,8 @@ class DoctorsManager {
       if (currentDoctorId) {
         const currentDoctor = docs.find(doctor => doctor.get('id_person_address') === currentDoctorId);
         if (currentDoctor) {
-          state.resultPanelHeader = {
-            title: `${currentDoctor.get('nom')} ${currentDoctor.get('first_name')}`,
-            title2: `${currentDoctor.get('specialites')}`,
-          };
+          state.resultPanelHeader.title = `${currentDoctor.get('nom')} ${currentDoctor.get('first_name')}`;
+          state.resultPanelHeader.title2 = `${currentDoctor.get('specialites')}`;
           state.currentDoctor = currentDoctor as Feature;
           this.stateManager.state.interface.resultPanel = {
             isVisible: true,

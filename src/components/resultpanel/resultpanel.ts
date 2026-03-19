@@ -76,8 +76,17 @@ class ResultPanel extends HTMLElement {
   }
 
   closeOffcanvas() {
-    this.stateManager.state.interface.resultPanel.isVisible = false;
-    this.stateManager.state.featureList = [];
+    if (this.#contentType === 'DOCTOR') {
+      // come back to LIST if closing from DOCTOR
+      this.#contentType = 'LIST';
+      this.#title = this.#state.resultPanelHeader.previousTitle;
+      this.#title2Element!.innerHTML = this.#state.resultPanelHeader.previousTitle2;
+      this.#state.currentDoctor = undefined;
+      this.update();
+      return;
+    }
+    this.#state.interface.resultPanel.isVisible = false;
+    this.#state.featureList = [];
     this.#offcanvas?.hide();
   }
 

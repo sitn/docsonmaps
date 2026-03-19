@@ -1,9 +1,33 @@
 import Map from 'ol/Map';
 import Feature, { FeatureLike } from 'ol/Feature';
 
-export type ResultPanelHeader = {
-  title: string;
-  title2: string;
+
+export class ResultPanelHeader {
+  private _title: string;
+  private _title2: string;
+  public previousTitle: string = '';
+  public previousTitle2: string = '';
+
+  constructor(title = '', title2 = '') {
+    this._title = title;
+    this._title2 = title2;
+  }
+
+  get title(): string {
+    return this._title;
+  }
+  set title(newTitle: string) {
+    this.previousTitle = this._title;
+    this._title = newTitle;
+  }
+
+  get title2(): string {
+    return this._title2;
+  }
+  set title2(newTitle: string) {
+    this.previousTitle2 = this._title2;
+    this._title2 = newTitle;
+  }
 }
 
 export interface iSite {
@@ -82,10 +106,7 @@ class State {
   map?: Map;
   doctors?: Feature[] | FeatureLike[];
   interface = defaultInterface; 
-  resultPanelHeader: ResultPanelHeader = {
-    title: '',
-    title2: '',
-  };
+  resultPanelHeader = new ResultPanelHeader();
   featureList: Feature[] = [];
   currentDoctor?: Feature;
   editDoctor?: Doctor;

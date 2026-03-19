@@ -21,7 +21,7 @@ class ToastAlert extends HTMLElement {
 
   registerEvents() {
     this.stateManager.subscribe('interface.toast', (_oldValue, newValue) => this.showToast(newValue as ToastAlertData));
-    this.#toastElement!.addEventListener('hidden.bs.toast', () => delete this.stateManager.state.interface.toast);
+    this.#toastElement!.addEventListener('hidden.bs.toast', () => this.stateManager.state.interface.toast = undefined);
   }
 
   showToast(data: ToastAlertData) {

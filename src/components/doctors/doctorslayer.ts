@@ -76,10 +76,12 @@ class DoctorsLayerManager {
   }
 
   zoomToDoctor(doctor: Feature) {
-    const olMap = this.stateManager.state.map!;
-    const view = olMap.getView();
-    const doctorGeom = doctor.getGeometry() as SimpleGeometry;
-    view.fit(doctorGeom, { duration: 250, padding: SitnMap.getViewPadding(), maxZoom: 12 });
+    if (doctor) {
+      const olMap = this.stateManager.state.map!;
+      const view = olMap.getView();
+      const doctorGeom = doctor.getGeometry() as SimpleGeometry;
+      view.fit(doctorGeom, { duration: 250, padding: SitnMap.getViewPadding(), maxZoom: 12 });
+    }
   }
 
   /**
@@ -150,24 +152,20 @@ class DoctorsLayerManager {
   }
 
   showResult(features: Feature[]) {
+    const state = this.stateManager.state;
     const firstFeature = features[0];
     let address = `${firstFeature.get('address')}, ${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     const currentSite = this.stateManager.state.sites.find((site) => site.address === address);
-    let titles = {
-      title: firstFeature.get('address'),
-      title2: `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`
-    }
+    state.resultPanelHeader.title = firstFeature.get('address');
+    state.resultPanelHeader.title2 = `${firstFeature.get('nopostal')} ${firstFeature.get('localite')}`;
     if (currentSite) {
-      titles = {
-        title: currentSite.site_name,
-        title2: `${currentSite.address}<br>
+      state.resultPanelHeader.title = currentSite.site_name;
+      state.resultPanelHeader.title2 = `${currentSite.address}<br>
           <a class="link-primary lh-base" href="${currentSite.public_link}" target="_blank">
-          Voir les prestations</a>`
-      }
+          Voir les prestations</a>`;
     }
-    this.stateManager.state.resultPanelHeader = titles;
-    this.stateManager.state.featureList = this.prepareOrderedList(features);
-    this.stateManager.state.interface.resultPanel = {
+    state.featureList = this.prepareOrderedList(features);
+    state.interface.resultPanel = {
       isVisible: true,
       mode: 'LIST'
     }

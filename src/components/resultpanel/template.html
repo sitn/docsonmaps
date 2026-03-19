@@ -4,7 +4,18 @@
       <h5 class="card-title">${this.#title}</h5>
       <h6 id="title2" class="card-subtitle"></h6>
     </div>
-    <button type="button" class="btn-close text-reset" id="offcanvas-close" aria-label="Close"></button>
+    <button type="button" class="btn text-reset" id="offcanvas-close"
+      aria-label="Return">
+      <svg ?hidden="${this.#contentType !== 'DOCTOR'}" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="gray" class="bi bi-arrow-left-short"
+        viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+      </svg>
+      <svg ?hidden="${this.#contentType !== 'LIST'}" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="gray" class="bi bi-arrow-left-short"
+        viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+      </svg>
+    </button>
   </div>
   <div class="offcanvas-body small p-0">
     <feature-list ?hidden="${this.#contentType !== 'LIST'}"></feature-list>
