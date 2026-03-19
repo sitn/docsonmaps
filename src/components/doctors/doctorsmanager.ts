@@ -3,65 +3,12 @@ import StateManager from '../../state/statemanager';
 import { Feature } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import { ToastAlertData } from '../../state/state';
+import { BANNED_TRAININGS } from './constants';
+
+export { SPECIALITIES } from './constants';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
-export const BANNED_TRAININGS = [
-  'Cytopathologie',
-  'Pratique du laboratoire au cabinet médical',
-  'Qualification pour les ex. radiologiques à fortes doses en cardiologie',
-  'Qualification pour les examens radiologiques à fortes doses'
-]
-
-export const SPECIALITIES = [
-  'Médecin généraliste',
-  'Gynécologie et obstétrique',
-  'Pédiatrie',
-  'Psychiatrie et psychothérapie',
-  "Psychiatrie et psychothérapie d'enfants et d'adolescents",
-  'Ophtalmologie',
-  'Médecine tropicale et médecine des voyages',
-  'Neurologie',
-  'Pneumologie',
-  'Médecine du travail',
-  'Dermatologie et vénéréologie',
-  'Neurologie',
-  'Pneumologie',
-  "Chirurgie orthopédique et traumatologie de l'appareil locomoteur",
-  'Allergologie et immunologie clinique',
-  'Chirurgie plastique, reconstructive et esthétique',
-  'Chirurgie cardiaque et vasculaire thoracique',
-  'Cardiologie',
-  'Orthodontie',
-  'Anesthésiologie',
-  'Oto-rhino-laryngologie',
-  'Angiologie',
-  'Médecine légale',
-  'Gastroentérologie',
-  'Rhumatologie',
-  'Médecine dentaire reconstructive',
-  'Chirurgie',
-  'Médecine physique et réadaptation',
-  'Urologie',
-  'Oncologie médicale',
-  'Endocrinologie-diabétologie',
-  'Chirurgie orale',
-  'Neurochirurgie',
-  'Chirurgie maxillo-faciale',
-  'Hématologie',
-  'Médecine nucléaire',
-  'Radiologie',
-  'Soins intensifs',
-  'Néphrologie',
-  'Prévention et santé publique',
-  'Chirurgie de la main',
-  'Infectiologie',
-  'Radio-oncologie/radiothérapie',
-  'Génétique médicale',
-  'Pathologie',
-  'Pharmacologie et toxicologie cliniques',
-];
 
 class DoctorsManager {
   stateManager: StateManager;
@@ -129,14 +76,14 @@ class DoctorsManager {
         Accept: 'application/json',
       },
     }).then((response) => {
-        if (response.status === 404) {
-          alert(
-            "Le lien utilisé n'est plus valable ou a déjà été utilisé. "
-            + "Demandez-en un autre si vous souhaitez modifier vos informations.");
-          window.location.href = VITE_BASE_URL;
-        }
-        return response.json();
-      })
+      if (response.status === 404) {
+        alert(
+          "Le lien utilisé n'est plus valable ou a déjà été utilisé. "
+          + "Demandez-en un autre si vous souhaitez modifier vos informations.");
+        window.location.href = VITE_BASE_URL;
+      }
+      return response.json();
+    })
     return doctorData;
   }
 
@@ -172,20 +119,17 @@ class DoctorsManager {
   private prepareDoctor(doctorFeature: Feature) {
     // specialities are separated with a ·
     doctorFeature.set('specialites', (doctorFeature.get('specialites') || 'Médecin').replaceAll('<br>', ' · '));
-    
+
     // some additionnal trainings are banned because irrelevant in this app
     const compl_formations = doctorFeature.get('compl_formation');
-    const clean_formations: string[] = [];
     if (compl_formations) {
-      const formations: string[] = compl_formations.split('<br>')
-      formations.forEach(formation => {
-        if (!BANNED_TRAININGS.includes(formation)) {
-          clean_formations.push(formation)
-        }
-      });
+      const formations: string[] = compl_formations.split('<br>');
+      const clean_formations = formations.filter(
+        (formation) => !BANNED_TRAININGS.includes(formation)
+      );
       doctorFeature.set('compl_formation', clean_formations.join(' · '));
     }
-    
+
     // in case doctor set its preferred first_name, we give priority to it.
     let first_name = doctorFeature.get('prenoms');
     if (doctorFeature.get('public_first_name')?.length > 1) {

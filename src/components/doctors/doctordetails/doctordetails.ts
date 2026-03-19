@@ -1,22 +1,12 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../../state/statemanager';
+import BaseComponent from '../../basecomponent';
 import { Feature } from 'ol';
 import { ToastAlertData } from '../../../state/state';
 
-
-class DoctorDetails extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class DoctorDetails extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #doctor?: Feature;
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
 
   registerEvents() {
     this.stateManager.subscribe('currentDoctor', (_oldValue, newValue) => {
@@ -53,10 +43,6 @@ class DoctorDetails extends HTMLElement {
   connectedCallback() {
     this.update();
     this.registerEvents();
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

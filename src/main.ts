@@ -14,8 +14,7 @@ import DoctorDetails from './components/doctors/doctordetails/doctordetails';
 import EditModal from './components/editmodal/editmodal';
 import getSites from './components/sites/sitesmanager';
 import StateManager from './state/statemanager';
-import { Site, iSite } from './state/state';
-import { DoctorFilter } from './state/state';
+import { Site, iSite, DoctorFilter } from './state/state';
 
 customElements.define('custom-loading', Loading);
 customElements.define('sitn-map', SitnMap);
@@ -42,21 +41,13 @@ getSites().then((sitesData) => {
 
 const about_button = document.querySelector("#about-button");
 about_button?.addEventListener("click", () => {
-  if (state.interface.isAboutModalVisible === true) {
-    state.interface.isAboutModalVisible = false
-  } else {
-    state.interface.isAboutModalVisible = true
-  }
+  state.interface.isAboutModalVisible = !state.interface.isAboutModalVisible;
 });
 
 const filter_button = document.querySelector("#filter-button")!;
 const filter_button_text = document.querySelector("#filter-button-text")!;
 filter_button.addEventListener("click", () => {
-  if (state.interface.isFilterModalVisible === true) {
-    state.interface.isFilterModalVisible = false
-  } else {
-    state.interface.isFilterModalVisible = true
-  }
+  state.interface.isFilterModalVisible = !state.interface.isFilterModalVisible;
 });
 stateManager.subscribe('currentFilter', (_oldValue, newValue) => {
   // if selected disponibilities are less than 4

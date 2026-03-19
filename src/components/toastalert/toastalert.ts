@@ -1,23 +1,14 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 import { Toast } from 'bootstrap';
-import { AlertLevel, ToastAlertData } from '../../state/state';
+import { ToastAlertData } from '../../state/state';
 
-class ToastAlert extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class ToastAlert extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   message?: string;
   #toast?: Toast;
   #toastElement?: HTMLDivElement;
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
 
   registerEvents() {
     this.stateManager.subscribe('interface.toast', (_oldValue, newValue) => this.showToast(newValue as ToastAlertData));
@@ -44,10 +35,6 @@ class ToastAlert extends HTMLElement {
     }
   }
 
-  showPage() {
-    this.update();
-  }
-
   connectedCallback() {
     this.update();
     this.#toastElement = this.shadowRoot?.getElementById('toast') as HTMLDivElement;
@@ -56,11 +43,6 @@ class ToastAlert extends HTMLElement {
     closeButton!.addEventListener('click', () => this.#toast?.hide());
     this.registerEvents();
   }
-
-  update() {
-    render(this.shadowRoot, this.template!);
-  }
-
 }
 
 export default ToastAlert;
