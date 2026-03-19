@@ -1,7 +1,5 @@
-FROM node:16.10-alpine as builder
+FROM node:24-slim as builder
 WORKDIR /usr/app
-ENV PATH=${PATH}:./node_modules/.bin
-ENV NODE_PATH=/usr/app/node_modules
 COPY package.json package-lock.json ./
 RUN npm install --loglevel=error --no-audit
 COPY . .
