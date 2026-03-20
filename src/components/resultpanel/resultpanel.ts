@@ -1,15 +1,11 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 import { Offcanvas } from 'bootstrap';
 import State from '../../state/state';
 import { Feature } from 'ol';
-import { ResultPanelMode } from '../../state/state';
-import { ResultPanelInterface } from '../../state/state';
+import { ResultPanelMode, ResultPanelInterface } from '../../state/state';
 
-class ResultPanel extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class ResultPanel extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #title = '';
@@ -21,8 +17,6 @@ class ResultPanel extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
     this.#state = this.stateManager.state;
   }
 
@@ -109,10 +103,6 @@ class ResultPanel extends HTMLElement {
       this.#offcanvasElement!.classList.add("offcanvas-bottom");
       this.update();
     }
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

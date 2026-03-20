@@ -1,6 +1,4 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 
 import proj4 from 'proj4';
 import { Map, View } from 'ol';
@@ -11,17 +9,14 @@ import TileLayer from 'ol/layer/Tile';
 import WMTS from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 
-class SitnMap extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class SitnMap extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #map: Map;
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
 
     proj4.defs(
       'EPSG:2056',
@@ -98,10 +93,6 @@ class SitnMap extends HTMLElement {
     const mapTarget = this.shadowRoot!.getElementById('map') as HTMLDivElement;
     this.#map.setTarget(mapTarget);
     this.stateManager.state.map = this.#map;
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

@@ -1,25 +1,16 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../../state/statemanager';
+import BaseComponent from '../../basecomponent';
 import { Doctor } from '../../../state/state';
 import DoctorsManager from '../doctorsmanager';
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-class DoctorEdit extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class DoctorEdit extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #doctor?: Doctor;
   #formElement?: HTMLFormElement;
-  #spokenLanguagesEl?: HTMLInputElement; 
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
+  #spokenLanguagesEl?: HTMLInputElement;
 
   registerEvents() {
     this.stateManager.subscribe('editDoctor', (_oldValue, newValue) => {
@@ -43,7 +34,6 @@ class DoctorEdit extends HTMLElement {
   }
 
   handleAvailabilityChange(e: Event) {
-    // #TODO: do a type for this
     this.#doctor!.availability = (e.target as HTMLSelectElement).value as "Available" | "Available with conditions" | "Not available" | "Unknown";
     if (this.#doctor!.availability !== 'Available with conditions') {
       this.#doctor!.availability_conditions = "";
@@ -53,8 +43,7 @@ class DoctorEdit extends HTMLElement {
 
   #validateForm() {
     this.#formElement?.reportValidity();
-    let isValid = this.#formElement!.checkValidity()
-    return isValid
+    return this.#formElement!.checkValidity();
   }
 
   handleSubmit(e: MouseEvent) {
@@ -73,10 +62,6 @@ class DoctorEdit extends HTMLElement {
     this.#formElement = this.shadowRoot?.querySelector('#editData') as HTMLFormElement;
     this.#spokenLanguagesEl = this.shadowRoot?.querySelector('#spoken_languages') as HTMLInputElement;
     this.registerEvents();
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

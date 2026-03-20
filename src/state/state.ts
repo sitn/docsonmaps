@@ -30,11 +30,14 @@ export class ResultPanelHeader {
   }
 }
 
-export interface iSite {
+export interface ISite {
   site_name: string;
   public_link: string;
   address: string;
 }
+
+/** @deprecated Use ISite instead */
+export type iSite = ISite;
 
 export class Site {
   site_name: string;
@@ -78,7 +81,7 @@ export class ToastAlertData {
   constructor(
     public message: string,
     public level: AlertLevel = 'primary'
-  ) {}
+  ) { }
 }
 
 type AppInterface = {
@@ -99,13 +102,13 @@ const defaultInterface: AppInterface = {
     isVisible: false,
     mode: 'LIST'
   },
-}; 
+};
 
 class State {
   loading = false;
   map?: Map;
   doctors?: Feature[] | FeatureLike[];
-  interface = defaultInterface; 
+  interface = defaultInterface;
   resultPanelHeader = new ResultPanelHeader();
   featureList: Feature[] = [];
   currentDoctor?: Feature;

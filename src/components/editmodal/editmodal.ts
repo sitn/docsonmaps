@@ -1,42 +1,32 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
-import { Modal } from 'bootstrap';
+import ModalComponent from '../modalcomponent';
 import { Feature } from 'ol';
 import { ToastAlertData } from '../../state/state';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-class EditModal extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class EditModal extends ModalComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
-  #modalEdit?: Modal;
-  #modalElement?: HTMLDivElement;
+  protected get modalElementId() { return 'edit-modal'; }
+  protected get statePropertyPath() { return 'interface.isEditModalVisible'; }
   #modalPage = 'MAIN';
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
-
-  registerEvents() {
-    this.stateManager.subscribe('interface.isEditModalVisible', (_oldValue, newValue) => this.toggleModal(newValue as boolean));
-    this.#modalElement!.querySelector('#submit')!.addEventListener('click', () => this.handleSubmit());
-    this.#modalElement!.querySelector('#suggest')!.addEventListener('click', () => this.handleSuggest());
-    this.#modalElement!.querySelector('#cancel-button')!.addEventListener('click', () => this.handleCancel());
-    this.#modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.handleCancel());
-  }
 
   toggleModal(shouldBeVisible: boolean) {
     if (shouldBeVisible) {
-      this.#modalEdit?.show();
+      this.modal?.show();
     } else {
       this.#modalPage = 'MAIN';
-      this.#modalEdit?.hide();
+      this.modal?.hide();
     }
+  }
+
+  protected registerEvents() {
+    super.registerEvents();
+    this.modalElement!.querySelector('#submit')!.addEventListener('click', () => this.handleSubmit());
+    this.modalElement!.querySelector('#suggest')!.addEventListener('click', () => this.handleSuggest());
+    this.modalElement!.querySelector('#cancel-button')!.addEventListener('click', () => this.handleCancel());
+    this.modalElement!.querySelector('#close-button')!.addEventListener('click', () => this.handleCancel());
   }
 
   #getCurrentDoctorId() {
@@ -47,8 +37,8 @@ class EditModal extends HTMLElement {
 
   handleSubmit() {
     const doctorId = this.#getCurrentDoctorId();
-    const inputEmailEl = this.#modalElement!.querySelector('#input-email') as HTMLInputElement;
-    const submitFormEl = this.#modalElement!.querySelector('#submit-form') as HTMLFormElement;
+    const inputEmailEl = this.modalElement!.querySelector('#input-email') as HTMLInputElement;
+    const submitFormEl = this.modalElement!.querySelector('#submit-form') as HTMLFormElement;
     submitFormEl.reportValidity();
     if (!submitFormEl.checkValidity()) {
       return;
@@ -70,7 +60,7 @@ class EditModal extends HTMLElement {
       } else if (response.status == 429) {
         alert("Un email vous a déjà été envoyé récemment.\n"
           + "Veuillez attendre 10 minutes avant de redemander un lien unique.\n"
-          + "Si vous pensez que c’est une erreur, merci de nous contacter à:\n"
+          + "Si vous pensez que c'est une erreur, merci de nous contacter à:\n"
           + "sitn@ne.ch")
       } else {
         alert("Une erreur s'est produite, merci de nous contacter.")
@@ -84,10 +74,10 @@ class EditModal extends HTMLElement {
 
   handleSuggest() {
     const doctorId = this.#getCurrentDoctorId();
-    const availabilityEl = this.#modalElement!.querySelector('#availability') as HTMLSelectElement;
-    const commentsEl = this.#modalElement!.querySelector('#comments') as HTMLTextAreaElement;
-    const requestorEl = this.#modalElement!.querySelector('#requestor') as HTMLTextAreaElement;
-    const suggestFormEl = this.#modalElement!.querySelector('#suggest-form') as HTMLFormElement;
+    const availabilityEl = this.modalElement!.querySelector('#availability') as HTMLSelectElement;
+    const commentsEl = this.modalElement!.querySelector('#comments') as HTMLTextAreaElement;
+    const requestorEl = this.modalElement!.querySelector('#requestor') as HTMLTextAreaElement;
+    const suggestFormEl = this.modalElement!.querySelector('#suggest-form') as HTMLFormElement;
     if (!suggestFormEl.checkValidity()) {
       suggestFormEl.reportValidity();
       return;
@@ -144,23 +134,12 @@ class EditModal extends HTMLElement {
 
   closeModal() {
     this.#modalPage = 'MAIN';
-    this.stateManager.state.interface.isEditModalVisible = false;
+    super.closeModal();
   }
 
   showPage(pageName: string) {
     this.#modalPage = pageName;
     this.update();
-  }
-
-  connectedCallback() {
-    this.update();
-    this.#modalElement = this.shadowRoot?.getElementById('edit-modal') as HTMLDivElement;
-    this.#modalEdit = new Modal(this.#modalElement)
-    this.registerEvents();
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

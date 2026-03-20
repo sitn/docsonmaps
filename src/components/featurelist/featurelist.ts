@@ -1,22 +1,12 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 import { Feature } from 'ol';
 import DoctorsManager from '../doctors/doctorsmanager';
 
-
-class FeatureList extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class FeatureList extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #doctorsList: Feature[] = [];
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
 
   registerEvents() {
     this.stateManager.subscribe('featureList', (_oldValue, newValue) => {
@@ -31,10 +21,6 @@ class FeatureList extends HTMLElement {
   connectedCallback() {
     this.update();
     this.registerEvents();
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 
   clickDoctorHandler(doctor: Feature) {

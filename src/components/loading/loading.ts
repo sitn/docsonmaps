@@ -1,19 +1,9 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 
-class Loading extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class Loading extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
-  }
-
   get isLoading() {
     return this.stateManager.state.loading
   }
@@ -34,10 +24,6 @@ class Loading extends HTMLElement {
   connectedCallback() {
     this.update();
     this.registerEvents();
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

@@ -1,11 +1,8 @@
-import { render } from 'uhtml';
-import { Hole } from 'uhtml/keyed';
-import StateManager from '../../state/statemanager';
+import BaseComponent from '../basecomponent';
 import State, { DoctorFilter } from "../../state/state";
 
-class SearchBar extends HTMLElement {
-  template?: () => Hole;
-  stateManager: StateManager;
+class SearchBar extends BaseComponent {
+  template;
   templateUrl = './template.html';
   styleUrl = './style.css';
   #searchText = 'Rechercher';
@@ -14,8 +11,6 @@ class SearchBar extends HTMLElement {
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this.stateManager = StateManager.getInstance();
     this.#state = this.stateManager.state;
   }
 
@@ -57,10 +52,6 @@ class SearchBar extends HTMLElement {
 
   toggle() {
     this.stateManager!.state.interface.isSearchmodalVisible = true;
-  }
-
-  update() {
-    render(this.shadowRoot, this.template!);
   }
 }
 

@@ -1,7 +1,15 @@
 import State from "./state";
 import onChange from "on-change";
+import { deepEqual } from "./deepequal";
 
 type Callback = (oldValue: unknown, value: unknown, parent?: unknown) => void | Promise<void>;
+
+interface PropertyResult {
+  found: boolean;
+  object: any;
+  parentObject: any;
+  lastKey: string | null;
+}
 
 class StateManager {
   #state: State;
@@ -18,14 +26,14 @@ class StateManager {
     this.#stateProxy = onChange(
       this.#state,
       (path, value, oldValue, _applyData) => {
-        if (!this.areEqual(oldValue, value)) {
+        if (!deepEqual(oldValue, value)) {
           this.onChange(path, oldValue, value);
         }
       },
       {
         // Adding object in the state with a name starting by a symbol will avoid to Proxy this object
         // (The Proxy API changes the class!) and prevent to listen changes on this object.
-        // NOTE: the method areEqual() will also ignore underscores when deeply comparing objects
+        // NOTE: deepEqual() also ignores underscores when deeply comparing objects
         ignoreUnderscores: true,
         ignoreSymbols: true,
         ignoreDetached: true
@@ -80,7 +88,7 @@ class StateManager {
     this.#callbacks[pathAsString].push(callback);
 
     // At the application start, perhaps the value in state was initialized before the subscribe method was called
-    // Therefore, if the subscribed value os not null, undefined or an empty object or array
+    // Therefore, if the subscribed value is not null, undefined or an empty object or array
     // We immediately call the callback.
     const obj = this.getPropertyByPath(this.state, pathAsString);
     if (obj.found) {
@@ -125,10 +133,10 @@ class StateManager {
    * @returns the property or object, following the given path, and the
    * parent and last key to the parent object to be able to set it (see also setPropertyByPath).
    */
-  public getPropertyByPath(obj: any, path: string) {
+  public getPropertyByPath(obj: any, path: string): PropertyResult {
     let currentObj = obj;
     let parentObject = null;
-    let lastKey = null;
+    let lastKey: string | null = null;
     if (path.trim() !== '') {
       const keys = path.split('.');
 
@@ -157,146 +165,6 @@ class StateManager {
       return true;
     }
     return false;
-  }
-
-  /**
-   * Returns true if to object are deeply equal, false otherwise
-   * Circular references are ignored
-   */
-  private areEqual(obj1: any, obj2: any, visitedObjects = new WeakSet()) {
-    let areEqual: boolean | undefined;
-
-    areEqual = this.areNumbersEqual(obj1, obj2);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    areEqual = this.areNullOrUndefinedEqual(obj1, obj2);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    areEqual = this.areSimpleValuesEqual(obj1, obj2);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    areEqual = this.areCircularReferencesEqual(obj1, obj2, visitedObjects);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    // Mark the objects as visited
-    visitedObjects.add(obj1);
-    visitedObjects.add(obj2);
-
-    areEqual = this.areArraysEqual(obj1, obj2, visitedObjects);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    areEqual = this.areObjectsEqual(obj1, obj2, visitedObjects);
-    if (areEqual !== undefined) {
-      return areEqual;
-    }
-
-    // Unmanaged case
-    throw Error('Unmanaged case for equality check');
-  }
-
-  private areNumbersEqual(obj1: any, obj2: any): boolean | undefined {
-    if (typeof obj1 === 'number' && typeof obj2 === 'number') {
-      // Special case for numbers : check NaN
-      if (Number.isNaN(obj1) && Number.isNaN(obj2)) {
-        return true;
-      }
-      return obj1 === obj2;
-    }
-
-    // Not numbers
-    return undefined;
-  }
-
-  private areNullOrUndefinedEqual(obj1: any, obj2: any): boolean | undefined {
-    if (obj1 === null || obj2 === null || obj1 === undefined || obj2 === undefined) {
-      return obj1 === obj2;
-    }
-
-    // Not null or undefined
-    return undefined;
-  }
-
-  private areSimpleValuesEqual(obj1: any, obj2: any): boolean | undefined {
-    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-      return obj1 === obj2;
-    }
-
-    // Not a simple object
-    return undefined;
-  }
-
-  private areCircularReferencesEqual(obj1: any, obj2: any, visitedObjects: WeakSet<any>): boolean | undefined {
-    if (visitedObjects.has(obj1) || visitedObjects.has(obj2)) {
-      // This object was already checked. It should be the same object
-      return obj1 === obj2;
-    }
-
-    // Not a circular reference
-    return undefined;
-  }
-
-  private areArraysEqual(obj1: any, obj2: any, visitedObjects: WeakSet<any>): boolean | undefined {
-    if (Array.isArray(obj1) && Array.isArray(obj2)) {
-      if (obj1.length !== obj2.length) {
-        // Different length for both arrays
-        return false;
-      }
-      for (let i = 0; i < obj1.length; i++) {
-        if (!this.areEqual(obj1[i], obj2[i], visitedObjects)) {
-          // Not equal
-          return false;
-        }
-      }
-
-      // Arrays are equal
-      return true;
-    }
-
-    // Not arrays
-    return undefined;
-  }
-
-  private areObjectsEqual(obj1: any, obj2: any, visitedObjects: WeakSet<any>): boolean | undefined {
-    if (typeof obj1 === 'object' && typeof obj2 === 'object') {
-      // Ignore properties that begins with underscore
-      // This is coherent with the configuration of on-change
-      // Otherwise, all objects will be compared (including openlayers ones), and we do not want this
-      const keys1 = Object.keys(obj1).filter((key) => !key.startsWith('_'));
-      const keys2 = Object.keys(obj2).filter((key) => !key.startsWith('_'));
-
-      if (keys1.length !== keys2.length) {
-        // Not the same number of properties
-        return false;
-      }
-
-      for (const key of keys1) {
-        if (!obj2.hasOwnProperty(key)) {
-          // Key is not present in the second object
-          return false;
-        }
-
-        if (!this.areEqual(obj1[key], obj2[key], visitedObjects)) {
-          // Properties have different values
-          return false;
-        }
-      }
-
-      // Everything is equal
-      return true;
-    }
-
-    // Not an object
-    return undefined;
   }
 }
 

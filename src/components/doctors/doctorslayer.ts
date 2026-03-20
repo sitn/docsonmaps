@@ -52,7 +52,7 @@ class DoctorsLayerManager {
               src: `icons/${src}`,
             }),
           });
-          styleCache[color] = style;
+          styleCache[src] = style;
         }
         return style;
       },
