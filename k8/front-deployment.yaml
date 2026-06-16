@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: sitn-medecins
+  name: sitn-medecins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: sitn-medecins
+  template:
+    metadata:
+      labels:
+        io.kompose.service: sitn-medecins
+    spec:
+      imagePullSecrets:
+        - name: harbor-creds-maltas
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 33
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - image: ne2harbor.ne.ch/sgrf/sitn-medecins:1.0.47b1dd7
+          name: sitn-medecins
+          ports:
+            - containerPort: 80
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+      restartPolicy: Always
