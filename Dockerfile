@@ -1,4 +1,4 @@
-FROM node:24-slim as builder
+FROM node:24-slim AS builder
 WORKDIR /usr/app
 COPY package.json package-lock.json ./
 RUN npm install --loglevel=error --no-audit
