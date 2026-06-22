@@ -33,7 +33,7 @@ class SitnMap extends BaseComponent {
 
     const resolutions = [250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5, 0.25, 0.125, 0.0625];
 
-    const matrixIds = [];
+    const matrixIds: string[] = [];
     for (let i = 0; i < resolutions.length; i += 1) {
       matrixIds.push(`${i}`);
     }

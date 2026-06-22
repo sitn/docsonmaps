@@ -19,6 +19,7 @@ VITE_API_URL=your.backend.com/apps/health
 For some reason, `env.prod` has to be in `src` directory and at the root of the project. Start by building and pushing:
 
 ```powershell
+$env:TAG="1.0.$(git rev-parse --short HEAD)";
 docker compose build
 docker compose push
 ```

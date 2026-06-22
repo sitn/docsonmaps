@@ -1,8 +1,8 @@
 services:
   front: # name of the container
-    image: ne2harbor.ne.ch/sgrf/sitn-medecins
+    image: ne2harbor.ne.ch/sgrf/sitn-medecins:${TAG:-latest}
     build:
       context: .
-    restart: unless-stopped
+    restart: always
     ports:
-      - "5021:80"
+      - "5021:8080"
