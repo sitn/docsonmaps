@@ -4,7 +4,6 @@ dist-ssr
 sample_data
 *.local
 /src/.env.development
-k8/*
 
 # Logs
 logs
