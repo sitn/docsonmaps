@@ -19,6 +19,22 @@ class DoctorDetails extends BaseComponent {
     });
   }
 
+  openAddress() {
+    const url = 'https://www.google.com/maps/search/?api=1&query='
+      + this.#doctor?.get('address') + ', '
+      + this.#doctor?.get('nopostal') + ' '
+      + this.#doctor?.get('localite');
+    window.open(url, '_blank');
+  }
+
+  openPhone() {
+    window.open('tel:' + this.#doctor?.get('public_phone'));
+  }
+
+  openAppointment() {
+    window.open(this.#doctor?.get('appointment_link'), '_blank');
+  }
+
   appointmentLabel() {
     const link = this.#doctor?.get('appointment_link');
     if (!link) return 'Prendre un rendez-vous';
