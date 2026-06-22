@@ -1,3 +1,7 @@
+export const APPOINTMENT_LINK_LABELS: Record<string, string> = {
+  'onedoc.ch': 'Prendre rendez-vous sur onedoc',
+};
+
 /** Specialities that are banned from display because they are irrelevant in this app */
 export const BANNED_TRAININGS = [
     'Cytopathologie',
