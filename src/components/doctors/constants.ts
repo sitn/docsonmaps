@@ -1,5 +1,6 @@
 export const APPOINTMENT_LINK_LABELS: Record<string, string> = {
   'onedoc.ch': 'Prendre rendez-vous sur onedoc',
+  'rhne.ch': 'Prendre rendez-vous sur la plateforme du RHNe',
 };
 
 /** Specialities that are banned from display because they are irrelevant in this app */
@@ -23,8 +24,6 @@ export const SPECIALITIES = [
     'Pneumologie',
     'Médecine du travail',
     'Dermatologie et vénéréologie',
-    'Neurologie',
-    'Pneumologie',
     "Chirurgie orthopédique et traumatologie de l'appareil locomoteur",
     'Allergologie et immunologie clinique',
     'Chirurgie plastique, reconstructive et esthétique',
