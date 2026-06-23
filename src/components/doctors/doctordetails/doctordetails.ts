@@ -1,7 +1,6 @@
 import BaseComponent from '../../basecomponent';
 import { Feature } from 'ol';
 import { ToastAlertData } from '../../../state/state';
-import { APPOINTMENT_LINK_LABELS } from '../constants';
 
 class DoctorDetails extends BaseComponent {
   template;
@@ -33,17 +32,6 @@ class DoctorDetails extends BaseComponent {
 
   openAppointment() {
     window.open(this.#doctor?.get('appointment_link'), '_blank');
-  }
-
-  appointmentLabel() {
-    const link = this.#doctor?.get('appointment_link');
-    if (!link) return 'Prendre un rendez-vous';
-    try {
-      const domain = new URL(link).hostname.replace(/^www\./, '');
-      return APPOINTMENT_LINK_LABELS[domain] ?? 'Prendre un rendez-vous';
-    } catch {
-      return 'Prendre un rendez-vous';
-    }
   }
 
   callModifiy() {

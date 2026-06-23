@@ -1,8 +1,3 @@
-export const APPOINTMENT_LINK_LABELS: Record<string, string> = {
-  'onedoc.ch': 'Prendre rendez-vous sur onedoc',
-  'rhne.ch': 'Prendre rendez-vous sur la plateforme du RHNe',
-};
-
 /** Specialities that are banned from display because they are irrelevant in this app */
 export const BANNED_TRAININGS = [
     'Cytopathologie',
