@@ -8,7 +8,6 @@ customElements.define('custom-loading', Loading);
 customElements.define('doctor-edit', DoctorEdit);
 
 const stateManager = StateManager.getInstance();
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 stateManager.state.loading = true;
 
@@ -16,7 +15,7 @@ const guid = new URLSearchParams(window.location.search).get('guid');
 
 if (!guid) {
   alert("Le lien n'est pas valide. Si vous pensez qu'il s'agit d'une erreur, merci de contacter le SITN.");
-  window.location.href = VITE_BASE_URL;
+  window.location.href = '/';
 }
 
 DoctorsManager.getDoctorByToken(guid as string).then((doctor) => {

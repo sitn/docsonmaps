@@ -4,11 +4,9 @@ import { Feature } from 'ol';
 import { FeatureLike } from 'ol/Feature';
 import { ToastAlertData } from '../../state/state';
 import { BANNED_TRAININGS } from './constants';
+import { API_URL } from '../../config';
 
 export { SPECIALITIES } from './constants';
-
-const API_URL = import.meta.env.VITE_API_URL;
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 class DoctorsManager {
   stateManager: StateManager;
@@ -80,7 +78,7 @@ class DoctorsManager {
         alert(
           "Le lien utilisé n'est plus valable ou a déjà été utilisé. "
           + "Demandez-en un autre si vous souhaitez modifier vos informations.");
-        window.location.href = VITE_BASE_URL;
+        window.location.href = '/';
       }
       return response.json();
     })

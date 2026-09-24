@@ -2,8 +2,6 @@ import BaseComponent from '../../basecomponent';
 import { Doctor } from '../../../state/state';
 import DoctorsManager from '../doctorsmanager';
 
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
 class DoctorEdit extends BaseComponent {
   template;
   templateUrl = './template.html';
@@ -52,7 +50,7 @@ class DoctorEdit extends BaseComponent {
       const guid = new URLSearchParams(window.location.search).get('guid') as string;
       const formData = new FormData(this.#formElement);
       DoctorsManager.submitDoctorChanges(guid, formData).then(() => {
-        window.location.href = `${VITE_BASE_URL}/?currentDoctor=${this.#doctor!.id_person_address}`;
+        window.location.href = `/?currentDoctor=${this.#doctor!.id_person_address}`;
       });
     }
   }
