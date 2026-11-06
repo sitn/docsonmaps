@@ -90,7 +90,7 @@ class DoctorsManager {
     const spokenLanguagesString = doctorData['spoken_languages'].toString();
     doctorData['spoken_languages'] = spokenLanguagesString.split(',').map(lang => lang.trim());
     const stateManager = StateManager.getInstance();
-    await fetch(`${API_URL}/doctors/edit/${guid}/`, {
+    return await fetch(`${API_URL}/doctors/edit/${guid}/`, {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -106,7 +106,7 @@ class DoctorsManager {
         "Une erreur s'est produite, merci de nous contacter.",
         'danger'
       );
-      return true;
+      return false;
     })
   }
 

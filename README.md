@@ -28,7 +28,7 @@ Don't forget to add to `version.html` what you've done.
 Start by building and pushing:
 
 ```powershell
-$env:TAG="1.0.$(git rev-parse --short HEAD)";
+$env:TAG="1.0.<replace with version>";
 docker compose build
 docker compose push
 ```
