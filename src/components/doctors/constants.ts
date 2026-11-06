@@ -19,8 +19,6 @@ export const SPECIALITIES = [
     'Pneumologie',
     'Médecine du travail',
     'Dermatologie et vénéréologie',
-    'Neurologie',
-    'Pneumologie',
     "Chirurgie orthopédique et traumatologie de l'appareil locomoteur",
     'Allergologie et immunologie clinique',
     'Chirurgie plastique, reconstructive et esthétique',

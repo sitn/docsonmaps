@@ -1,8 +1,7 @@
 import ModalComponent from '../modalcomponent';
 import { Feature } from 'ol';
 import { ToastAlertData } from '../../state/state';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_URL } from '../../config';
 
 class EditModal extends ModalComponent {
   template;

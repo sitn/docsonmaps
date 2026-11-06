@@ -52,10 +52,11 @@
   <div class="col">
     <h3>Modifier mes informations</h3>
     <form id="editData" class="mb-3">
+      <p class="form-text"><span class="text-danger">*</span> champ obligatoire</p>
       <div class="mb-3">
-        <label for="availability" class="form-label">Disponibilité</label>
-        <select id="availability" name="availability" class="form-select">
-          <option value="Unknown" ?selected="${this.#doctor?.availability === 'Unknown'}" disabled>
+        <label for="availability" class="form-label">Disponibilité <span class="text-danger">*</span></label>
+        <select id="availability" name="availability" class="form-select" required>
+          <option value="" ?selected="${this.#doctor?.availability === 'Unknown'}" disabled>
             Veuillez choisir une option
           </option>
           <option value="Available" ?selected="${this.#doctor?.availability === 'Available'}">
@@ -71,7 +72,10 @@
         </select>
       </div>
       <div class="mb-3">
-        <label for="availability_conditions" class="form-label">Conditions</label>
+        <label for="availability_conditions" class="form-label">
+          Conditions
+          <span class="text-danger" ?hidden="${this.#doctor?.availability !== 'Available with conditions'}">*</span>
+        </label>
         <textarea name="availability_conditions" class="form-control" id="availability_conditions"
           ?required="${this.#doctor?.availability === 'Available with conditions'}"
           ?disabled="${this.#doctor?.availability !== 'Available with conditions'}">
@@ -79,7 +83,7 @@
         </textarea>
       </div>
       <div class="mb-3">
-        <label for="public_phone" class="form-label">
+        <label for="public_first_name" class="form-label">
           Prénom affiché sur la fiche. Laisser vide si le(s) prénom(s) NeMedReg sont corrects.
         </label>
         <input type="text" name="public_first_name" class="form-control" id="public_first_name"
@@ -90,19 +94,26 @@
           Numéro de téléphone de contact public (format: +41 32 123 45 67)
         </label>
         <input type="tel" name="public_phone" class="form-control" id="public_phone"
-          value="${this.#doctor?.public_phone}" pattern="\\+[0-9]{2} [0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
-          title="Le format du téléphone ne correspond pas au format attendu, exemple: +41 32 123 45 67">
+        value="${this.#doctor?.public_phone}" pattern="\\+[0-9]{2} [0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}"
+        title="Le format du téléphone ne correspond pas au format attendu, exemple: +41 32 123 45 67">
+      </div>
+      <div class="mb-3">
+        <label for="appointment_link" class="form-label">
+          Lien vers le système de prise de rendez-vous ou la page de contact.
+        </label>
+        <input type="text" name="appointment_link" class="form-control" id="appointment_link"
+          value="${this.#doctor?.appointment_link}">
       </div>
       <div class="mb-3">
         <label for="spoken_languages" class="form-label">
-          Langue(s) parlée(s), séparées par des virgules si plusieurs
+          Langue(s) parlée(s), séparées par des virgules si plusieurs <span class="text-danger">*</span>
         </label>
         <input type="text" name="spoken_languages" class="form-control" id="spoken_languages"
           value="${this.#doctor?.spoken_languages ? this.#doctor.spoken_languages.join(', ') : ''}" required pattern="([a-zA-ZÀ-Ÿ \\-]{3,}( ?, ?)?)+"
           title="Les langues parlées doivent être séparées par des virgules">
       </div>
       <div class="mb-3">
-        <label for="has_parking" class="form-label">Accès en voiture</label>
+        <label for="has_parking" class="form-label">Accès en voiture <span class="text-danger">*</span></label>
         <div class="form-check">
           <input class="form-check-input" type="radio" name="has_parking" id="has_parking1" value="true"
             ?checked="${this.#doctor?.has_parking === true}" required>
@@ -119,7 +130,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="has_disabled_access" class="form-label">Accessible aux personnes à mobilité réduite?</label>
+        <label for="has_disabled_access" class="form-label">Accessible aux personnes à mobilité réduite? <span class="text-danger">*</span></label>
         <div class="form-check">
           <input class="form-check-input" type="radio" name="has_disabled_access" id="has_disabled_access1"
             value="true" ?checked="${this.#doctor?.has_disabled_access === true}" required>
@@ -136,7 +147,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="has_lift" class="form-label">Toutes les prestations sont accessibles sans escalier?</label>
+        <label for="has_lift" class="form-label">Toutes les prestations sont accessibles sans escalier? <span class="text-danger">*</span></label>
         <div class="form-check">
           <input class="form-check-input" type="radio" name="has_lift" id="has_lift1" value="true"
             ?checked="${this.#doctor?.has_lift === true}" required>
@@ -153,7 +164,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <label for="is_rsn_member" class="form-label">Etes-vous membre du Réseau de Soins Neuchâtelois?</label>
+        <label for="is_rsn_member" class="form-label">Etes-vous membre du Réseau de Soins Neuchâtelois? <span class="text-danger">*</span></label>
         <div class="form-check">
           <input class="form-check-input" type="radio" name="is_rsn_member" id="is_rsn_member1"
             value="true" ?checked="${this.#doctor?.is_rsn_member === true}" required>
@@ -169,7 +180,27 @@
           </label>
         </div>
       </div>
-      <button id="submit-changes" class="btn btn-primary">Enregistrer mes modifications</button>
+      <button id="submit-changes" class="btn btn-primary" ?disabled="${!this.#isFormValid}">
+        ${this.#isFormValid && !this.#isFormDirty ? 'Confirmer mes informations' : 'Enregistrer mes modifications'}
+      </button>
+      <button type="button" class="btn btn-outline-secondary ms-2" ?hidden="${!this.#isFormDirty}"
+        onclick="${() => this.handleCancel()}">
+        Annuler mes modifications
+      </button>
+      <div class="form-text" ?hidden="${this.#isFormValid}">
+        Veuillez compléter le formulaire pour valider vos modifications.
+      </div>
     </form>
+    <div id="thanks-modal" class="modal fade" tabindex="-1" aria-hidden="true" data-bs-backdrop="static"
+      data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body text-center p-4">
+            <h4>Merci!</h4>
+            <p class="mb-0">Vos informations ont bien été enregistrées. Vous allez être redirigé vers la carte.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

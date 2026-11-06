@@ -23,3 +23,7 @@
     --bs-alert-bg: #f8f9fa;
     --bs-alert-border-color: black;
 }
+
+.row-clickable {
+    cursor: pointer;
+}

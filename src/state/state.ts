@@ -61,6 +61,7 @@ export type Doctor = {
   has_disabled_access: boolean,
   has_lift: boolean,
   is_rsn_member: boolean,
+  appointment_link?: string,
 }
 
 export type DoctorFilter = {
